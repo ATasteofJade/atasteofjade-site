@@ -24,6 +24,7 @@ header{
     padding:20px 40px;
     background:white;
     box-shadow:0 2px 8px rgba(0,0,0,.08);
+    border-bottom:4px solid #d4af37;
 }
 
 .logo{
@@ -37,6 +38,7 @@ header{
     font-size:68px;
     color:#2f5d34;
     font-weight:normal;
+    text-shadow:2px 2px 4px rgba(196,155,56,.35);
 }
 
 /* ==========================
@@ -46,6 +48,7 @@ header{
 .hero{
     text-align:center;
     padding:80px 20px;
+    background:linear-gradient(to bottom,#f7fff6,#edf8ee);
 }
 
 .hero-image{
@@ -83,20 +86,22 @@ header{
 }
 
 button{
-    background:#2f5d34;
+    background:linear-gradient(135deg,#2f5d34,#46794a);
     color:white;
     border:none;
-    padding:15px 30px;
-    border-radius:10px;
+    padding:15px 35px;
+    border-radius:40px;
     font-size:18px;
     font-weight:bold;
     cursor:pointer;
-    transition:0.3s;
+    transition:.3s;
+    box-shadow:0 6px 18px rgba(47,93,52,.25);
 }
 
 button:hover{
     background:#234728;
-    transform:translateY(-2px);
+    transform:translateY(-4px);
+    box-shadow:0 10px 25px rgba(47,93,52,.35);
 }
 
 /* ==========================
@@ -108,6 +113,7 @@ button:hover{
     header{
         flex-direction:column;
         text-align:center;
+        padding:20px;
     }
 
     .logo{
@@ -144,5 +150,4 @@ button:hover{
     .hero-image{
         width:100%;
     }
-
 }
