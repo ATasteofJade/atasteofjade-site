@@ -1,4 +1,6 @@
-/* Reset */
+/* ==========================
+   RESET
+========================== */
 
 *{
     margin:0;
@@ -17,11 +19,10 @@ body{
 ========================== */
 
 header{
-    background:white;
     display:flex;
     align-items:center;
-    gap:20px;
-    padding:15px 40px;
+    padding:20px 40px;
+    background:white;
     box-shadow:0 2px 8px rgba(0,0,0,.08);
 }
 
@@ -31,9 +32,11 @@ header{
 }
 
 .brand-name{
-    font-family:'Great Vibes', cursive;
-    font-size:52px;
+    margin-left:100px;
+    font-family:'Allura', cursive;
+    font-size:68px;
     color:#2f5d34;
+    font-weight:normal;
 }
 
 /* ==========================
@@ -43,6 +46,15 @@ header{
 .hero{
     text-align:center;
     padding:80px 20px;
+}
+
+.hero-image{
+    width:100%;
+    max-width:900px;
+    display:block;
+    margin:0 auto 40px;
+    border-radius:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,.15);
 }
 
 .hero h1{
@@ -77,16 +89,18 @@ button{
     padding:15px 30px;
     border-radius:10px;
     font-size:18px;
+    font-weight:bold;
     cursor:pointer;
-    transition:.3s;
+    transition:0.3s;
 }
 
 button:hover{
     background:#234728;
+    transform:translateY(-2px);
 }
 
 /* ==========================
-   RESPONSIVE
+   MOBILE
 ========================== */
 
 @media (max-width:768px){
@@ -98,10 +112,12 @@ button:hover{
 
     .logo{
         width:120px;
+        margin-bottom:10px;
     }
 
     .brand-name{
-        font-size:42px;
+        margin-left:0;
+        font-size:48px;
     }
 
     .hero{
@@ -109,7 +125,7 @@ button:hover{
     }
 
     .hero h1{
-        font-size:36px;
+        font-size:38px;
     }
 
     .hero p{
@@ -122,7 +138,11 @@ button:hover{
     }
 
     button{
-        width:250px;
+        width:260px;
+    }
+
+    .hero-image{
+        width:100%;
     }
 
 }
