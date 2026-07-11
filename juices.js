@@ -1,1 +1,16 @@
-
+const form=document.querySelector('#juice-order');
+const sizeChoices=[...document.querySelectorAll('input[name="size"]')];
+const packageChoices=[...document.querySelectorAll('input[name="package"]')];
+const steppers=[...document.querySelectorAll('.flavor')];
+const paymentLinks={
+  '12-1':'PASTE_12OZ_SINGLE_SQUARE_LINK_HERE','12-3':'PASTE_12OZ_3PACK_SQUARE_LINK_HERE','12-5':'PASTE_12OZ_5PACK_SQUARE_LINK_HERE',
+  '16-1':'PASTE_16OZ_SINGLE_SQUARE_LINK_HERE','16-3':'PASTE_16OZ_3PACK_SQUARE_LINK_HERE','16-5':'PASTE_16OZ_5PACK_SQUARE_LINK_HERE'
+};
+let selectedSize=null,selectedPackage=null;const quantities={"Eden Glow":0,"Green Pastures":0,"Restore":0};
+const dollar=n=>`$${n}`;
+function update(){const price=selectedSize?.dataset.price||0;const max=selectedPackage?+selectedPackage.value:0;const count=Object.values(quantities).reduce((a,b)=>a+b,0);document.querySelector('#summary-size').textContent=selectedSize?`${selectedSize.value} oz`: 'None selected';document.querySelector('#summary-package').textContent=selectedPackage?`${selectedPackage.value}-Pack`:'None selected';document.querySelector('#summary-count').textContent=count;document.querySelector('#summary-total').textContent=dollar(price*max);steppers.forEach(card=>{const name=card.dataset.flavor;card.querySelector('output').textContent=quantities[name];card.querySelector('.minus').disabled=!quantities[name];card.querySelector('.plus').disabled=!max||count>=max})}
+sizeChoices.forEach(choice=>choice.addEventListener('change',()=>{selectedSize=choice;packageChoices.forEach(box=>{box.disabled=false;box.closest('.choice-card').classList.remove('is-disabled');const amount=+choice.dataset.price*+box.value;box.closest('.choice-card').querySelector('i').textContent=dollar(amount)});document.querySelector('#package-help').textContent='Choose the number of bottles you’d like.';selectedPackage=null;packageChoices.forEach(x=>x.checked=false);Object.keys(quantities).forEach(x=>quantities[x]=0);update()}));
+packageChoices.forEach(choice=>choice.addEventListener('change',()=>{selectedPackage=choice;Object.keys(quantities).forEach(x=>quantities[x]=0);document.querySelector('#flavor-help').textContent=`Choose ${choice.value} bottle${choice.value==='1'?'':'s'} to fill your order.`;update()}));
+steppers.forEach(card=>{const name=card.dataset.flavor;card.querySelector('.plus').addEventListener('click',()=>{const count=Object.values(quantities).reduce((a,b)=>a+b,0);if(selectedPackage&&count<+selectedPackage.value){quantities[name]++;update()}});card.querySelector('.minus').addEventListener('click',()=>{if(quantities[name]){quantities[name]--;update()}})});
+form.addEventListener('submit',event=>{event.preventDefault();const error=document.querySelector('#order-error');const count=Object.values(quantities).reduce((a,b)=>a+b,0);if(!form.reportValidity())return;if(!selectedSize||!selectedPackage){error.textContent='Please choose a bottle size and package.';return}if(count!==+selectedPackage.value){error.textContent=`Please choose exactly ${selectedPackage.value} juice${selectedPackage.value==='1'?'':'s'} before continuing.`;return}const link=paymentLinks[`${selectedSize.value}-${selectedPackage.value}`];if(!link||link.startsWith('PASTE_')){error.textContent='Square payment links will be added here next.';return}window.location.href=link});
+update()
