@@ -1,41 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Order Juices | A Taste of Jade</title>
-<link rel="stylesheet" href="juices.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Juices | A Taste of Jade</title>
+  <link rel="stylesheet" href="juices.css">
 </head>
 <body>
-<header class="juice-header">
-<img src="images/logo.png" class="juice-logo">
-<h1>Order Fresh Cold-Pressed Juices</h1>
-<p>Orders close every Sunday at 8:00 PM</p>
-</header>
-<section class="customer-info">
-<!-- Full Name -->
-<!-- Phone -->
-<!-- Email -->
-</section>
-<section class="bottle-size">
-<!-- 12 oz - $8 -->
-<!-- 16 oz - $11 -->
-</section>
-<section class="package">
-<!-- Single -->
-<!-- 3 Pack -->
-<!-- 5 Pack -->
-</section>
-<section class="juices">
-<!-- Eden Glow -->
-<!-- Green Pastures -->
-<!-- Restore -->
-</section>
-<section class="order-summary"></section>
-<section class="pickup"></section>
-<section class="payment"></section>
-<button>Place Order</button>
-</body>
-</html>
+  <main class="order-page">
+    <header class="page-intro">
+      <a class="back-link" href="index.html">← Back to A Taste of Jade</a>
+      <img src="images/logo.png" alt="A Taste of Jade" class="juice-logo">
+      <p class="eyebrow">COLD-PRESSED JUICES · MADE WITH LOVE</p>
+      <h1>Order Fresh Juices</h1>
+      <p class="intro-copy">Choose your favorites, then fill your box with goodness.</p>
+    </header>
 
+    <form id="juice-order" novalidate>
+      <section class="order-card">
+        <h2><span class="section-icon">👤</span>Your Info</h2>
+        <div class="field-grid">
+          <label>Full Name <b>*</b><input id="name" name="name" autocomplete="name" placeholder="First and last name" required></label>
+          <label>Phone Number <b>*</b><input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="(555) 555-0000" required></label>
+          <label>Instagram Handle <input name="instagram" autocomplete="off" placeholder="@yourhandle"><small>Optional — so we can tag you!</small></label>
+        </div>
+      </section>
+
+      <section class="order-card">
+        <h2><span class="section-icon">🧃</span>Choose Your Bottle Size</h2>
+        <div class="choice-grid two-columns" role="radiogroup" aria-label="Bottle size">
+          <label class="choice-card"><input type="radio" name="size" value="12" data-price="8"><span><strong>12 oz</strong><em>Everyday bottle · $8</em></span></label>
+          <label class="choice-card"><input type="radio" name="size" value="16" data-price="11"><span><strong>16 oz</strong><em>Bigger pour · $11</em></span></label>
+        </div>
+      </section>
+
+      <section class="order-card">
+        <h2><span class="section-icon">📦</span>Choose a Package</h2>
+        <p class="help-text" id="package-help">Please select a bottle size first.</p>
+        <div class="choice-grid package-grid" role="radiogroup" aria-label="Package">
+          <label class="choice-card is-disabled"><input type="radio" name="package" value="1" disabled><span><strong>Single</strong><em>1 bottle · <i>—</i></em></span></label>
+          <label class="choice-card is-disabled"><input type="radio" name="package" value="3" disabled><span><strong>3-Pack</strong><em>3 bottles · <i>—</i></em></span></label>
+          <label class="choice-card is-disabled"><input type="radio" name="package" value="5" disabled><span><strong>5-Pack</strong><em>5 bottles · <i>—</i></em></span></label>
+        </div>
+      </section>
+
+      <section class="order-card">
+        <h2><span class="section-icon">🌱</span>Select Your Juices</h2>
+        <p class="help-text" id="flavor-help">Please select a size and package first.</p>
+        <div class="flavors">
+          <article class="flavor" data-flavor="Eden Glow"><div><h3>🍍 Eden Glow</h3><p>Radiant · Cleansing · Rebirth</p><q>Behold, I make all things new.</q><cite>Revelation 21:5</cite><small>Pineapple · Apple · Lemon · Ginger</small></div><div class="stepper"><button type="button" class="minus" aria-label="Remove Eden Glow">−</button><output>0</output><button type="button" class="plus" aria-label="Add Eden Glow">+</button></div></article>
+          <article class="flavor" data-flavor="Green Pastures"><div><h3>🌿 Green Pastures</h3><p>Peace · Rest · Provision</p><q>He makes me lie down in green pastures.</q><cite>Psalm 23:2</cite><small>Cucumber · Celery · Apple · Lemon · Spinach</small></div><div class="stepper"><button type="button" class="minus" aria-label="Remove Green Pastures">−</button><output>0</output><button type="button" class="plus" aria-label="Add Green Pastures">+</button></div></article>
+          <article class="flavor" data-flavor="Restore"><div><h3>🍉 Restore</h3><p>Healing · Refreshing · Calm</p><q>He restores my soul.</q><cite>Psalm 23:3</cite><small>Watermelon · Cucumber · Mint · Lime</small></div><div class="stepper"><button type="button" class="minus" aria-label="Remove Restore">−</button><output>0</output><button type="button" class="plus" aria-label="Add Restore">+</button></div></article>
+        </div>
+      </section>
+
+      <section class="summary" aria-live="polite">
+        <div><span>Size</span><strong id="summary-size">None selected</strong></div>
+        <div><span>Package</span><strong id="summary-package">None selected</strong></div>
+        <div><span>Bottles selected</span><strong id="summary-count">0</strong></div>
+        <div class="total"><span>Total due</span><strong id="summary-total">$0</strong></div>
+      </section>
+
+      <p class="order-error" id="order-error" role="alert"></p>
+      <button class="complete-order" type="submit">Continue to Payment <span>→</span></button>
+      <p class="payment-note">You’ll review and securely pay for your order with Square.</p>
+    </form>
+  </main>
+  <script src="juices.js"></script>
+</body>
 </html>
