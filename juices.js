@@ -1,12 +1,12 @@
-/* =========================================
+/* ==================================================
    A TASTE OF JADE
    JUICE ORDER PAGE
-========================================= */
+   ================================================== */
 
 
-/* =========================================
+/* ==================================================
    CURRENT ORDER
-========================================= */
+   ================================================== */
 
 const order = {
     yellow: 0,
@@ -14,16 +14,15 @@ const order = {
 };
 
 
-/* =========================================
-   ELEMENTS
-========================================= */
+/* ==================================================
+   PAGE ELEMENTS
+   ================================================== */
 
 const yellowCount =
     document.getElementById("yellow-count");
 
 const redCount =
     document.getElementById("red-count");
-
 
 const summaryYellow =
     document.getElementById("summary-yellow");
@@ -43,13 +42,11 @@ const summaryFulfillment =
 const summaryTotal =
     document.getElementById("summary-total");
 
-
 const flavorHelp =
     document.getElementById("flavor-help");
 
 const orderError =
     document.getElementById("order-error");
-
 
 const addressField =
     document.getElementById("address-field");
@@ -58,9 +55,9 @@ const deliveryAddress =
     document.getElementById("delivery-address");
 
 
-/* =========================================
-   GET SELECTED SIZE
-========================================= */
+/* ==================================================
+   GET SELECTED BOTTLE SIZE
+   ================================================== */
 
 function getSelectedSize() {
 
@@ -71,9 +68,9 @@ function getSelectedSize() {
 }
 
 
-/* =========================================
-   GET SELECTED FULFILLMENT
-========================================= */
+/* ==================================================
+   GET PICKUP OR DELIVERY
+   ================================================== */
 
 function getFulfillment() {
 
@@ -84,31 +81,26 @@ function getFulfillment() {
 }
 
 
-/* =========================================
-   PRICE PER BOTTLE
-========================================= */
+/* ==================================================
+   GET PRICE PER BOTTLE
+   ================================================== */
 
 function getBottlePrice() {
 
-    const size =
-        getSelectedSize();
-
+    const size = getSelectedSize();
 
     if (!size) {
         return 0;
     }
 
-
-    return Number(
-        size.dataset.price
-    );
+    return Number(size.dataset.price);
 
 }
 
 
-/* =========================================
-   TOTAL BOTTLES
-========================================= */
+/* ==================================================
+   COUNT TOTAL BOTTLES
+   ================================================== */
 
 function getBottleCount() {
 
@@ -117,15 +109,14 @@ function getBottleCount() {
 }
 
 
-/* =========================================
+/* ==================================================
    DELIVERY FEE
-========================================= */
+   ================================================== */
 
 function getDeliveryFee() {
 
     const fulfillment =
         getFulfillment();
-
 
     if (
         fulfillment &&
@@ -136,29 +127,25 @@ function getDeliveryFee() {
 
     }
 
-
     return 0;
 
 }
 
 
-/* =========================================
-   TOTAL PRICE
-========================================= */
+/* ==================================================
+   CALCULATE TOTAL
+   ================================================== */
 
 function calculateTotal() {
 
     const bottlePrice =
         getBottlePrice();
 
-
     const bottleCount =
         getBottleCount();
 
-
     const deliveryFee =
         getDeliveryFee();
-
 
     return (
         bottlePrice * bottleCount
@@ -167,9 +154,9 @@ function calculateTotal() {
 }
 
 
-/* =========================================
-   QUANTITY BUTTONS
-========================================= */
+/* ==================================================
+   PLUS BUTTONS
+   ================================================== */
 
 document
     .querySelectorAll(".plus")
@@ -182,7 +169,6 @@ document
                 const size =
                     getSelectedSize();
 
-
                 if (!size) {
 
                     showError(
@@ -190,23 +176,18 @@ document
                     );
 
                     return;
-
                 }
-
 
                 const flavor =
                     button.dataset.flavor;
-
 
                 if (flavor === "yellow") {
                     order.yellow++;
                 }
 
-
                 if (flavor === "red") {
                     order.red++;
                 }
-
 
                 clearError();
 
@@ -218,6 +199,9 @@ document
     });
 
 
+/* ==================================================
+   MINUS BUTTONS
+   ================================================== */
 
 document
     .querySelectorAll(".minus")
@@ -230,7 +214,6 @@ document
                 const flavor =
                     button.dataset.flavor;
 
-
                 if (
                     flavor === "yellow" &&
                     order.yellow > 0
@@ -240,7 +223,6 @@ document
 
                 }
 
-
                 if (
                     flavor === "red" &&
                     order.red > 0
@@ -249,7 +231,6 @@ document
                     order.red--;
 
                 }
-
 
                 clearError();
 
@@ -261,10 +242,9 @@ document
     });
 
 
-
-/* =========================================
-   SIZE CHANGES
-========================================= */
+/* ==================================================
+   BOTTLE SIZE CHANGES
+   ================================================== */
 
 document
     .querySelectorAll(
@@ -289,10 +269,9 @@ document
     });
 
 
-
-/* =========================================
-   PICKUP / DELIVERY
-========================================= */
+/* ==================================================
+   PICKUP / DELIVERY CHANGES
+   ================================================== */
 
 document
     .querySelectorAll(
@@ -306,7 +285,6 @@ document
 
                 const fulfillment =
                     getFulfillment();
-
 
                 if (
                     fulfillment &&
@@ -325,7 +303,6 @@ document
 
                 }
 
-
                 updateOrder();
 
             }
@@ -334,42 +311,44 @@ document
     });
 
 
-
-/* =========================================
-   UPDATE PAGE
-========================================= */
+/* ==================================================
+   UPDATE ORDER SUMMARY
+   ================================================== */
 
 function updateOrder() {
 
     const size =
         getSelectedSize();
 
-
     const fulfillment =
         getFulfillment();
 
 
+    /* YELLOW WATERMELON */
+
     yellowCount.textContent =
         order.yellow;
-
-
-    redCount.textContent =
-        order.red;
-
 
     summaryYellow.textContent =
         order.yellow;
 
 
+    /* RED WATERMELON */
+
+    redCount.textContent =
+        order.red;
+
     summaryRed.textContent =
         order.red;
 
+
+    /* TOTAL NUMBER OF BOTTLES */
 
     summaryCount.textContent =
         getBottleCount();
 
 
-    /* SIZE */
+    /* BOTTLE SIZE */
 
     if (size) {
 
@@ -387,7 +366,7 @@ function updateOrder() {
     }
 
 
-    /* FULFILLMENT */
+    /* PICKUP OR DELIVERY */
 
     if (
         fulfillment &&
@@ -405,7 +384,7 @@ function updateOrder() {
     }
 
 
-    /* TOTAL */
+    /* TOTAL PRICE */
 
     summaryTotal.textContent =
         "$" +
@@ -414,9 +393,9 @@ function updateOrder() {
 }
 
 
-/* =========================================
-   ERRORS
-========================================= */
+/* ==================================================
+   ERROR MESSAGE
+   ================================================== */
 
 function showError(message) {
 
@@ -433,35 +412,49 @@ function clearError() {
 }
 
 
-/* =========================================
-   FORM SUBMISSION
-========================================= */
+/* ==================================================
+   SUBMIT ORDER TO FORMSPREE
+   ================================================== */
 
 document
     .getElementById("juice-order")
     .addEventListener(
         "submit",
-        function(event) {
+        async function(event) {
 
             event.preventDefault();
-
 
             clearError();
 
 
+            /* -------------------------------
+               CUSTOMER INFORMATION
+            -------------------------------- */
+
             const name =
                 document
-                .getElementById("name")
-                .value
-                .trim();
+                    .getElementById("name")
+                    .value
+                    .trim();
 
 
             const phone =
                 document
-                .getElementById("phone")
-                .value
-                .trim();
+                    .getElementById("phone")
+                    .value
+                    .trim();
 
+
+            const instagram =
+                document
+                    .getElementById("instagram")
+                    .value
+                    .trim();
+
+
+            /* -------------------------------
+               ORDER INFORMATION
+            -------------------------------- */
 
             const size =
                 getSelectedSize();
@@ -473,15 +466,20 @@ document
 
             const date =
                 document
-                .getElementById("order-date")
-                .value;
+                    .getElementById("order-date")
+                    .value;
 
 
             const customRequest =
                 document
-                .getElementById("custom-request")
-                .value
-                .trim();
+                    .getElementById("custom-request")
+                    .value
+                    .trim();
+
+
+            /* ==================================================
+               VALIDATION
+               ================================================== */
 
 
             /* NAME */
@@ -510,7 +508,7 @@ document
             }
 
 
-            /* SIZE */
+            /* BOTTLE SIZE */
 
             if (!size) {
 
@@ -523,7 +521,7 @@ document
             }
 
 
-            /* JUICES */
+            /* JUICE SELECTION */
 
             if (
                 getBottleCount() === 0 &&
@@ -539,7 +537,7 @@ document
             }
 
 
-            /* DATE */
+            /* ORDER DATE */
 
             if (!date) {
 
@@ -569,82 +567,204 @@ document
             }
 
 
-            /* =================================
-               TEMPORARY REVIEW MESSAGE
+            /* ==================================================
+               BUILD ORDER INFORMATION
+               ================================================== */
 
-               NEXT:
-               SAVE ORDER + EMAIL + SQUARE
-            ================================= */
+            const orderData = {
+
+                _subject:
+                    "🍉 NEW A TASTE OF JADE JUICE ORDER",
+
+                customer_name:
+                    name,
+
+                phone:
+                    phone,
+
+                instagram:
+                    instagram || "Not provided",
+
+                bottle_size:
+                    size.value + " oz",
+
+                price_per_bottle:
+                    "$" + size.dataset.price,
+
+                yellow_watermelon:
+                    order.yellow,
+
+                red_watermelon:
+                    order.red,
+
+                total_bottles:
+                    getBottleCount(),
+
+                custom_flavor_request:
+                    customRequest || "None",
+
+                fulfillment:
+                    fulfillment
+                        ? fulfillment.value
+                        : "pickup",
+
+                preferred_order_date:
+                    date,
+
+                delivery_address:
+                    deliveryAddress.value.trim()
+                        || "N/A",
+
+                delivery_fee:
+                    getDeliveryFee() > 0
+                        ? "$8.00"
+                        : "$0.00",
+
+                total_due:
+                    "$" +
+                    calculateTotal().toFixed(2)
+
+            };
 
 
-            let message =
-                "ORDER REVIEW\n\n";
+            /* ==================================================
+               SEND ORDER TO FORMSPREE
+               ================================================== */
+
+            try {
+
+                const submitButton =
+                    document.querySelector(
+                        ".complete-order"
+                    );
 
 
-            message +=
-                "Customer: " +
-                name +
-                "\n";
+                /* CHANGE BUTTON WHILE SENDING */
+
+                submitButton.disabled = true;
+
+                submitButton.innerHTML =
+                    "Sending Order...";
 
 
-            message +=
-                "Phone: " +
-                phone +
-                "\n\n";
+                const response =
+                    await fetch(
+                        "https://formspree.io/f/mvzewrnk",
+                        {
+
+                            method: "POST",
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json",
+
+                                "Accept":
+                                    "application/json"
+
+                            },
+
+                            body:
+                                JSON.stringify(
+                                    orderData
+                                )
+
+                        }
+                    );
 
 
-            message +=
-                "Bottle Size: " +
-                size.value +
-                " oz\n";
+                /* ==================================================
+                   CHECK RESPONSE
+                   ================================================== */
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Order could not be submitted."
+                    );
+
+                }
 
 
-            message +=
-                "Yellow Watermelon: " +
-                order.yellow +
-                "\n";
+                /* ==================================================
+                   SUCCESS
+                   ================================================== */
+
+                submitButton.innerHTML =
+                    "Order Received ✓";
 
 
-            message +=
-                "Red Watermelon: " +
-                order.red +
-                "\n";
+                alert(
+
+                    "Your order has been received! 💚\n\n" +
+
+                    "Yellow Watermelon: " +
+                    order.yellow +
+                    "\n" +
+
+                    "Red Watermelon: " +
+                    order.red +
+                    "\n" +
+
+                    "Total Bottles: " +
+                    getBottleCount() +
+                    "\n\n" +
+
+                    "Total: $" +
+                    calculateTotal().toFixed(2) +
+                    "\n\n" +
+
+                    "Next step: secure payment."
+
+                );
 
 
-            message +=
-                "Total Bottles: " +
-                getBottleCount() +
-                "\n";
+                /*
+                ==================================================
+                NEXT STEP
+
+                SQUARE PAYMENT WILL GO HERE.
+
+                Once we connect Square, the customer will
+                automatically continue to secure payment
+                AFTER Formspree successfully saves the order.
+                ==================================================
+                */
 
 
-            if (customRequest) {
+            } catch (error) {
 
-                message +=
-                    "\nCustom Request:\n" +
-                    customRequest +
-                    "\n";
+
+                console.error(error);
+
+
+                showError(
+
+                    "Something went wrong submitting your order. Please try again."
+
+                );
+
+
+                const submitButton =
+                    document.querySelector(
+                        ".complete-order"
+                    );
+
+
+                submitButton.disabled = false;
+
+
+                submitButton.innerHTML =
+                    "Review Order <span>→</span>";
 
             }
-
-
-            message +=
-                "\nTotal: $" +
-                calculateTotal()
-                    .toFixed(2);
-
-
-            message +=
-                "\n\nNext step: secure payment through Square.";
-
-
-            alert(message);
 
         }
     );
 
 
-/* =========================================
+/* ==================================================
    INITIAL PAGE LOAD
-========================================= */
+   ================================================== */
 
 updateOrder();
