@@ -3,15 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Order Juices | A Taste of Jade</title>
 
     <style>
+
         * {
             box-sizing: border-box;
         }
@@ -53,7 +50,7 @@
         .back-link {
             display: inline-block;
             color: #285a38;
-            font-weight: 700;
+            font-weight: bold;
             text-decoration: none;
             margin-bottom: 5px;
         }
@@ -61,7 +58,7 @@
         .eyebrow {
             color: #aa8425;
             font-size: 13px;
-            font-weight: 700;
+            font-weight: bold;
             letter-spacing: 1.8px;
         }
 
@@ -125,7 +122,7 @@
         label {
             display: block;
             font-size: 16px;
-            font-weight: 700;
+            font-weight: bold;
         }
 
         label small,
@@ -134,7 +131,7 @@
             margin-top: 7px;
             color: #697561;
             font-size: 13px;
-            font-weight: 400;
+            font-weight: normal;
             line-height: 1.5;
         }
 
@@ -188,10 +185,12 @@
             border: 3px solid #ddd3bd;
             border-radius: 20px;
             background: white;
+
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+
             text-align: center;
             transition: 0.2s ease;
         }
@@ -205,7 +204,7 @@
             margin-top: 9px;
             color: #718069;
             font-style: normal;
-            font-weight: 400;
+            font-weight: normal;
         }
 
         .choice-card input:checked + span {
@@ -226,6 +225,7 @@
             align-items: center;
             justify-content: space-between;
             gap: 20px;
+
             padding: 24px 0;
             border-bottom: 1px solid #d9cfb9;
         }
@@ -265,7 +265,6 @@
             border-radius: 100px;
             background: #842e2e;
             color: white;
-            font-family: Arial, sans-serif;
             font-size: 11px;
             letter-spacing: 0.5px;
         }
@@ -297,7 +296,7 @@
             min-width: 24px;
             text-align: center;
             font-size: 21px;
-            font-weight: 700;
+            font-weight: bold;
         }
 
         .custom-request {
@@ -345,7 +344,7 @@
             padding-top: 16px;
             color: #f0ca5b;
             font-size: 26px;
-            font-weight: 700;
+            font-weight: bold;
         }
 
         .confirmation-note {
@@ -368,25 +367,24 @@
         .order-error {
             min-height: 24px;
             color: #ffe2e2;
-            font-weight: 700;
+            font-weight: bold;
             text-align: center;
         }
 
         .complete-order {
             width: 100%;
             padding: 18px;
-            border: 0;
+            border: none;
             border-radius: 50px;
             background: #d4af37;
             color: #173d27;
             font-size: 19px;
-            font-weight: 800;
+            font-weight: bold;
             cursor: pointer;
         }
 
         .complete-order:disabled {
             opacity: 0.65;
-            cursor: wait;
         }
 
         .payment-note {
@@ -396,6 +394,7 @@
         }
 
         @media (max-width: 650px) {
+
             .two-columns {
                 grid-template-columns: 1fr;
             }
@@ -421,12 +420,16 @@
                 flex-direction: column;
             }
         }
+
     </style>
 </head>
+
 
 <body>
 
 <main class="order-page">
+
+    <!-- HEADER -->
 
     <header class="page-intro">
 
@@ -452,13 +455,26 @@
 
     </header>
 
+
+    <!-- ORDER NOTICE -->
+
     <div class="notice">
-        <strong>Orders close every Sunday at 8 PM.</strong>
+
+        <strong>
+            Orders close every Sunday at 8 PM.
+        </strong>
+
         <br>
+
         Available while supplies last.
+
     </div>
 
+
     <form id="juice-order" novalidate>
+
+
+        <!-- CUSTOMER INFORMATION -->
 
         <section class="order-card">
 
@@ -470,7 +486,9 @@
             <div class="field-grid">
 
                 <label>
+
                     Full Name *
+
                     <input
                         id="name"
                         name="name"
@@ -478,10 +496,14 @@
                         placeholder="First and last name"
                         required
                     >
+
                 </label>
 
+
                 <label>
+
                     Phone Number *
+
                     <input
                         id="phone"
                         name="phone"
@@ -489,32 +511,47 @@
                         placeholder="(713) 555-0000"
                         required
                     >
+
                 </label>
 
+
                 <label>
+
                     Email
+
                     <input
                         id="email"
                         name="email"
                         type="email"
                         placeholder="you@email.com"
                     >
+
                 </label>
 
+
                 <label>
+
                     Instagram Handle
+
                     <input
                         id="instagram"
                         name="instagram"
                         type="text"
                         placeholder="@yourhandle"
                     >
-                    <small>Optional</small>
+
+                    <small>
+                        Optional
+                    </small>
+
                 </label>
 
             </div>
 
         </section>
+
+
+        <!-- BOTTLE SIZE -->
 
         <section class="order-card">
 
@@ -523,7 +560,9 @@
                 Choose Your Bottle Size
             </h2>
 
+
             <div class="choice-grid two-columns">
+
 
                 <label class="choice-card">
 
@@ -535,11 +574,17 @@
                     >
 
                     <span>
+
                         <strong>12 oz</strong>
-                        <em>$8 each</em>
+
+                        <em>
+                            $8 each
+                        </em>
+
                     </span>
 
                 </label>
+
 
                 <label class="choice-card">
 
@@ -551,15 +596,24 @@
                     >
 
                     <span>
+
                         <strong>16 oz</strong>
-                        <em>$11 each</em>
+
+                        <em>
+                            $11 each
+                        </em>
+
                     </span>
 
                 </label>
 
+
             </div>
 
         </section>
+
+
+        <!-- JUICE FLAVORS -->
 
         <section class="order-card">
 
@@ -568,84 +622,149 @@
                 Select Your Juices
             </h2>
 
-            <p class="help-text" id="flavor-help">
+
+            <p
+                class="help-text"
+                id="flavor-help"
+            >
                 Choose a bottle size before adding juices.
             </p>
 
+
             <div class="flavors">
+
+
+                <!-- EDEN GLOW -->
 
                 <article class="flavor sold-out">
 
                     <div>
+
                         <h3>
+
                             🍍 Eden Glow
-                            <span class="sold-badge">SOLD OUT</span>
+
+                            <span class="sold-badge">
+                                SOLD OUT
+                            </span>
+
                         </h3>
 
-                        <p>Radiant · Cleansing · Rebirth</p>
+                        <p>
+                            Radiant · Cleansing · Rebirth
+                        </p>
 
-                        <q>Behold, I make all things new.</q>
+                        <q>
+                            Behold, I make all things new.
+                        </q>
 
-                        <cite>Revelation 21:5</cite>
+                        <cite>
+                            Revelation 21:5
+                        </cite>
 
                         <small>
                             Pineapple · Apple · Lemon · Ginger
                         </small>
+
                     </div>
 
                 </article>
 
+
+                <!-- GREEN PASTURES -->
+
                 <article class="flavor sold-out">
 
                     <div>
+
                         <h3>
+
                             🌿 Green Pastures
-                            <span class="sold-badge">SOLD OUT</span>
+
+                            <span class="sold-badge">
+                                SOLD OUT
+                            </span>
+
                         </h3>
 
-                        <p>Peace · Rest · Provision</p>
+                        <p>
+                            Peace · Rest · Provision
+                        </p>
 
                         <q>
                             He makes me lie down in green pastures.
                         </q>
 
-                        <cite>Psalm 23:2</cite>
+                        <cite>
+                            Psalm 23:2
+                        </cite>
 
                         <small>
                             Cucumber · Celery · Apple · Lemon · Spinach
                         </small>
+
                     </div>
 
                 </article>
+
+
+                <!-- RESTORE -->
 
                 <article class="flavor sold-out">
 
                     <div>
+
                         <h3>
+
                             🍉 Restore
-                            <span class="sold-badge">SOLD OUT</span>
+
+                            <span class="sold-badge">
+                                SOLD OUT
+                            </span>
+
                         </h3>
 
-                        <p>Healing · Refreshing · Calm</p>
+                        <p>
+                            Healing · Refreshing · Calm
+                        </p>
 
-                        <q>He restores my soul.</q>
+                        <q>
+                            He restores my soul.
+                        </q>
 
-                        <cite>Psalm 23:3</cite>
+                        <cite>
+                            Psalm 23:3
+                        </cite>
 
                         <small>
                             Watermelon · Cucumber · Mint · Lime
                         </small>
+
                     </div>
 
                 </article>
 
+
+                <!-- YELLOW WATERMELON -->
+
                 <article class="flavor">
 
                     <div>
-                        <h3>💛 Yellow Watermelon</h3>
-                        <p>Sweet · Crisp · Refreshing</p>
-                        <small>Fresh Yellow Watermelon</small>
+
+                        <h3>
+                            💛 Yellow Watermelon
+                        </h3>
+
+                        <p>
+                            Sweet · Crisp · Refreshing
+                        </p>
+
+                        <small>
+                            Fresh Yellow Watermelon
+                        </small>
+
                     </div>
+
 
                     <div class="stepper">
 
@@ -657,7 +776,9 @@
                             −
                         </button>
 
-                        <output id="yellow-count">0</output>
+                        <output id="yellow-count">
+                            0
+                        </output>
 
                         <button
                             type="button"
@@ -671,13 +792,27 @@
 
                 </article>
 
+
+                <!-- RED WATERMELON -->
+
                 <article class="flavor">
 
                     <div>
-                        <h3>❤️ Red Watermelon</h3>
-                        <p>Juicy · Hydrating · Refreshing</p>
-                        <small>Fresh Red Watermelon</small>
+
+                        <h3>
+                            ❤️ Red Watermelon
+                        </h3>
+
+                        <p>
+                            Juicy · Hydrating · Refreshing
+                        </p>
+
+                        <small>
+                            Fresh Red Watermelon
+                        </small>
+
                     </div>
+
 
                     <div class="stepper">
 
@@ -689,7 +824,9 @@
                             −
                         </button>
 
-                        <output id="red-count">0</output>
+                        <output id="red-count">
+                            0
+                        </output>
 
                         <button
                             type="button"
@@ -702,30 +839,43 @@
                     </div>
 
                 </article>
+
 
             </div>
 
+
+            <!-- CUSTOM FLAVOR -->
+
             <div class="custom-request">
 
-                <h3>✨ Request a Custom Flavor</h3>
+                <h3>
+                    ✨ Request a Custom Flavor
+                </h3>
 
                 <p>
                     Tell me the custom flavor or flavor combination you want.
                 </p>
 
+
                 <label>
+
                     Custom Flavor Request
 
                     <textarea
                         id="custom-request"
                         name="custom-request"
-                        placeholder="Example: Pineapple strawberry or green apple cucumber"
+                        placeholder="Example: Pineapple Strawberry or Green Apple Cucumber"
                     ></textarea>
+
                 </label>
+
 
                 <div class="custom-quantity-row">
 
-                    <strong>Custom Flavor Quantity</strong>
+                    <strong>
+                        Custom Flavor Quantity
+                    </strong>
+
 
                     <div class="stepper">
 
@@ -736,7 +886,9 @@
                             −
                         </button>
 
-                        <output id="custom-count">0</output>
+                        <output id="custom-count">
+                            0
+                        </output>
 
                         <button
                             type="button"
@@ -749,14 +901,20 @@
 
                 </div>
 
+
                 <small class="custom-note">
-                    Custom requests must be confirmed by A Taste of Jade
-                    and depend on ingredient availability.
+
+                    Custom requests depend on ingredient availability
+                    and must be confirmed by A Taste of Jade.
+
                 </small>
 
             </div>
 
         </section>
+
+
+        <!-- PICKUP / DELIVERY -->
 
         <section class="order-card">
 
@@ -765,7 +923,9 @@
                 Pickup or Delivery
             </h2>
 
+
             <div class="choice-grid two-columns">
+
 
                 <label class="choice-card">
 
@@ -777,11 +937,19 @@
                     >
 
                     <span>
-                        <strong>Pickup</strong>
-                        <em>Free</em>
+
+                        <strong>
+                            Pickup
+                        </strong>
+
+                        <em>
+                            Free
+                        </em>
+
                     </span>
 
                 </label>
+
 
                 <label class="choice-card">
 
@@ -792,17 +960,28 @@
                     >
 
                     <span>
-                        <strong>Delivery</strong>
-                        <em>$8 delivery fee</em>
+
+                        <strong>
+                            Delivery
+                        </strong>
+
+                        <em>
+                            $8 delivery fee
+                        </em>
+
                     </span>
 
                 </label>
 
+
             </div>
+
 
             <div class="fulfillment-fields">
 
+
                 <label>
+
                     Preferred Order Date *
 
                     <input
@@ -813,12 +992,20 @@
                     >
 
                     <small>
-                        Your date is not confirmed until you receive
-                        confirmation from A Taste of Jade.
+
+                        Your requested date is not confirmed until
+                        you receive confirmation from A Taste of Jade.
+
                     </small>
+
                 </label>
 
-                <label id="address-field" hidden>
+
+                <label
+                    id="address-field"
+                    hidden
+                >
+
                     Delivery Address *
 
                     <input
@@ -827,59 +1014,126 @@
                         type="text"
                         placeholder="Street address, city, state and ZIP"
                     >
+
                 </label>
+
 
             </div>
 
+
             <p class="confirmation-note">
-                Pickup or delivery details will be confirmed after
-                your order is reviewed.
+
+                Pickup or delivery details will be confirmed
+                after your order is reviewed.
+
             </p>
 
         </section>
 
+
+        <!-- ORDER SUMMARY -->
+
         <section class="summary">
 
-            <h2>🛒 Your Order</h2>
+            <h2>
+                🛒 Your Order
+            </h2>
+
 
             <div class="summary-row">
-                <span>Bottle Size</span>
-                <strong id="summary-size">None selected</strong>
+
+                <span>
+                    Bottle Size
+                </span>
+
+                <strong id="summary-size">
+                    None selected
+                </strong>
+
             </div>
 
-            <div class="summary-row">
-                <span>Yellow Watermelon</span>
-                <strong id="summary-yellow">0</strong>
-            </div>
 
             <div class="summary-row">
-                <span>Red Watermelon</span>
-                <strong id="summary-red">0</strong>
+
+                <span>
+                    Yellow Watermelon
+                </span>
+
+                <strong id="summary-yellow">
+                    0
+                </strong>
+
             </div>
 
-            <div class="summary-row">
-                <span>Custom Flavor</span>
-                <strong id="summary-custom">0</strong>
-            </div>
 
             <div class="summary-row">
-                <span>Total Bottles</span>
-                <strong id="summary-count">0</strong>
+
+                <span>
+                    Red Watermelon
+                </span>
+
+                <strong id="summary-red">
+                    0
+                </strong>
+
             </div>
 
+
             <div class="summary-row">
-                <span>Fulfillment</span>
+
+                <span>
+                    Custom Flavor
+                </span>
+
+                <strong id="summary-custom">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="summary-row">
+
+                <span>
+                    Total Bottles
+                </span>
+
+                <strong id="summary-count">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="summary-row">
+
+                <span>
+                    Fulfillment
+                </span>
+
                 <strong id="summary-fulfillment">
                     Pickup · Free
                 </strong>
+
             </div>
 
+
             <div class="summary-row summary-total">
-                <span>Total Due</span>
-                <strong id="summary-total">$0.00</strong>
+
+                <span>
+                    Total Due
+                </span>
+
+                <strong id="summary-total">
+                    $0.00
+                </strong>
+
             </div>
 
         </section>
+
+
+        <!-- PAYMENT -->
 
         <section class="order-card">
 
@@ -889,16 +1143,20 @@
             </h2>
 
             <div class="payment-placeholder">
-                Secure payment through Square will be connected next.
+
+                🔒 Secure payment through Square will be connected next.
+
             </div>
 
         </section>
+
 
         <p
             class="order-error"
             id="order-error"
             role="alert"
         ></p>
+
 
         <button
             class="complete-order"
@@ -907,20 +1165,35 @@
             Submit Order
         </button>
 
+
         <p class="payment-note">
+
             Your full order details will be sent to A Taste of Jade.
+
         </p>
+
 
     </form>
 
 </main>
 
+
 <script>
+
+    /* =========================================
+       ORDER COUNTS
+    ========================================= */
+
     const order = {
         yellow: 0,
         red: 0,
         custom: 0
     };
+
+
+    /* =========================================
+       ELEMENTS
+    ========================================= */
 
     const yellowCount =
         document.getElementById("yellow-count");
@@ -930,6 +1203,7 @@
 
     const customCount =
         document.getElementById("custom-count");
+
 
     const summaryYellow =
         document.getElementById("summary-yellow");
@@ -952,6 +1226,7 @@
     const summaryTotal =
         document.getElementById("summary-total");
 
+
     const flavorHelp =
         document.getElementById("flavor-help");
 
@@ -964,69 +1239,134 @@
     const deliveryAddress =
         document.getElementById("delivery-address");
 
+
+    /* =========================================
+       SELECTED OPTIONS
+    ========================================= */
+
     function getSelectedSize() {
+
         return document.querySelector(
             'input[name="size"]:checked'
         );
+
     }
 
+
     function getFulfillment() {
+
         return document.querySelector(
             'input[name="fulfillment"]:checked'
         );
+
     }
+
+
+    /* =========================================
+       PRICE
+    ========================================= */
 
     function getBottlePrice() {
-        const size = getSelectedSize();
 
-        return size
-            ? Number(size.dataset.price)
-            : 0;
+        const size =
+            getSelectedSize();
+
+        if (!size) {
+            return 0;
+        }
+
+        return Number(
+            size.dataset.price
+        );
+
     }
 
+
     function getBottleCount() {
+
         return (
             order.yellow +
             order.red +
             order.custom
         );
+
     }
+
 
     function getDeliveryFee() {
-        const fulfillment = getFulfillment();
 
-        return fulfillment &&
+        const fulfillment =
+            getFulfillment();
+
+        if (
+            fulfillment &&
             fulfillment.value === "delivery"
-            ? 8
-            : 0;
+        ) {
+
+            return 8;
+
+        }
+
+        return 0;
+
     }
+
 
     function calculateTotal() {
+
         return (
-            getBottlePrice() * getBottleCount()
+            getBottlePrice() *
+            getBottleCount()
         ) + getDeliveryFee();
+
     }
+
+
+    /* =========================================
+       ERROR MESSAGES
+    ========================================= */
 
     function showError(message) {
-        orderError.textContent = message;
+
+        orderError.textContent =
+            message;
+
     }
+
 
     function clearError() {
+
         orderError.textContent = "";
+
     }
 
+
+    /* =========================================
+       CHECK SIZE BEFORE ADDING
+    ========================================= */
+
     function canAddJuice() {
+
         if (!getSelectedSize()) {
+
             showError(
                 "Please choose a bottle size first."
             );
 
             return false;
+
         }
 
         clearError();
+
         return true;
+
     }
+
+
+    /* =========================================
+       YELLOW + RED PLUS BUTTONS
+    ========================================= */
 
     document
         .querySelectorAll(".plus")
@@ -1046,10 +1386,16 @@
                     order[flavor]++;
 
                     updateOrder();
+
                 }
             );
 
         });
+
+
+    /* =========================================
+       YELLOW + RED MINUS BUTTONS
+    ========================================= */
 
     document
         .querySelectorAll(".minus")
@@ -1062,15 +1408,25 @@
                     const flavor =
                         button.dataset.flavor;
 
-                    if (order[flavor] > 0) {
+                    if (
+                        order[flavor] > 0
+                    ) {
+
                         order[flavor]--;
+
                     }
 
                     updateOrder();
+
                 }
             );
 
         });
+
+
+    /* =========================================
+       CUSTOM PLUS
+    ========================================= */
 
     document
         .getElementById("custom-plus")
@@ -1082,25 +1438,38 @@
                     return;
                 }
 
+
                 const customRequest =
                     document
                         .getElementById("custom-request")
                         .value
                         .trim();
 
+
                 if (!customRequest) {
+
                     showError(
                         "Please describe your custom flavor first."
                     );
 
                     return;
+
                 }
 
+
                 order.custom++;
+
                 clearError();
+
                 updateOrder();
+
             }
         );
+
+
+    /* =========================================
+       CUSTOM MINUS
+    ========================================= */
 
     document
         .getElementById("custom-minus")
@@ -1108,13 +1477,23 @@
             "click",
             function() {
 
-                if (order.custom > 0) {
+                if (
+                    order.custom > 0
+                ) {
+
                     order.custom--;
+
                 }
 
                 updateOrder();
+
             }
         );
+
+
+    /* =========================================
+       SIZE CHANGE
+    ========================================= */
 
     document
         .querySelectorAll(
@@ -1130,11 +1509,18 @@
                         "Add as many bottles as you need.";
 
                     clearError();
+
                     updateOrder();
+
                 }
             );
 
         });
+
+
+    /* =========================================
+       PICKUP / DELIVERY
+    ========================================= */
 
     document
         .querySelectorAll(
@@ -1153,60 +1539,106 @@
                         fulfillment &&
                         fulfillment.value === "delivery";
 
+
                     addressField.hidden =
                         !isDelivery;
+
 
                     deliveryAddress.required =
                         isDelivery;
 
+
                     updateOrder();
+
                 }
             );
 
         });
 
+
+    /* =========================================
+       UPDATE SUMMARY
+    ========================================= */
+
     function updateOrder() {
-        const size = getSelectedSize();
-        const fulfillment = getFulfillment();
+
+        const size =
+            getSelectedSize();
+
+        const fulfillment =
+            getFulfillment();
+
 
         yellowCount.textContent =
             order.yellow;
 
+
         redCount.textContent =
             order.red;
+
 
         customCount.textContent =
             order.custom;
 
+
         summaryYellow.textContent =
             order.yellow;
+
 
         summaryRed.textContent =
             order.red;
 
+
         summaryCustom.textContent =
             order.custom;
+
 
         summaryCount.textContent =
             getBottleCount();
 
-        summarySize.textContent =
-            size
-                ? size.value +
-                  " oz · $" +
-                  size.dataset.price +
-                  " each"
-                : "None selected";
 
-        summaryFulfillment.textContent =
+        if (size) {
+
+            summarySize.textContent =
+                size.value +
+                " oz · $" +
+                size.dataset.price +
+                " each";
+
+        } else {
+
+            summarySize.textContent =
+                "None selected";
+
+        }
+
+
+        if (
             fulfillment &&
             fulfillment.value === "delivery"
-                ? "Delivery · $8"
-                : "Pickup · Free";
+        ) {
+
+            summaryFulfillment.textContent =
+                "Delivery · $8";
+
+        } else {
+
+            summaryFulfillment.textContent =
+                "Pickup · Free";
+
+        }
+
 
         summaryTotal.textContent =
-            "$" + calculateTotal().toFixed(2);
+            "$" +
+            calculateTotal().toFixed(2);
+
     }
+
+
+    /* =========================================
+       SUBMIT TO FORMSPREE
+    ========================================= */
 
     document
         .getElementById("juice-order")
@@ -1215,12 +1647,15 @@
             async function(event) {
 
                 event.preventDefault();
+
                 clearError();
+
 
                 const submitButton =
                     document.querySelector(
                         ".complete-order"
                     );
+
 
                 const name =
                     document
@@ -1228,11 +1663,13 @@
                         .value
                         .trim();
 
+
                 const phone =
                     document
                         .getElementById("phone")
                         .value
                         .trim();
+
 
                 const email =
                     document
@@ -1240,22 +1677,27 @@
                         .value
                         .trim();
 
+
                 const instagram =
                     document
                         .getElementById("instagram")
                         .value
                         .trim();
 
+
                 const size =
                     getSelectedSize();
 
+
                 const fulfillment =
                     getFulfillment();
+
 
                 const date =
                     document
                         .getElementById("order-date")
                         .value;
+
 
                 const customRequest =
                     document
@@ -1263,69 +1705,109 @@
                         .value
                         .trim();
 
+
+                /* VALIDATION */
+
+
                 if (!name) {
+
                     showError(
                         "Please enter your full name."
                     );
+
                     return;
+
                 }
 
+
                 if (!phone) {
+
                     showError(
                         "Please enter your phone number."
                     );
+
                     return;
+
                 }
 
+
                 if (!size) {
+
                     showError(
                         "Please choose a bottle size."
                     );
+
                     return;
+
                 }
 
-                if (getBottleCount() === 0) {
+
+                if (
+                    getBottleCount() === 0
+                ) {
+
                     showError(
                         "Please add at least one juice."
                     );
+
                     return;
+
                 }
+
 
                 if (
                     order.custom > 0 &&
                     !customRequest
                 ) {
+
                     showError(
                         "Please describe your custom flavor."
                     );
+
                     return;
+
                 }
 
+
                 if (!date) {
+
                     showError(
                         "Please select your preferred order date."
                     );
+
                     return;
+
                 }
+
 
                 if (
                     fulfillment &&
                     fulfillment.value === "delivery" &&
                     !deliveryAddress.value.trim()
                 ) {
+
                     showError(
                         "Please enter your delivery address."
                     );
+
                     return;
+
                 }
 
+
+                /* ORDER INFORMATION */
+
+
                 const orderData = {
+
                     _subject:
                         "NEW A TASTE OF JADE JUICE ORDER",
 
-                    customer_name: name,
+                    customer_name:
+                        name,
 
-                    phone: phone,
+                    phone:
+                        phone,
 
                     email:
                         email || "Not provided",
@@ -1374,68 +1856,122 @@
                     total_due:
                         "$" +
                         calculateTotal().toFixed(2)
+
                 };
 
+
+                /* SEND ORDER */
+
+
                 try {
-                    submitButton.disabled = true;
+
+                    submitButton.disabled =
+                        true;
+
+
                     submitButton.textContent =
                         "Sending Order...";
+
 
                     const response =
                         await fetch(
                             "https://formspree.io/f/mvzewrnk",
                             {
+
                                 method: "POST",
 
                                 headers: {
+
                                     "Content-Type":
                                         "application/json",
 
                                     "Accept":
                                         "application/json"
+
                                 },
 
                                 body:
                                     JSON.stringify(
                                         orderData
                                     )
+
                             }
                         );
 
+
                     if (!response.ok) {
+
                         throw new Error(
-                            "The order was not submitted."
+                            "Order was not submitted."
                         );
+
                     }
+
 
                     submitButton.textContent =
                         "Order Received ✓";
 
+
                     alert(
+
                         "Your order has been received! 💚\n\n" +
-                        "Total bottles: " +
+
+                        "Yellow Watermelon: " +
+                        order.yellow +
+                        "\n" +
+
+                        "Red Watermelon: " +
+                        order.red +
+                        "\n" +
+
+                        "Custom Flavor: " +
+                        order.custom +
+                        "\n\n" +
+
+                        "Total Bottles: " +
                         getBottleCount() +
                         "\n" +
-                        "Total due: $" +
+
+                        "Total Due: $" +
                         calculateTotal().toFixed(2)
+
                     );
+
 
                 } catch (error) {
+
                     console.error(error);
 
+
                     showError(
+
                         "Something went wrong submitting your order. Please try again."
+
                     );
 
-                    submitButton.disabled = false;
+
+                    submitButton.disabled =
+                        false;
+
+
                     submitButton.textContent =
                         "Submit Order";
+
                 }
+
             }
         );
 
+
+    /* =========================================
+       INITIAL LOAD
+    ========================================= */
+
     updateOrder();
+
 </script>
 
+
 </body>
+
 </html>
