@@ -4,8 +4,10 @@
 <head>
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Order Juices | A Taste of Jade</title>
 
@@ -24,7 +26,7 @@
 
     <header class="page-intro">
 
-        <a class="back-link" href="index.html">
+        <a href="index.html" class="back-link">
             ← Back to A Taste of Jade
         </a>
 
@@ -41,15 +43,34 @@
         <h1>Order Fresh Juices</h1>
 
         <p class="intro-copy">
-            Choose your bottle size,
-            then add as many of this week's available juices as you'd like.
+            Choose your bottle size and add as many juices as you'd like.
         </p>
 
     </header>
 
 
+    <!-- =========================
+         ORDER NOTICE
+    ========================== -->
 
-    <form id="juice-order" novalidate>
+    <div class="notice">
+
+        <strong>
+            Fresh juices available while supplies last.
+        </strong>
+
+        <br>
+
+        Orders are not final until confirmed by A Taste of Jade.
+
+    </div>
+
+
+    <!-- =========================
+         ORDER FORM
+    ========================== -->
+
+    <form id="juice-order">
 
 
         <!-- =========================
@@ -60,7 +81,7 @@
 
             <h2>
                 <span class="section-icon">👤</span>
-                Your Info
+                Your Information
             </h2>
 
 
@@ -69,12 +90,12 @@
 
                 <label>
 
-                    Full Name <b>*</b>
+                    Full Name *
 
                     <input
                         id="name"
                         name="name"
-                        autocomplete="name"
+                        type="text"
                         placeholder="First and last name"
                         required
                     >
@@ -84,14 +105,13 @@
 
                 <label>
 
-                    Phone Number <b>*</b>
+                    Phone Number *
 
                     <input
                         id="phone"
                         name="phone"
                         type="tel"
-                        autocomplete="tel"
-                        placeholder="(555) 555-0000"
+                        placeholder="(713) 555-0000"
                         required
                     >
 
@@ -100,17 +120,17 @@
 
                 <label>
 
-                    Instagram Handle
+                    Instagram
 
                     <input
                         id="instagram"
                         name="instagram"
-                        autocomplete="off"
-                        placeholder="@yourhandle"
+                        type="text"
+                        placeholder="@yourusername"
                     >
 
                     <small>
-                        Optional — so we can tag you!
+                        Optional
                     </small>
 
                 </label>
@@ -134,11 +154,7 @@
             </h2>
 
 
-            <div
-                class="choice-grid two-columns"
-                role="radiogroup"
-                aria-label="Bottle size"
-            >
+            <div class="choice-grid two-columns">
 
 
                 <label class="choice-card">
@@ -147,15 +163,16 @@
                         type="radio"
                         name="size"
                         value="12"
-                        data-price="8"
                     >
 
                     <span>
 
-                        <strong>12 oz</strong>
+                        <strong>
+                            12 oz
+                        </strong>
 
                         <em>
-                            Everyday Bottle · $8 each
+                            $8 each
                         </em>
 
                     </span>
@@ -170,15 +187,16 @@
                         type="radio"
                         name="size"
                         value="16"
-                        data-price="11"
                     >
 
                     <span>
 
-                        <strong>16 oz</strong>
+                        <strong>
+                            16 oz
+                        </strong>
 
                         <em>
-                            Bigger Pour · $11 each
+                            $11 each
                         </em>
 
                     </span>
@@ -193,7 +211,7 @@
 
 
         <!-- =========================
-             JUICE MENU
+             JUICES
         ========================== -->
 
         <section class="order-card">
@@ -204,243 +222,195 @@
             </h2>
 
 
-            <p class="help-text" id="flavor-help">
-                Choose a bottle size first.
+            <p class="help-text">
+                Use the + and − buttons to choose your quantities.
             </p>
 
 
-            <div class="flavors">
 
+            <!-- SOLD OUT -->
 
-                <!-- =====================
-                     SOLD OUT
-                ====================== -->
+            <article class="flavor sold-out">
 
-                <article
-                    class="flavor sold-out"
-                    data-flavor="Eden Glow"
-                >
+                <div>
 
-                    <div>
+                    <h3>
+                        🍍 Eden Glow
+                        <span class="sold-badge">
+                            SOLD OUT
+                        </span>
+                    </h3>
 
-                        <h3>
-                            🍍 Eden Glow
-                            <span class="sold-badge">
-                                SOLD OUT
-                            </span>
-                        </h3>
+                    <p>
+                        Radiant · Cleansing · Rebirth
+                    </p>
 
-                        <p>
-                            Radiant · Cleansing · Rebirth
-                        </p>
+                    <small>
+                        Pineapple · Apple · Lemon · Ginger
+                    </small>
 
-                        <q>
-                            Behold, I make all things new.
-                        </q>
+                </div>
 
-                        <cite>
-                            Revelation 21:5
-                        </cite>
+            </article>
 
-                        <small>
-                            Pineapple · Apple · Lemon · Ginger
-                        </small>
 
-                    </div>
 
-                </article>
+            <article class="flavor sold-out">
 
+                <div>
 
+                    <h3>
+                        🌿 Green Pastures
+                        <span class="sold-badge">
+                            SOLD OUT
+                        </span>
+                    </h3>
 
-                <article
-                    class="flavor sold-out"
-                    data-flavor="Green Pastures"
-                >
+                    <p>
+                        Peace · Rest · Provision
+                    </p>
 
-                    <div>
+                    <small>
+                        Cucumber · Celery · Apple · Lemon · Spinach
+                    </small>
 
-                        <h3>
-                            🌿 Green Pastures
-                            <span class="sold-badge">
-                                SOLD OUT
-                            </span>
-                        </h3>
+                </div>
 
-                        <p>
-                            Peace · Rest · Provision
-                        </p>
+            </article>
 
-                        <q>
-                            He makes me lie down in green pastures.
-                        </q>
 
-                        <cite>
-                            Psalm 23:2
-                        </cite>
 
-                        <small>
-                            Cucumber · Celery · Apple · Lemon · Spinach
-                        </small>
+            <article class="flavor sold-out">
 
-                    </div>
+                <div>
 
-                </article>
+                    <h3>
+                        🍉 Restore
+                        <span class="sold-badge">
+                            SOLD OUT
+                        </span>
+                    </h3>
 
+                    <p>
+                        Healing · Refreshing · Calm
+                    </p>
 
+                    <small>
+                        Watermelon · Cucumber · Mint · Lime
+                    </small>
 
-                <article
-                    class="flavor sold-out"
-                    data-flavor="Restore"
-                >
+                </div>
 
-                    <div>
-
-                        <h3>
-                            🍉 Restore
-                            <span class="sold-badge">
-                                SOLD OUT
-                            </span>
-                        </h3>
-
-                        <p>
-                            Healing · Refreshing · Calm
-                        </p>
-
-                        <q>
-                            He restores my soul.
-                        </q>
-
-                        <cite>
-                            Psalm 23:3
-                        </cite>
-
-                        <small>
-                            Watermelon · Cucumber · Mint · Lime
-                        </small>
-
-                    </div>
-
-                </article>
-
-
-
-                <!-- =====================
-                     AVAILABLE
-                ====================== -->
-
-                <article
-                    class="flavor available-flavor"
-                    data-flavor="Yellow Watermelon"
-                >
-
-                    <div>
-
-                        <h3>
-                            💛 Yellow Watermelon
-                        </h3>
-
-                        <p>
-                            Sweet · Crisp · Refreshing
-                        </p>
-
-                        <small>
-                            Fresh Yellow Watermelon
-                        </small>
-
-                    </div>
-
-
-                    <div class="stepper">
-
-                        <button
-                            type="button"
-                            class="minus"
-                            data-flavor="yellow"
-                            aria-label="Remove Yellow Watermelon"
-                        >
-                            −
-                        </button>
-
-
-                        <output id="yellow-count">
-                            0
-                        </output>
-
-
-                        <button
-                            type="button"
-                            class="plus"
-                            data-flavor="yellow"
-                            aria-label="Add Yellow Watermelon"
-                        >
-                            +
-                        </button>
-
-                    </div>
-
-                </article>
-
-
-
-                <article
-                    class="flavor available-flavor"
-                    data-flavor="Red Watermelon"
-                >
-
-                    <div>
-
-                        <h3>
-                            ❤️ Red Watermelon
-                        </h3>
-
-                        <p>
-                            Juicy · Hydrating · Refreshing
-                        </p>
-
-                        <small>
-                            Fresh Red Watermelon
-                        </small>
-
-                    </div>
-
-
-                    <div class="stepper">
-
-                        <button
-                            type="button"
-                            class="minus"
-                            data-flavor="red"
-                            aria-label="Remove Red Watermelon"
-                        >
-                            −
-                        </button>
-
-
-                        <output id="red-count">
-                            0
-                        </output>
-
-
-                        <button
-                            type="button"
-                            class="plus"
-                            data-flavor="red"
-                            aria-label="Add Red Watermelon"
-                        >
-                            +
-                        </button>
-
-                    </div>
-
-                </article>
-
-
-            </div>
+            </article>
 
 
 
             <!-- =========================
-                 CUSTOM FLAVOR REQUEST
+                 YELLOW WATERMELON
+            ========================== -->
+
+            <article
+                class="flavor"
+                data-flavor="Yellow Watermelon"
+            >
+
+                <div>
+
+                    <h3>
+                        💛 Yellow Watermelon
+                    </h3>
+
+                    <p>
+                        Sweet · Crisp · Refreshing
+                    </p>
+
+                    <small>
+                        Fresh Yellow Watermelon
+                    </small>
+
+                </div>
+
+
+                <div class="stepper">
+
+                    <button
+                        type="button"
+                        class="minus"
+                    >
+                        −
+                    </button>
+
+                    <output>
+                        0
+                    </output>
+
+                    <button
+                        type="button"
+                        class="plus"
+                    >
+                        +
+                    </button>
+
+                </div>
+
+            </article>
+
+
+
+            <!-- =========================
+                 RED WATERMELON
+            ========================== -->
+
+            <article
+                class="flavor"
+                data-flavor="Red Watermelon"
+            >
+
+                <div>
+
+                    <h3>
+                        ❤️ Red Watermelon
+                    </h3>
+
+                    <p>
+                        Juicy · Hydrating · Refreshing
+                    </p>
+
+                    <small>
+                        Fresh Red Watermelon
+                    </small>
+
+                </div>
+
+
+                <div class="stepper">
+
+                    <button
+                        type="button"
+                        class="minus"
+                    >
+                        −
+                    </button>
+
+                    <output>
+                        0
+                    </output>
+
+                    <button
+                        type="button"
+                        class="plus"
+                    >
+                        +
+                    </button>
+
+                </div>
+
+            </article>
+
+
+
+            <!-- =========================
+                 CUSTOM FLAVOR
             ========================== -->
 
             <div class="custom-request">
@@ -455,22 +425,56 @@
                 </p>
 
 
-                <label for="custom-request">
+                <label>
 
                     Custom Flavor Request
+
+                    <textarea
+                        id="custom-flavor"
+                        name="custom-flavor"
+                        placeholder="Example: Pineapple Strawberry, Carrot Orange Pineapple, Green Apple Cucumber..."
+                    ></textarea>
 
                 </label>
 
 
-                <textarea
-                    id="custom-request"
-                    name="custom-request"
-                    rows="6"
-                    placeholder="Example: Pineapple strawberry and green apple cucumber. You can request more than one flavor here."
-                ></textarea>
+                <!-- CUSTOM QUANTITY -->
+
+                <div class="custom-quantity-row">
+
+                    <strong>
+                        Custom Flavor Quantity
+                    </strong>
 
 
-                <small>
+                    <div class="stepper">
+
+                        <button
+                            type="button"
+                            id="custom-minus"
+                        >
+                            −
+                        </button>
+
+
+                        <output id="custom-quantity">
+                            0
+                        </output>
+
+
+                        <button
+                            type="button"
+                            id="custom-plus"
+                        >
+                            +
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <small class="custom-note">
 
                     Custom flavor requests are subject to ingredient
                     availability and are not guaranteed until confirmed
@@ -479,6 +483,7 @@
                 </small>
 
             </div>
+
 
         </section>
 
@@ -496,11 +501,7 @@
             </h2>
 
 
-            <div
-                class="choice-grid two-columns"
-                role="radiogroup"
-                aria-label="Fulfillment method"
-            >
+            <div class="choice-grid two-columns">
 
 
                 <label class="choice-card">
@@ -514,7 +515,9 @@
 
                     <span>
 
-                        <strong>Pickup</strong>
+                        <strong>
+                            Pickup
+                        </strong>
 
                         <em>
                             Free · address sent after confirmation
@@ -536,7 +539,9 @@
 
                     <span>
 
-                        <strong>Delivery</strong>
+                        <strong>
+                            Delivery
+                        </strong>
 
                         <em>
                             $8 delivery fee
@@ -551,12 +556,13 @@
 
 
 
-            <div class="fulfillment-fields">
+            <!-- DATE -->
 
+            <div class="fulfillment-fields">
 
                 <label>
 
-                    Preferred Order Date <b>*</b>
+                    Preferred Order Date *
 
                     <input
                         id="order-date"
@@ -566,47 +572,34 @@
                     >
 
                     <small>
-                        Orders require at least 5 days' notice.
-                        Your requested date is not confirmed until
-                        you hear from A Taste of Jade.
+                        Requested dates are confirmed by A Taste of Jade.
                     </small>
 
                 </label>
 
 
+
+                <!-- DELIVERY ADDRESS -->
 
                 <label
                     id="address-field"
                     hidden
                 >
 
-                    Delivery Address <b>*</b>
+                    Delivery Address *
 
                     <input
                         id="delivery-address"
                         name="delivery-address"
-                        autocomplete="street-address"
-                        placeholder="Street address, city, and ZIP"
+                        type="text"
+                        placeholder="Street address, city, state and ZIP"
                     >
-
-                    <small>
-                        We'll confirm delivery availability
-                        before your order is finalized.
-                    </small>
 
                 </label>
 
 
             </div>
 
-
-            <p class="confirmation-note">
-
-                Your order and pickup or delivery details
-                must be confirmed by A Taste of Jade
-                before they are final.
-
-            </p>
 
         </section>
 
@@ -616,13 +609,14 @@
              ORDER SUMMARY
         ========================== -->
 
-        <section
-            class="summary"
-            aria-live="polite"
-        >
+        <section class="summary">
+
+            <h2>
+                🛒 Your Order
+            </h2>
 
 
-            <div>
+            <div class="summary-row">
 
                 <span>
                     Bottle Size
@@ -635,36 +629,7 @@
             </div>
 
 
-
-            <div>
-
-                <span>
-                    Yellow Watermelon
-                </span>
-
-                <strong id="summary-yellow">
-                    0
-                </strong>
-
-            </div>
-
-
-
-            <div>
-
-                <span>
-                    Red Watermelon
-                </span>
-
-                <strong id="summary-red">
-                    0
-                </strong>
-
-            </div>
-
-
-
-            <div>
+            <div class="summary-row">
 
                 <span>
                     Total Bottles
@@ -677,8 +642,7 @@
             </div>
 
 
-
-            <div>
+            <div class="summary-row">
 
                 <span>
                     Fulfillment
@@ -691,15 +655,14 @@
             </div>
 
 
-
-            <div class="total">
+            <div class="summary-row summary-total">
 
                 <span>
                     Total Due
                 </span>
 
                 <strong id="summary-total">
-                    $0
+                    $0.00
                 </strong>
 
             </div>
@@ -710,27 +673,23 @@
 
 
         <!-- =========================
-             PAYMENT PLACEHOLDER
+             PAYMENT
         ========================== -->
 
         <section class="order-card">
 
             <h2>
-
                 <span class="section-icon">💳</span>
-
                 Payment
-
             </h2>
 
 
             <p>
-                You'll review your order before continuing
-                to secure payment.
+                You'll review your order before continuing to secure payment.
             </p>
 
 
-            <div class="payment-coming-soon">
+            <div class="payment-placeholder">
 
                 🔒 Secure payment through Square coming next.
 
@@ -745,9 +704,8 @@
         ========================== -->
 
         <p
-            class="order-error"
             id="order-error"
-            role="alert"
+            class="order-error"
         ></p>
 
 
@@ -757,32 +715,34 @@
         ========================== -->
 
         <button
-            class="complete-order"
             type="submit"
+            class="complete-order"
         >
 
             Review Order
-
-            <span>
-                →
-            </span>
+            <span>→</span>
 
         </button>
 
 
         <p class="payment-note">
 
-            You'll confirm your order details
-            before payment.
+            Orders require confirmation from A Taste of Jade.
 
         </p>
 
 
     </form>
 
+
 </main>
 
 
+
+<!-- IMPORTANT:
+     This loads the JavaScript file
+     you just fixed.
+-->
 
 <script src="juices.js"></script>
 
