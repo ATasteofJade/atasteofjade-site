@@ -1,108 +1,175 @@
 export default {
     async fetch(request) {
 
-        const allowedOrigin = "https://atasteofjade.github.io";
-
         const corsHeaders = {
-            "Access-Control-Allow-Origin": allowedOrigin,
+            "Access-Control-Allow-Origin": "https://atasteofjade.github.io",
             "Access-Control-Allow-Methods": "POST, OPTIONS",
             "Access-Control-Allow-Headers": "Content-Type"
         };
 
-
-        // Handle browser preflight
         if (request.method === "OPTIONS") {
-
             return new Response(null, {
                 status: 204,
                 headers: corsHeaders
             });
-
         }
 
-
-        // Only allow POST
         if (request.method !== "POST") {
-
             return Response.json(
-                {
-                    error: "Method not allowed."
-                },
+                { error: "Method not allowed." },
                 {
                     status: 405,
                     headers: corsHeaders
                 }
             );
-
         }
-
 
         try {
 
             const body = await request.json();
 
-            const {
-                total,
-                totalBottles,
-                bottleSize,
-                customerName,
-                orderDescription
-            } = body;
+            const bottleSize = String(body.bottleSize || "");
+
+            const yellowQuantity =
+                Number(body.yellowQuantity || 0);
+
+            const redQuantity =
+                Number(body.redQuantity || 0);
+
+            const customQuantity =
+                Number(body.customQuantity || 0);
+
+            const customFlavor =
+                String(body.customFlavor || "").trim();
+
+            const fulfillment =
+                String(body.fulfillment || "pickup");
+
+            const customerName =
+                String(body.customerName || "").trim();
 
 
-            // ==========================================
-            // VALIDATE ORDER
-            // ==========================================
+            // ----------------------------------
+            // VALIDATE BOTTLE SIZE
+            // ----------------------------------
 
-            const numericTotal = Number(total);
+            if (
+                bottleSize !== "12" &&
+                bottleSize !== "16"
+            ) {
+                return Response.json(
+                    { error: "Invalid bottle size." },
+                    {
+                        status: 400,
+                        headers: corsHeaders
+                    }
+                );
+            }
 
-            const bottleCount = Number(totalBottles);
+
+            // ----------------------------------
+            // VALIDATE QUANTITIES
+            // ----------------------------------
+
+            const quantities = [
+                yellowQuantity,
+                redQuantity,
+                customQuantity
+            ];
+
+            const quantitiesValid =
+                quantities.every(function (quantity) {
+                    return (
+                        Number.isInteger(quantity) &&
+                        quantity >= 0 &&
+                        quantity <= 50
+                    );
+                });
+
+            if (!quantitiesValid) {
+                return Response.json(
+                    { error: "Invalid juice quantity." },
+                    {
+                        status: 400,
+                        headers: corsHeaders
+                    }
+                );
+            }
+
+
+            const totalBottles =
+                yellowQuantity +
+                redQuantity +
+                customQuantity;
+
+
+            if (totalBottles < 1) {
+                return Response.json(
+                    { error: "Your order is empty." },
+                    {
+                        status: 400,
+                        headers: corsHeaders
+                    }
+                );
+            }
 
 
             if (
-                !Number.isFinite(numericTotal) ||
-                numericTotal <= 0
+                customQuantity > 0 &&
+                !customFlavor
             ) {
-
                 return Response.json(
                     {
-                        error: "Invalid order total."
+                        error:
+                            "Custom flavor description is required."
                     },
                     {
                         status: 400,
                         headers: corsHeaders
                     }
                 );
-
             }
 
 
             if (
-                !Number.isInteger(bottleCount) ||
-                bottleCount < 1
+                fulfillment !== "pickup" &&
+                fulfillment !== "delivery"
             ) {
-
                 return Response.json(
-                    {
-                        error: "Invalid bottle quantity."
-                    },
+                    { error: "Invalid fulfillment option." },
                     {
                         status: 400,
                         headers: corsHeaders
                     }
                 );
-
             }
 
 
-            // Convert dollars to cents
-            const amountInCents =
-                Math.round(numericTotal * 100);
+            // ----------------------------------
+            // SECURE PRICE CALCULATION
+            // ----------------------------------
+
+            const bottlePriceInCents =
+                bottleSize === "12"
+                    ? 800
+                    : 1100;
+
+            const deliveryFeeInCents =
+                fulfillment === "delivery"
+                    ? 800
+                    : 0;
+
+            const totalInCents =
+                (
+                    totalBottles *
+                    bottlePriceInCents
+                ) +
+                deliveryFeeInCents;
 
 
-            // ==========================================
-            // GET SQUARE CREDENTIALS FROM VERCEL
-            // ==========================================
+            // ----------------------------------
+            // SQUARE CREDENTIALS
+            // ----------------------------------
 
             const accessToken =
                 process.env.SQUARE_ACCESS_TOKEN;
@@ -114,7 +181,7 @@ export default {
             if (!accessToken || !locationId) {
 
                 console.error(
-                    "Missing Square environment variables."
+                    "Missing Square credentials."
                 );
 
                 return Response.json(
@@ -127,13 +194,26 @@ export default {
                         headers: corsHeaders
                     }
                 );
-
             }
 
 
-            // ==========================================
-            // CREATE SQUARE CHECKOUT
-            // ==========================================
+            // ----------------------------------
+            // CREATE DESCRIPTION
+            // ----------------------------------
+
+            let description =
+                `A Taste of Jade - ${totalBottles} Juice`;
+
+            if (totalBottles !== 1) {
+                description += "s";
+            }
+
+            description += ` - ${bottleSize} oz`;
+
+
+            // ----------------------------------
+            // CREATE SQUARE PAYMENT LINK
+            // ----------------------------------
 
             const squareResponse =
                 await fetch(
@@ -142,16 +222,11 @@ export default {
                         method: "POST",
 
                         headers: {
-
                             "Authorization":
                                 `Bearer ${accessToken}`,
 
                             "Content-Type":
-                                "application/json",
-
-                            "Square-Version":
-                                "2026-07-15"
-
+                                "application/json"
                         },
 
                         body: JSON.stringify({
@@ -162,33 +237,27 @@ export default {
                             quick_pay: {
 
                                 name:
-                                    orderDescription ||
-                                    "A Taste of Jade Juice Order",
+                                    description,
 
                                 price_money: {
-
                                     amount:
-                                        amountInCents,
+                                        totalInCents,
 
                                     currency:
                                         "USD"
-
                                 },
 
                                 location_id:
                                     locationId
-
                             },
 
                             checkout_options: {
 
                                 redirect_url:
-                                    "https://atasteofjade.github.io/atasteofjade-site/juices.html"
-
+                                    "https://atasteofjade.github.io/atasteofjade-site/juices.html?payment=complete"
                             }
 
                         })
-
                     }
                 );
 
@@ -197,37 +266,25 @@ export default {
                 await squareResponse.json();
 
 
-            // ==========================================
-            // HANDLE SQUARE ERROR
-            // ==========================================
-
             if (!squareResponse.ok) {
 
                 console.error(
-                    "Square API Error:",
-                    JSON.stringify(squareData)
+                    "Square API error:",
+                    squareData
                 );
 
                 return Response.json(
                     {
                         error:
-                            "Square could not create the payment page.",
-
-                        details:
-                            squareData
+                            "Square could not create the payment page."
                     },
                     {
                         status: 500,
                         headers: corsHeaders
                     }
                 );
-
             }
 
-
-            // ==========================================
-            // GET PAYMENT LINK
-            // ==========================================
 
             const paymentUrl =
                 squareData?.payment_link?.url;
@@ -235,28 +292,22 @@ export default {
 
             if (!paymentUrl) {
 
-                console.error(
-                    "No Square payment URL returned:",
-                    squareData
-                );
-
                 return Response.json(
                     {
                         error:
-                            "Square did not return a checkout URL."
+                            "Square did not return a payment URL."
                     },
                     {
                         status: 500,
                         headers: corsHeaders
                     }
                 );
-
             }
 
 
-            // ==========================================
+            // ----------------------------------
             // SUCCESS
-            // ==========================================
+            // ----------------------------------
 
             return Response.json(
                 {
@@ -266,16 +317,15 @@ export default {
                         paymentUrl,
 
                     customerName:
-                        customerName || "",
-
-                    bottleSize:
-                        bottleSize || "",
+                        customerName,
 
                     totalBottles:
-                        bottleCount,
+                        totalBottles,
 
                     total:
-                        numericTotal.toFixed(2)
+                        (
+                            totalInCents / 100
+                        ).toFixed(2)
                 },
                 {
                     status: 200,
@@ -287,10 +337,9 @@ export default {
         } catch (error) {
 
             console.error(
-                "Checkout function error:",
+                "Checkout error:",
                 error
             );
-
 
             return Response.json(
                 {
@@ -302,8 +351,6 @@ export default {
                     headers: corsHeaders
                 }
             );
-
         }
-
     }
 };
