@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Order Juices | A Taste of Jade</title>
 
@@ -40,11 +41,12 @@
         <h1>Order Fresh Juices</h1>
 
         <p class="intro-copy">
-            Choose your bottle size, select a package,
-            then fill your box with this week's available flavors.
+            Choose your bottle size,
+            then add as many of this week's available juices as you'd like.
         </p>
 
     </header>
+
 
 
     <form id="juice-order" novalidate>
@@ -61,9 +63,12 @@
                 Your Info
             </h2>
 
+
             <div class="field-grid">
 
+
                 <label>
+
                     Full Name <b>*</b>
 
                     <input
@@ -73,10 +78,12 @@
                         placeholder="First and last name"
                         required
                     >
+
                 </label>
 
 
                 <label>
+
                     Phone Number <b>*</b>
 
                     <input
@@ -87,13 +94,16 @@
                         placeholder="(555) 555-0000"
                         required
                     >
+
                 </label>
 
 
                 <label>
+
                     Instagram Handle
 
                     <input
+                        id="instagram"
                         name="instagram"
                         autocomplete="off"
                         placeholder="@yourhandle"
@@ -102,11 +112,14 @@
                     <small>
                         Optional — so we can tag you!
                     </small>
+
                 </label>
+
 
             </div>
 
         </section>
+
 
 
         <!-- =========================
@@ -120,11 +133,13 @@
                 Choose Your Bottle Size
             </h2>
 
+
             <div
                 class="choice-grid two-columns"
                 role="radiogroup"
                 aria-label="Bottle size"
             >
+
 
                 <label class="choice-card">
 
@@ -136,11 +151,17 @@
                     >
 
                     <span>
+
                         <strong>12 oz</strong>
-                        <em>Daily Portion · $8</em>
+
+                        <em>
+                            Everyday Bottle · $8 each
+                        </em>
+
                     </span>
 
                 </label>
+
 
 
                 <label class="choice-card">
@@ -153,114 +174,26 @@
                     >
 
                     <span>
+
                         <strong>16 oz</strong>
-                        <em>Abundant Portion · $11</em>
+
+                        <em>
+                            Bigger Pour · $11 each
+                        </em>
+
                     </span>
 
                 </label>
+
 
             </div>
 
         </section>
 
 
-        <!-- =========================
-             PACKAGE
-        ========================== -->
-
-        <section class="order-card">
-
-            <h2>
-                <span class="section-icon">📦</span>
-                Choose a Package
-            </h2>
-
-            <p class="help-text" id="package-help">
-                Please select a bottle size first.
-            </p>
-
-
-            <div
-                class="choice-grid package-grid"
-                role="radiogroup"
-                aria-label="Package"
-            >
-
-
-                <label class="choice-card is-disabled">
-
-                    <input
-                        type="radio"
-                        name="package"
-                        value="1"
-                        disabled
-                    >
-
-                    <span>
-                        <strong>Single</strong>
-                        <em>1 bottle · <i>—</i></em>
-                    </span>
-
-                </label>
-
-
-                <label class="choice-card is-disabled">
-
-                    <input
-                        type="radio"
-                        name="package"
-                        value="3"
-                        disabled
-                    >
-
-                    <span>
-                        <strong>3-Pack</strong>
-                        <em>3 bottles · <i>—</i></em>
-                    </span>
-
-                </label>
-
-
-                <label class="choice-card is-disabled">
-
-                    <input
-                        type="radio"
-                        name="package"
-                        value="4"
-                        disabled
-                    >
-
-                    <span>
-                        <strong>4-Pack</strong>
-                        <em>4 bottles · <i>—</i></em>
-                    </span>
-
-                </label>
-
-
-                <label class="choice-card is-disabled">
-
-                    <input
-                        type="radio"
-                        name="package"
-                        value="5"
-                        disabled
-                    >
-
-                    <span>
-                        <strong>5-Pack</strong>
-                        <em>5 bottles · <i>—</i></em>
-                    </span>
-
-                </label>
-
-            </div>
-
-        </section>
-
 
         <!-- =========================
-             JUICE FLAVORS
+             JUICE MENU
         ========================== -->
 
         <section class="order-card">
@@ -270,15 +203,18 @@
                 Select Your Juices
             </h2>
 
+
             <p class="help-text" id="flavor-help">
-                Please select a size and package first.
+                Choose a bottle size first.
             </p>
 
 
             <div class="flavors">
 
 
-                <!-- SOLD OUT -->
+                <!-- =====================
+                     SOLD OUT
+                ====================== -->
 
                 <article
                     class="flavor sold-out"
@@ -289,7 +225,9 @@
 
                         <h3>
                             🍍 Eden Glow
-                            <span class="sold-badge">SOLD OUT</span>
+                            <span class="sold-badge">
+                                SOLD OUT
+                            </span>
                         </h3>
 
                         <p>
@@ -313,6 +251,7 @@
                 </article>
 
 
+
                 <article
                     class="flavor sold-out"
                     data-flavor="Green Pastures"
@@ -322,7 +261,9 @@
 
                         <h3>
                             🌿 Green Pastures
-                            <span class="sold-badge">SOLD OUT</span>
+                            <span class="sold-badge">
+                                SOLD OUT
+                            </span>
                         </h3>
 
                         <p>
@@ -346,6 +287,7 @@
                 </article>
 
 
+
                 <article
                     class="flavor sold-out"
                     data-flavor="Restore"
@@ -355,7 +297,9 @@
 
                         <h3>
                             🍉 Restore
-                            <span class="sold-badge">SOLD OUT</span>
+                            <span class="sold-badge">
+                                SOLD OUT
+                            </span>
                         </h3>
 
                         <p>
@@ -379,16 +323,21 @@
                 </article>
 
 
-                <!-- AVAILABLE THIS WEEK -->
+
+                <!-- =====================
+                     AVAILABLE
+                ====================== -->
 
                 <article
-                    class="flavor"
+                    class="flavor available-flavor"
                     data-flavor="Yellow Watermelon"
                 >
 
                     <div>
 
-                        <h3>💛 Yellow Watermelon</h3>
+                        <h3>
+                            💛 Yellow Watermelon
+                        </h3>
 
                         <p>
                             Sweet · Crisp · Refreshing
@@ -406,16 +355,22 @@
                         <button
                             type="button"
                             class="minus"
+                            data-flavor="yellow"
                             aria-label="Remove Yellow Watermelon"
                         >
                             −
                         </button>
 
-                        <output>0</output>
+
+                        <output id="yellow-count">
+                            0
+                        </output>
+
 
                         <button
                             type="button"
                             class="plus"
+                            data-flavor="yellow"
                             aria-label="Add Yellow Watermelon"
                         >
                             +
@@ -426,14 +381,17 @@
                 </article>
 
 
+
                 <article
-                    class="flavor"
+                    class="flavor available-flavor"
                     data-flavor="Red Watermelon"
                 >
 
                     <div>
 
-                        <h3>❤️ Red Watermelon</h3>
+                        <h3>
+                            ❤️ Red Watermelon
+                        </h3>
 
                         <p>
                             Juicy · Hydrating · Refreshing
@@ -451,16 +409,22 @@
                         <button
                             type="button"
                             class="minus"
+                            data-flavor="red"
                             aria-label="Remove Red Watermelon"
                         >
                             −
                         </button>
 
-                        <output>0</output>
+
+                        <output id="red-count">
+                            0
+                        </output>
+
 
                         <button
                             type="button"
                             class="plus"
+                            data-flavor="red"
                             aria-label="Add Red Watermelon"
                         >
                             +
@@ -470,39 +434,54 @@
 
                 </article>
 
+
             </div>
 
 
-            <!-- CUSTOM REQUEST -->
+
+            <!-- =========================
+                 CUSTOM FLAVOR REQUEST
+            ========================== -->
 
             <div class="custom-request">
 
-                <h3>✨ Request a Custom Flavor</h3>
+                <h3>
+                    ✨ Request a Custom Flavor
+                </h3>
 
                 <p>
                     Looking for something that isn't on this week's menu?
                     Tell me what you're craving.
                 </p>
 
-                <label>
+
+                <label for="custom-request">
+
                     Custom Flavor Request
 
-                    <textarea
-                        id="custom-request"
-                        name="custom-request"
-                        placeholder="Example: Pineapple strawberry and green apple cucumber. You can request more than one flavor here."
-                    ></textarea>
                 </label>
 
+
+                <textarea
+                    id="custom-request"
+                    name="custom-request"
+                    rows="6"
+                    placeholder="Example: Pineapple strawberry and green apple cucumber. You can request more than one flavor here."
+                ></textarea>
+
+
                 <small>
+
                     Custom flavor requests are subject to ingredient
                     availability and are not guaranteed until confirmed
                     by A Taste of Jade.
+
                 </small>
 
             </div>
 
         </section>
+
 
 
         <!-- =========================
@@ -523,6 +502,7 @@
                 aria-label="Fulfillment method"
             >
 
+
                 <label class="choice-card">
 
                     <input
@@ -533,13 +513,17 @@
                     >
 
                     <span>
+
                         <strong>Pickup</strong>
+
                         <em>
                             Free · address sent after confirmation
                         </em>
+
                     </span>
 
                 </label>
+
 
 
                 <label class="choice-card">
@@ -551,18 +535,27 @@
                     >
 
                     <span>
+
                         <strong>Delivery</strong>
-                        <em>$8 delivery fee</em>
+
+                        <em>
+                            $8 delivery fee
+                        </em>
+
                     </span>
 
                 </label>
 
+
             </div>
+
 
 
             <div class="fulfillment-fields">
 
+
                 <label>
+
                     Preferred Order Date <b>*</b>
 
                     <input
@@ -573,7 +566,7 @@
                     >
 
                     <small>
-                        Orders require at least 5 days’ notice.
+                        Orders require at least 5 days' notice.
                         Your requested date is not confirmed until
                         you hear from A Taste of Jade.
                     </small>
@@ -581,7 +574,11 @@
                 </label>
 
 
-                <label id="address-field" hidden>
+
+                <label
+                    id="address-field"
+                    hidden
+                >
 
                     Delivery Address <b>*</b>
 
@@ -593,35 +590,43 @@
                     >
 
                     <small>
-                        We’ll confirm delivery availability before
-                        your order is finalized.
+                        We'll confirm delivery availability
+                        before your order is finalized.
                     </small>
 
                 </label>
+
 
             </div>
 
 
             <p class="confirmation-note">
 
-                Your order and pickup or delivery details must be
-                confirmed by A Taste of Jade before they are final.
+                Your order and pickup or delivery details
+                must be confirmed by A Taste of Jade
+                before they are final.
 
             </p>
 
         </section>
 
 
+
         <!-- =========================
              ORDER SUMMARY
         ========================== -->
 
-        <section class="summary" aria-live="polite">
+        <section
+            class="summary"
+            aria-live="polite"
+        >
 
 
             <div>
 
-                <span>Size</span>
+                <span>
+                    Bottle Size
+                </span>
 
                 <strong id="summary-size">
                     None selected
@@ -630,20 +635,40 @@
             </div>
 
 
+
             <div>
 
-                <span>Package</span>
+                <span>
+                    Yellow Watermelon
+                </span>
 
-                <strong id="summary-package">
-                    None selected
+                <strong id="summary-yellow">
+                    0
                 </strong>
 
             </div>
 
 
+
             <div>
 
-                <span>Bottles selected</span>
+                <span>
+                    Red Watermelon
+                </span>
+
+                <strong id="summary-red">
+                    0
+                </strong>
+
+            </div>
+
+
+
+            <div>
+
+                <span>
+                    Total Bottles
+                </span>
 
                 <strong id="summary-count">
                     0
@@ -652,9 +677,12 @@
             </div>
 
 
+
             <div>
 
-                <span>Fulfillment</span>
+                <span>
+                    Fulfillment
+                </span>
 
                 <strong id="summary-fulfillment">
                     Pickup · Free
@@ -663,9 +691,12 @@
             </div>
 
 
+
             <div class="total">
 
-                <span>Total due</span>
+                <span>
+                    Total Due
+                </span>
 
                 <strong id="summary-total">
                     $0
@@ -677,30 +708,41 @@
         </section>
 
 
+
         <!-- =========================
              PAYMENT PLACEHOLDER
         ========================== -->
 
-        <section class="order-card payment-section">
+        <section class="order-card">
 
             <h2>
+
                 <span class="section-icon">💳</span>
+
                 Payment
+
             </h2>
 
+
             <p>
-                Payment options will appear here once
-                online checkout is connected.
+                You'll review your order before continuing
+                to secure payment.
             </p>
+
 
             <div class="payment-coming-soon">
 
-                🔒 Secure online payment integration coming next.
+                🔒 Secure payment through Square coming next.
 
             </div>
 
         </section>
 
+
+
+        <!-- =========================
+             ERROR MESSAGE
+        ========================== -->
 
         <p
             class="order-error"
@@ -709,21 +751,29 @@
         ></p>
 
 
+
+        <!-- =========================
+             SUBMIT
+        ========================== -->
+
         <button
             class="complete-order"
             type="submit"
         >
 
             Review Order
-            <span>→</span>
+
+            <span>
+                →
+            </span>
 
         </button>
 
 
         <p class="payment-note">
 
-            Payment will be completed after your order
-            details are reviewed.
+            You'll confirm your order details
+            before payment.
 
         </p>
 
@@ -731,6 +781,7 @@
     </form>
 
 </main>
+
 
 
 <script src="juices.js"></script>
