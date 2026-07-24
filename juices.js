@@ -1,16 +1,10 @@
 document.addEventListener("DOMContentLoaded", function () {
-
-    // ==========================================
-    // A TASTE OF JADE — JUICE ORDER PAGE
-    // ==========================================
-
     const form = document.getElementById("juice-order");
 
     if (!form) {
         console.error("Juice order form not found.");
         return;
     }
-
 
     // ==========================================
     // PRICING
@@ -23,121 +17,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const deliveryFee = 8;
 
+    // ==========================================
+    // QUANTITIES
+    // ==========================================
+
+    const quantities = {
+        "Yellow Watermelon": 0,
+        "Red Watermelon": 0
+    };
+
+    let customQuantity = 0;
 
     // ==========================================
     // PAGE ELEMENTS
     // ==========================================
 
-    const sizeInputs =
-        document.querySelectorAll('input[name="size"]');
-
-    const fulfillmentInputs =
-        document.querySelectorAll('input[name="fulfillment"]');
-
     const flavorArticles =
-        document.querySelectorAll(".flavor");
-
-    const orderDate =
-        document.getElementById("order-date");
-
-    const addressField =
-        document.getElementById("address-field");
-
-    const deliveryAddress =
-        document.getElementById("delivery-address");
-
-    const errorBox =
-        document.getElementById("order-error");
-
-
-    // ==========================================
-    // SUMMARY ELEMENTS
-    // ==========================================
-
-    const summarySize =
-        document.getElementById("summary-size");
-
-    const summaryCount =
-        document.getElementById("summary-count");
-
-    const summaryTotal =
-        document.getElementById("summary-total");
-
-    const summaryFulfillment =
-        document.getElementById("summary-fulfillment");
-
-
-    // ==========================================
-    // JUICE QUANTITIES
-    // ==========================================
-
-    let quantities = {};
-
-    flavorArticles.forEach(function (article) {
-
-        const flavorName = article.dataset.flavor;
-
-        quantities[flavorName] = 0;
-
-        const minusButton =
-            article.querySelector(".minus");
-
-        const plusButton =
-            article.querySelector(".plus");
-
-        const output =
-            article.querySelector("output");
-
-
-        // PLUS BUTTON
-
-        if (plusButton) {
-
-            plusButton.addEventListener("click", function () {
-
-                quantities[flavorName]++;
-
-                if (output) {
-                    output.textContent =
-                        quantities[flavorName];
-                }
-
-                updateSummary();
-
-            });
-
-        }
-
-
-        // MINUS BUTTON
-
-        if (minusButton) {
-
-            minusButton.addEventListener("click", function () {
-
-                if (quantities[flavorName] > 0) {
-
-                    quantities[flavorName]--;
-
-                    if (output) {
-                        output.textContent =
-                            quantities[flavorName];
-                    }
-
-                    updateSummary();
-
-                }
-
-            });
-
-        }
-
-    });
-
-
-    // ==========================================
-    // CUSTOM FLAVOR
-    // ==========================================
+        document.querySelectorAll(".flavor[data-flavor]");
 
     const customFlavor =
         document.getElementById("custom-flavor");
@@ -151,163 +47,65 @@ document.addEventListener("DOMContentLoaded", function () {
     const customOutput =
         document.getElementById("custom-quantity");
 
-    let customQuantity = 0;
+    const orderDate =
+        document.getElementById("order-date");
 
+    const addressField =
+        document.getElementById("address-field");
 
-    // CUSTOM PLUS
+    const deliveryAddress =
+        document.getElementById("delivery-address");
 
-    if (customPlus) {
+    const summarySize =
+        document.getElementById("summary-size");
 
-        customPlus.addEventListener("click", function () {
+    const summaryCount =
+        document.getElementById("summary-count");
 
-            customQuantity++;
+    const summaryFulfillment =
+        document.getElementById("summary-fulfillment");
 
-            if (customOutput) {
-                customOutput.textContent =
-                    customQuantity;
-            }
+    const summaryTotal =
+        document.getElementById("summary-total");
 
-            updateSummary();
-
-        });
-
-    }
-
-
-    // CUSTOM MINUS
-
-    if (customMinus) {
-
-        customMinus.addEventListener("click", function () {
-
-            if (customQuantity > 0) {
-
-                customQuantity--;
-
-                if (customOutput) {
-                    customOutput.textContent =
-                        customQuantity;
-                }
-
-                updateSummary();
-
-            }
-
-        });
-
-    }
-
+    const errorBox =
+        document.getElementById("order-error");
 
     // ==========================================
-    // BOTTLE SIZE
-    // ==========================================
-
-    sizeInputs.forEach(function (input) {
-
-        input.addEventListener("change", function () {
-
-            updateSummary();
-
-        });
-
-    });
-
-
-    // ==========================================
-    // PICKUP / DELIVERY
-    // ==========================================
-
-    fulfillmentInputs.forEach(function (input) {
-
-        input.addEventListener("change", function () {
-
-            const fulfillment =
-                document.querySelector(
-                    'input[name="fulfillment"]:checked'
-                );
-
-            if (
-                fulfillment &&
-                fulfillment.value === "delivery"
-            ) {
-
-                if (addressField) {
-                    addressField.hidden = false;
-                }
-
-                if (deliveryAddress) {
-                    deliveryAddress.required = true;
-                }
-
-            } else {
-
-                if (addressField) {
-                    addressField.hidden = true;
-                }
-
-                if (deliveryAddress) {
-                    deliveryAddress.required = false;
-                    deliveryAddress.value = "";
-                }
-
-            }
-
-            updateSummary();
-
-        });
-
-    });
-
-
-    // ==========================================
-    // GET SELECTED BOTTLE SIZE
+    // HELPERS
     // ==========================================
 
     function getSelectedSize() {
-
         const selected =
             document.querySelector(
                 'input[name="size"]:checked'
             );
 
-        if (!selected) {
-            return null;
-        }
-
-        return selected.value;
-
+        return selected
+            ? selected.value
+            : null;
     }
 
+    function getFulfillment() {
+        const selected =
+            document.querySelector(
+                'input[name="fulfillment"]:checked'
+            );
 
-    // ==========================================
-    // TOTAL NUMBER OF BOTTLES
-    // ==========================================
+        return selected
+            ? selected.value
+            : "pickup";
+    }
 
     function getTotalBottles() {
-
-        let total = 0;
-
-        Object.values(quantities).forEach(
-            function (quantity) {
-
-                total += quantity;
-
-            }
+        return (
+            quantities["Yellow Watermelon"] +
+            quantities["Red Watermelon"] +
+            customQuantity
         );
-
-        total += customQuantity;
-
-        return total;
-
     }
 
-
-    // ==========================================
-    // CALCULATE ORDER TOTAL
-    // ==========================================
-
     function calculateTotal() {
-
         const size =
             getSelectedSize();
 
@@ -315,353 +113,425 @@ document.addEventListener("DOMContentLoaded", function () {
             return 0;
         }
 
-        const bottles =
-            getTotalBottles();
-
         let total =
-            bottles * prices[size];
-
-        const fulfillment =
-            document.querySelector(
-                'input[name="fulfillment"]:checked'
-            );
+            getTotalBottles() *
+            prices[size];
 
         if (
-            fulfillment &&
-            fulfillment.value === "delivery" &&
-            bottles > 0
+            getFulfillment() === "delivery" &&
+            getTotalBottles() > 0
         ) {
-
             total += deliveryFee;
-
         }
 
         return total;
-
     }
 
-
-    // ==========================================
-    // UPDATE ORDER SUMMARY
-    // ==========================================
-
     function updateSummary() {
-
         const size =
             getSelectedSize();
 
-        const bottleCount =
-            getTotalBottles();
-
-        const total =
-            calculateTotal();
-
-        const fulfillment =
-            document.querySelector(
-                'input[name="fulfillment"]:checked'
-            );
-
-
-        // SIZE
-
         if (summarySize) {
-
-            if (size) {
-
-                summarySize.textContent =
-                    size +
-                    " oz · $" +
-                    prices[size] +
-                    " each";
-
-            } else {
-
-                summarySize.textContent =
-                    "None selected";
-
-            }
-
+            summarySize.textContent =
+                size
+                    ? `${size} oz · $${prices[size]} each`
+                    : "None selected";
         }
-
-
-        // BOTTLE COUNT
 
         if (summaryCount) {
-
             summaryCount.textContent =
-                bottleCount;
-
+                getTotalBottles();
         }
-
-
-        // TOTAL
-
-        if (summaryTotal) {
-
-            summaryTotal.textContent =
-                "$" + total.toFixed(2);
-
-        }
-
-
-        // FULFILLMENT
 
         if (summaryFulfillment) {
-
-            if (
-                fulfillment &&
-                fulfillment.value === "delivery"
-            ) {
-
-                summaryFulfillment.textContent =
-                    "Delivery · $8";
-
-            } else {
-
-                summaryFulfillment.textContent =
-                    "Pickup · Free";
-
-            }
-
+            summaryFulfillment.textContent =
+                getFulfillment() === "delivery"
+                    ? "Delivery · $8"
+                    : "Pickup · Free";
         }
 
+        if (summaryTotal) {
+            summaryTotal.textContent =
+                "$" +
+                calculateTotal().toFixed(2);
+        }
     }
 
+    function showError(message) {
+        if (errorBox) {
+            errorBox.textContent =
+                message;
+
+            errorBox.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+        } else {
+            alert(message);
+        }
+    }
+
+    function clearError() {
+        if (errorBox) {
+            errorBox.textContent = "";
+        }
+    }
 
     // ==========================================
-    // BUILD JUICE ORDER DETAILS
+    // YELLOW + RED WATERMELON BUTTONS
+    // ==========================================
+
+    flavorArticles.forEach(function (article) {
+        const flavor =
+            article.dataset.flavor;
+
+        const minus =
+            article.querySelector(".minus");
+
+        const plus =
+            article.querySelector(".plus");
+
+        const output =
+            article.querySelector("output");
+
+        if (
+            !Object.prototype.hasOwnProperty.call(
+                quantities,
+                flavor
+            )
+        ) {
+            return;
+        }
+
+        if (plus) {
+            plus.addEventListener(
+                "click",
+                function () {
+                    if (!getSelectedSize()) {
+                        showError(
+                            "Please choose a bottle size first."
+                        );
+                        return;
+                    }
+
+                    quantities[flavor] += 1;
+
+                    if (output) {
+                        output.textContent =
+                            quantities[flavor];
+                    }
+
+                    clearError();
+                    updateSummary();
+                }
+            );
+        }
+
+        if (minus) {
+            minus.addEventListener(
+                "click",
+                function () {
+                    if (
+                        quantities[flavor] > 0
+                    ) {
+                        quantities[flavor] -= 1;
+
+                        if (output) {
+                            output.textContent =
+                                quantities[flavor];
+                        }
+
+                        updateSummary();
+                    }
+                }
+            );
+        }
+    });
+
+    // ==========================================
+    // CUSTOM FLAVOR BUTTONS
+    // ==========================================
+
+    if (customPlus) {
+        customPlus.addEventListener(
+            "click",
+            function () {
+                if (!getSelectedSize()) {
+                    showError(
+                        "Please choose a bottle size first."
+                    );
+                    return;
+                }
+
+                if (
+                    !customFlavor ||
+                    !customFlavor.value.trim()
+                ) {
+                    showError(
+                        "Please type your custom flavor first."
+                    );
+                    return;
+                }
+
+                customQuantity += 1;
+
+                if (customOutput) {
+                    customOutput.textContent =
+                        customQuantity;
+                }
+
+                clearError();
+                updateSummary();
+            }
+        );
+    }
+
+    if (customMinus) {
+        customMinus.addEventListener(
+            "click",
+            function () {
+                if (customQuantity > 0) {
+                    customQuantity -= 1;
+
+                    if (customOutput) {
+                        customOutput.textContent =
+                            customQuantity;
+                    }
+
+                    updateSummary();
+                }
+            }
+        );
+    }
+
+    // ==========================================
+    // SIZE CHANGE
+    // ==========================================
+
+    document
+        .querySelectorAll(
+            'input[name="size"]'
+        )
+        .forEach(function (input) {
+            input.addEventListener(
+                "change",
+                function () {
+                    clearError();
+                    updateSummary();
+                }
+            );
+        });
+
+    // ==========================================
+    // PICKUP / DELIVERY
+    // ==========================================
+
+    document
+        .querySelectorAll(
+            'input[name="fulfillment"]'
+        )
+        .forEach(function (input) {
+            input.addEventListener(
+                "change",
+                function () {
+                    const isDelivery =
+                        getFulfillment() ===
+                        "delivery";
+
+                    if (addressField) {
+                        addressField.hidden =
+                            !isDelivery;
+                    }
+
+                    if (deliveryAddress) {
+                        deliveryAddress.required =
+                            isDelivery;
+
+                        if (!isDelivery) {
+                            deliveryAddress.value =
+                                "";
+                        }
+                    }
+
+                    updateSummary();
+                }
+            );
+        });
+
+    // ==========================================
+    // BUILD ORDER DETAILS
     // ==========================================
 
     function buildOrderDetails() {
+        const lines = [];
 
-        let details = "";
+        if (
+            quantities[
+                "Yellow Watermelon"
+            ] > 0
+        ) {
+            lines.push(
+                `Yellow Watermelon: ${
+                    quantities[
+                        "Yellow Watermelon"
+                    ]
+                }`
+            );
+        }
 
-        Object.keys(quantities).forEach(
-            function (flavor) {
-
-                if (quantities[flavor] > 0) {
-
-                    details +=
-                        flavor +
-                        ": " +
-                        quantities[flavor] +
-                        "\n";
-
-                }
-
-            }
-        );
-
-
-        // CUSTOM FLAVOR
+        if (
+            quantities[
+                "Red Watermelon"
+            ] > 0
+        ) {
+            lines.push(
+                `Red Watermelon: ${
+                    quantities[
+                        "Red Watermelon"
+                    ]
+                }`
+            );
+        }
 
         if (
             customQuantity > 0 &&
-            customFlavor &&
-            customFlavor.value.trim() !== ""
+            customFlavor
         ) {
+            lines.push(
+                `Custom Flavor: ${
+                    customFlavor.value.trim()
+                }`
+            );
 
-            details +=
-                "Custom Flavor: " +
-                customFlavor.value.trim() +
-                "\n";
-
-            details +=
-                "Custom Flavor Quantity: " +
-                customQuantity +
-                "\n";
-
+            lines.push(
+                `Custom Quantity: ${customQuantity}`
+            );
         }
 
-        return details;
-
+        return lines.join("\n");
     }
 
-
     // ==========================================
-    // FORM SUBMISSION
+    // SUBMIT ORDER
     // ==========================================
 
     form.addEventListener(
         "submit",
         async function (event) {
-
             event.preventDefault();
 
-            if (errorBox) {
-                errorBox.textContent = "";
-            }
-
-
-            // CUSTOMER INFORMATION
+            clearError();
 
             const name =
-                document.getElementById("name");
-
-            const phone =
-                document.getElementById("phone");
-
-            const instagram =
-                form.querySelector(
-                    '[name="instagram"]'
+                document.getElementById(
+                    "name"
                 );
 
+            const phone =
+                document.getElementById(
+                    "phone"
+                );
+
+            const instagram =
+                document.getElementById(
+                    "instagram"
+                );
+
+            const submitButton =
+                form.querySelector(
+                    'button[type="submit"]'
+                );
 
             // ==================================
             // VALIDATION
             // ==================================
 
-
-            // NAME
-
             if (
                 !name ||
-                name.value.trim() === ""
+                !name.value.trim()
             ) {
-
                 showError(
                     "Please enter your full name."
                 );
-
                 return;
-
             }
-
-
-            // PHONE
 
             if (
                 !phone ||
-                phone.value.trim() === ""
+                !phone.value.trim()
             ) {
-
                 showError(
                     "Please enter your phone number."
                 );
-
                 return;
-
             }
-
-
-            // SIZE
 
             const size =
                 getSelectedSize();
 
             if (!size) {
-
                 showError(
                     "Please choose a bottle size."
                 );
-
                 return;
-
             }
 
-
-            // JUICE QUANTITY
-
-            const bottleCount =
-                getTotalBottles();
-
-            if (bottleCount < 1) {
-
+            if (
+                getTotalBottles() < 1
+            ) {
                 showError(
-                    "Please add at least one juice to your order."
+                    "Please add at least one juice."
                 );
-
                 return;
-
             }
-
-
-            // CUSTOM FLAVOR CHECK
 
             if (
                 customQuantity > 0 &&
                 (
                     !customFlavor ||
-                    customFlavor.value.trim() === ""
+                    !customFlavor.value.trim()
                 )
             ) {
-
                 showError(
-                    "Please enter the custom flavor you are requesting."
+                    "Please enter your custom flavor."
                 );
-
                 return;
-
             }
-
-
-            // CUSTOM FLAVOR TEXT BUT NO QUANTITY
 
             if (
                 customFlavor &&
-                customFlavor.value.trim() !== "" &&
+                customFlavor.value.trim() &&
                 customQuantity === 0
             ) {
-
                 showError(
                     "Please choose a quantity for your custom flavor."
                 );
-
                 return;
-
             }
 
-
-            // ORDER DATE
-
             if (
-                orderDate &&
-                orderDate.value === ""
+                !orderDate ||
+                !orderDate.value
             ) {
-
                 showError(
                     "Please choose your preferred order date."
                 );
-
                 return;
-
             }
-
-
-            // FULFILLMENT
-
-            const fulfillment =
-                document.querySelector(
-                    'input[name="fulfillment"]:checked'
-                );
-
-
-            // DELIVERY ADDRESS
 
             if (
-                fulfillment &&
-                fulfillment.value === "delivery"
-            ) {
-
-                if (
+                getFulfillment() ===
+                    "delivery" &&
+                (
                     !deliveryAddress ||
-                    deliveryAddress.value.trim() === ""
-                ) {
-
-                    showError(
-                        "Please enter your delivery address."
-                    );
-
-                    return;
-
-                }
-
+                    !deliveryAddress.value.trim()
+                )
+            ) {
+                showError(
+                    "Please enter your delivery address."
+                );
+                return;
             }
-
-
-            // ==================================
-            // BUILD ORDER REVIEW
-            // ==================================
 
             const orderDetails =
                 buildOrderDetails();
@@ -669,284 +539,185 @@ document.addEventListener("DOMContentLoaded", function () {
             const total =
                 calculateTotal();
 
+            // ==================================
+            // ORDER REVIEW POPUP
+            // ==================================
 
             let review =
                 "ORDER REVIEW\n\n";
 
+            review +=
+                `Customer: ${name.value.trim()}\n`;
 
             review +=
-                "Customer: " +
-                name.value.trim() +
-                "\n";
-
+                `Phone: ${phone.value.trim()}\n\n`;
 
             review +=
-                "Phone: " +
-                phone.value.trim() +
-                "\n";
-
-
-            if (
-                instagram &&
-                instagram.value.trim() !== ""
-            ) {
-
-                review +=
-                    "Instagram: " +
-                    instagram.value.trim() +
-                    "\n";
-
-            }
-
+                `Bottle Size: ${size} oz\n\n`;
 
             review +=
-                "\nBottle Size: " +
-                size +
-                " oz\n\n";
-
+                orderDetails + "\n\n";
 
             review +=
-                orderDetails +
-                "\n";
-
-
-            review +=
-                "Total Bottles: " +
-                bottleCount +
-                "\n";
-
+                `Total Bottles: ${getTotalBottles()}\n`;
 
             review +=
                 "Fulfillment: " +
                 (
-                    fulfillment &&
-                    fulfillment.value === "delivery"
+                    getFulfillment() ===
+                    "delivery"
                         ? "Delivery"
                         : "Pickup"
                 ) +
                 "\n";
 
+            review +=
+                `Requested Date: ${orderDate.value}\n`;
 
             if (
-                orderDate &&
-                orderDate.value
-            ) {
-
-                review +=
-                    "Requested Date: " +
-                    orderDate.value +
-                    "\n";
-
-            }
-
-
-            if (
-                fulfillment &&
-                fulfillment.value === "delivery" &&
+                getFulfillment() ===
+                "delivery" &&
                 deliveryAddress
             ) {
-
                 review +=
                     "Delivery Address: " +
-                    deliveryAddress.value.trim() +
+                    deliveryAddress
+                        .value
+                        .trim() +
                     "\n";
-
             }
 
+            review +=
+                `\nTOTAL: $${total.toFixed(2)}`;
 
             review +=
-                "\nTOTAL: $" +
-                total.toFixed(2);
-
-
-            // ==================================
-            // CUSTOMER REVIEWS ORDER
-            // ==================================
+                "\n\nContinue to secure Square payment?";
 
             const confirmed =
                 window.confirm(review);
 
-
             if (!confirmed) {
-
                 return;
-
             }
 
-
             // ==================================
-            // DISABLE BUTTON WHILE SENDING
+            // BUTTON STATE
             // ==================================
-
-            const submitButton =
-                form.querySelector(
-                    'button[type="submit"]'
-                );
-
 
             if (submitButton) {
-
-                submitButton.disabled = true;
+                submitButton.disabled =
+                    true;
 
                 submitButton.textContent =
-                    "Sending Order...";
-
+                    "Preparing Payment...";
             }
 
+            try {
+                // ==================================
+                // SAVE ORDER TO FORMSPREE
+                // ==================================
 
-            // ==================================
-            // PREPARE FORMSPREE ORDER
-            // ==================================
+                const formData =
+                    new FormData();
 
-            const formData =
-                new FormData();
+                formData.append(
+                    "Customer Name",
+                    name.value.trim()
+                );
 
-
-            formData.append(
-                "Customer Name",
-                name.value.trim()
-            );
-
-
-            formData.append(
-                "Phone Number",
-                phone.value.trim()
-            );
-
-
-            if (
-                instagram &&
-                instagram.value.trim() !== ""
-            ) {
+                formData.append(
+                    "Phone Number",
+                    phone.value.trim()
+                );
 
                 formData.append(
                     "Instagram",
+                    instagram &&
                     instagram.value.trim()
+                        ? instagram.value.trim()
+                        : "Not provided"
                 );
 
-            }
-
-
-            formData.append(
-                "Bottle Size",
-                size + " oz"
-            );
-
-
-            // INDIVIDUAL JUICE FLAVORS
-
-            Object.keys(quantities).forEach(
-                function (flavor) {
-
-                    if (quantities[flavor] > 0) {
-
-                        formData.append(
-                            flavor,
-                            quantities[flavor]
-                        );
-
-                    }
-
-                }
-            );
-
-
-            // CUSTOM FLAVOR
-
-            if (
-                customFlavor &&
-                customFlavor.value.trim() !== "" &&
-                customQuantity > 0
-            ) {
+                formData.append(
+                    "Bottle Size",
+                    size + " oz"
+                );
 
                 formData.append(
-                    "Custom Flavor Request",
+                    "Yellow Watermelon",
+                    quantities[
+                        "Yellow Watermelon"
+                    ]
+                );
+
+                formData.append(
+                    "Red Watermelon",
+                    quantities[
+                        "Red Watermelon"
+                    ]
+                );
+
+                formData.append(
+                    "Custom Flavor",
+                    customFlavor &&
                     customFlavor.value.trim()
+                        ? customFlavor.value.trim()
+                        : "None"
                 );
 
-
                 formData.append(
-                    "Custom Flavor Quantity",
+                    "Custom Quantity",
                     customQuantity
                 );
 
-            }
-
-
-            formData.append(
-                "Total Bottles",
-                bottleCount
-            );
-
-
-            formData.append(
-                "Fulfillment",
-                fulfillment &&
-                fulfillment.value === "delivery"
-                    ? "Delivery"
-                    : "Pickup"
-            );
-
-
-            if (
-                orderDate &&
-                orderDate.value
-            ) {
+                formData.append(
+                    "Total Bottles",
+                    getTotalBottles()
+                );
 
                 formData.append(
-                    "Requested Order Date",
+                    "Fulfillment",
+                    getFulfillment()
+                );
+
+                formData.append(
+                    "Requested Date",
                     orderDate.value
                 );
 
-            }
-
-
-            if (
-                fulfillment &&
-                fulfillment.value === "delivery" &&
-                deliveryAddress
-            ) {
-
                 formData.append(
                     "Delivery Address",
-                    deliveryAddress.value.trim()
+                    getFulfillment() ===
+                        "delivery" &&
+                    deliveryAddress
+                        ? deliveryAddress
+                              .value
+                              .trim()
+                        : "N/A"
                 );
 
-            }
+                formData.append(
+                    "Order Total",
+                    "$" +
+                    total.toFixed(2)
+                );
 
+                formData.append(
+                    "Payment Status",
+                    "Awaiting Square payment"
+                );
 
-            formData.append(
-                "Order Total",
-                "$" + total.toFixed(2)
-            );
+                formData.append(
+                    "_subject",
+                    "NEW A TASTE OF JADE JUICE ORDER"
+                );
 
-
-            formData.append(
-                "Full Order Details",
-                orderDetails
-            );
-
-
-            formData.append(
-                "_subject",
-                "NEW A TASTE OF JADE JUICE ORDER"
-            );
-
-
-            // ==================================
-            // SEND ORDER TO FORMSPREE
-            // ==================================
-
-            try {
-
-                const response =
+                const formspreeResponse =
                     await fetch(
                         "https://formspree.io/f/mvzewrnk",
                         {
                             method: "POST",
-
                             body: formData,
-
                             headers: {
                                 "Accept":
                                     "application/json"
@@ -954,92 +725,153 @@ document.addEventListener("DOMContentLoaded", function () {
                         }
                     );
 
+                if (
+                    !formspreeResponse.ok
+                ) {
+                    throw new Error(
+                        "Order could not be saved to Formspree."
+                    );
+                }
 
-                if (response.ok) {
+                // ==================================
+                // CREATE SQUARE CHECKOUT
+                // ==================================
 
-                    alert(
-                        "Order received! 💚\n\nYour A Taste of Jade order request was successfully submitted. You'll receive confirmation before your order is finalized."
+                if (submitButton) {
+                    submitButton.textContent =
+                        "Opening Square...";
+                }
+
+                const checkoutResponse =
+                    await fetch(
+                        "https://atasteofjade-site.vercel.app/api/create-checkout",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body:
+                                JSON.stringify({
+                                    customerName:
+                                        name.value.trim(),
+
+                                    bottleSize:
+                                        size,
+
+                                    yellowQuantity:
+                                        quantities[
+                                            "Yellow Watermelon"
+                                        ],
+
+                                    redQuantity:
+                                        quantities[
+                                            "Red Watermelon"
+                                        ],
+
+                                    customQuantity:
+                                        customQuantity,
+
+                                    customFlavor:
+                                        customFlavor &&
+                                        customFlavor.value.trim()
+                                            ? customFlavor.value.trim()
+                                            : "",
+
+                                    fulfillment:
+                                        getFulfillment()
+                                })
+                        }
                     );
 
+                let checkoutData;
 
-                    // ==================================
-                    // SQUARE PAYMENT WILL GO HERE NEXT
-                    // ==================================
-
-                } else {
-
-                    const responseData =
-                        await response.json();
-
+                try {
+                    checkoutData =
+                        await checkoutResponse.json();
+                } catch (jsonError) {
                     console.error(
-                        "Formspree error:",
-                        responseData
+                        "Checkout JSON error:",
+                        jsonError
                     );
 
                     throw new Error(
-                        "Formspree submission failed."
+                        "Square checkout returned an invalid response."
                     );
-
                 }
 
+                if (
+                    !checkoutResponse.ok ||
+                    !checkoutData.paymentUrl
+                ) {
+                    console.error(
+                        "Square checkout error:",
+                        checkoutData
+                    );
+
+                    throw new Error(
+                        checkoutData &&
+                        checkoutData.error
+                            ? checkoutData.error
+                            : "Square checkout could not be created."
+                    );
+                }
+
+                // ==================================
+                // REDIRECT TO SQUARE
+                // ==================================
+
+                window.location.assign(
+                    checkoutData.paymentUrl
+                );
 
             } catch (error) {
-
                 console.error(error);
 
                 showError(
-                    "Your order could not be submitted. Please try again."
+                    "We couldn't open Square payment. Your card was not charged. Please try again."
                 );
 
-
-            } finally {
-
                 if (submitButton) {
-
-                    submitButton.disabled = false;
+                    submitButton.disabled =
+                        false;
 
                     submitButton.innerHTML =
                         "Review Order <span>→</span>";
-
                 }
-
             }
-
         }
     );
 
-
     // ==========================================
-    // SHOW ERROR MESSAGE
+    // RETURN FROM SQUARE
     // ==========================================
 
-    function showError(message) {
+    const pageParams =
+        new URLSearchParams(
+            window.location.search
+        );
 
-        if (errorBox) {
+    if (
+        pageParams.get("payment") ===
+        "complete"
+    ) {
+        alert(
+            "Thank you! 💚 Your Square checkout is complete. A Taste of Jade will confirm your order details."
+        );
 
-            errorBox.textContent =
-                message;
-
-
-            errorBox.scrollIntoView({
-                behavior: "smooth",
-                block: "center"
-            });
-
-
-        } else {
-
-            alert(message);
-
-        }
-
+        window.history.replaceState(
+            {},
+            document.title,
+            window.location.pathname
+        );
     }
 
-
     // ==========================================
-    // INITIALIZE PAGE
+    // INITIAL LOAD
     // ==========================================
 
     updateSummary();
-
 });
