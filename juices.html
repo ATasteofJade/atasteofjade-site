@@ -3,26 +3,16 @@
 
 <head>
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Order Juices | A Taste of Jade</title>
 
     <link rel="stylesheet" href="juices.css">
 </head>
 
-
 <body>
 
 <main class="order-page">
-
-
-    <!-- =========================
-         HEADER
-    ========================== -->
 
     <header class="page-intro">
 
@@ -37,21 +27,20 @@
         >
 
         <p class="eyebrow">
-            COLD-PRESSED JUICES · MADE WITH LOVE
+            FRESH JUICES · MADE WITH LOVE
         </p>
 
-        <h1>Order Fresh Juices</h1>
+        <h1>
+            Order This Week's Juices
+        </h1>
 
         <p class="intro-copy">
-            Choose your bottle size and add as many juices as you'd like.
+            Choose your flavors and quantities below.
+            All bottles are 12 oz.
         </p>
 
     </header>
 
-
-    <!-- =========================
-         ORDER NOTICE
-    ========================== -->
 
     <div class="notice">
 
@@ -61,21 +50,16 @@
 
         <br>
 
-        Orders are not final until confirmed by A Taste of Jade.
+        Custom flavor requests are confirmed based on
+        ingredient availability.
 
     </div>
 
 
-    <!-- =========================
-         ORDER FORM
-    ========================== -->
-
     <form id="juice-order">
 
 
-        <!-- =========================
-             CUSTOMER INFO
-        ========================== -->
+        <!-- CUSTOMER INFORMATION -->
 
         <section class="order-card">
 
@@ -84,12 +68,9 @@
                 Your Information
             </h2>
 
-
             <div class="field-grid">
 
-
                 <label>
-
                     Full Name *
 
                     <input
@@ -99,12 +80,10 @@
                         placeholder="First and last name"
                         required
                     >
-
                 </label>
 
 
                 <label>
-
                     Phone Number *
 
                     <input
@@ -114,12 +93,10 @@
                         placeholder="(713) 555-0000"
                         required
                     >
-
                 </label>
 
 
                 <label>
-
                     Instagram
 
                     <input
@@ -132,38 +109,33 @@
                     <small>
                         Optional
                     </small>
-
                 </label>
-
 
             </div>
 
         </section>
 
 
-
-        <!-- =========================
-             BOTTLE SIZE
-        ========================== -->
+        <!-- BOTTLE SIZE -->
 
         <section class="order-card">
 
             <h2>
                 <span class="section-icon">🧃</span>
-                Choose Your Bottle Size
+                Bottle Size
             </h2>
 
+            <input
+                type="radio"
+                name="size"
+                value="12"
+                checked
+                hidden
+            >
 
-            <div class="choice-grid two-columns">
+            <div class="choice-grid">
 
-
-                <label class="choice-card">
-
-                    <input
-                        type="radio"
-                        name="size"
-                        value="12"
-                    >
+                <div class="choice-card">
 
                     <span>
 
@@ -172,47 +144,19 @@
                         </strong>
 
                         <em>
-                            $8 each
+                            This week's bottle size
                         </em>
 
                     </span>
 
-                </label>
-
-
-
-                <label class="choice-card">
-
-                    <input
-                        type="radio"
-                        name="size"
-                        value="16"
-                    >
-
-                    <span>
-
-                        <strong>
-                            16 oz
-                        </strong>
-
-                        <em>
-                            $11 each
-                        </em>
-
-                    </span>
-
-                </label>
-
+                </div>
 
             </div>
 
         </section>
 
 
-
-        <!-- =========================
-             JUICES
-        ========================== -->
+        <!-- JUICES -->
 
         <section class="order-card">
 
@@ -221,112 +165,38 @@
                 Select Your Juices
             </h2>
 
-
             <p class="help-text">
-                Use the + and − buttons to choose your quantities.
+                Use the + and − buttons to choose as many bottles as you'd like.
             </p>
 
 
-
-            <!-- SOLD OUT -->
-
-            <article class="flavor sold-out">
-
-                <div>
-
-                    <h3>
-                        🍍 Eden Glow
-                        <span class="sold-badge">
-                            SOLD OUT
-                        </span>
-                    </h3>
-
-                    <p>
-                        Radiant · Cleansing · Rebirth
-                    </p>
-
-                    <small>
-                        Pineapple · Apple · Lemon · Ginger
-                    </small>
-
-                </div>
-
-            </article>
-
-
-
-            <article class="flavor sold-out">
-
-                <div>
-
-                    <h3>
-                        🌿 Green Pastures
-                        <span class="sold-badge">
-                            SOLD OUT
-                        </span>
-                    </h3>
-
-                    <p>
-                        Peace · Rest · Provision
-                    </p>
-
-                    <small>
-                        Cucumber · Celery · Apple · Lemon · Spinach
-                    </small>
-
-                </div>
-
-            </article>
-
-
-
-            <article class="flavor sold-out">
-
-                <div>
-
-                    <h3>
-                        🍉 Restore
-                        <span class="sold-badge">
-                            SOLD OUT
-                        </span>
-                    </h3>
-
-                    <p>
-                        Healing · Refreshing · Calm
-                    </p>
-
-                    <small>
-                        Watermelon · Cucumber · Mint · Lime
-                    </small>
-
-                </div>
-
-            </article>
-
-
-
-            <!-- =========================
-                 YELLOW WATERMELON
-            ========================== -->
+            <!-- JADE'S GREENS GLOW -->
 
             <article
                 class="flavor"
-                data-flavor="Yellow Watermelon"
+                data-flavor="Jade's Greens Glow"
             >
 
                 <div>
 
                     <h3>
-                        💛 Yellow Watermelon
+                        💚 Jade's Greens Glow
                     </h3>
 
                     <p>
-                        Sweet · Crisp · Refreshing
+                        Fresh · Vibrant · Nourishing
                     </p>
 
                     <small>
-                        Fresh Yellow Watermelon
+                        Green Apple · Pineapple · Cucumber ·
+                        Ginger · Mint · Green Spirulina
                     </small>
+
+                    <p>
+                        <strong>
+                            $8 · 12 oz
+                        </strong>
+                    </p>
 
                 </div>
 
@@ -356,29 +226,33 @@
             </article>
 
 
-
-            <!-- =========================
-                 RED WATERMELON
-            ========================== -->
+            <!-- YELLOW WATERMELON ICED TEA -->
 
             <article
                 class="flavor"
-                data-flavor="Red Watermelon"
+                data-flavor="Yellow Watermelon Iced Tea"
             >
 
                 <div>
 
                     <h3>
-                        ❤️ Red Watermelon
+                        🍉 Yellow Watermelon Iced Tea
                     </h3>
 
                     <p>
-                        Juicy · Hydrating · Refreshing
+                        Sweet · Refreshing · Fresh-Brewed
                     </p>
 
                     <small>
-                        Fresh Red Watermelon
+                        Fresh Yellow Watermelon Juice ·
+                        Fresh-Brewed Black Tea · Agave
                     </small>
+
+                    <p>
+                        <strong>
+                            $7 · 12 oz
+                        </strong>
+                    </p>
 
                 </div>
 
@@ -408,10 +282,7 @@
             </article>
 
 
-
-            <!-- =========================
-                 CUSTOM FLAVOR
-            ========================== -->
+            <!-- CUSTOM FLAVOR -->
 
             <div class="custom-request">
 
@@ -438,14 +309,11 @@
                 </label>
 
 
-                <!-- CUSTOM QUANTITY -->
-
                 <div class="custom-quantity-row">
 
                     <strong>
-                        Custom Flavor Quantity
+                        Custom Flavor Quantity · $8 each
                     </strong>
-
 
                     <div class="stepper">
 
@@ -456,11 +324,9 @@
                             −
                         </button>
 
-
                         <output id="custom-quantity">
                             0
                         </output>
-
 
                         <button
                             type="button"
@@ -484,14 +350,10 @@
 
             </div>
 
-
         </section>
 
 
-
-        <!-- =========================
-             PICKUP OR DELIVERY
-        ========================== -->
+        <!-- PICKUP OR DELIVERY -->
 
         <section class="order-card">
 
@@ -502,7 +364,6 @@
 
 
             <div class="choice-grid two-columns">
-
 
                 <label class="choice-card">
 
@@ -528,7 +389,6 @@
                 </label>
 
 
-
                 <label class="choice-card">
 
                     <input
@@ -551,12 +411,8 @@
 
                 </label>
 
-
             </div>
 
-
-
-            <!-- DATE -->
 
             <div class="fulfillment-fields">
 
@@ -578,9 +434,6 @@
                 </label>
 
 
-
-                <!-- DELIVERY ADDRESS -->
-
                 <label
                     id="address-field"
                     hidden
@@ -597,17 +450,12 @@
 
                 </label>
 
-
             </div>
-
 
         </section>
 
 
-
-        <!-- =========================
-             ORDER SUMMARY
-        ========================== -->
+        <!-- ORDER SUMMARY -->
 
         <section class="summary">
 
@@ -623,7 +471,7 @@
                 </span>
 
                 <strong id="summary-size">
-                    None selected
+                    12 oz
                 </strong>
 
             </div>
@@ -667,14 +515,10 @@
 
             </div>
 
-
         </section>
 
 
-
-        <!-- =========================
-             PAYMENT
-        ========================== -->
+        <!-- PAYMENT -->
 
         <section class="order-card">
 
@@ -683,25 +527,16 @@
                 Payment
             </h2>
 
-
             <p>
                 You'll review your order before continuing to secure payment.
             </p>
 
-
             <div class="payment-placeholder">
-
-                🔒 Secure payment through Square coming next.
-
+                🔒 Secure checkout powered by Square.
             </div>
 
         </section>
 
-
-
-        <!-- =========================
-             ERROR MESSAGE
-        ========================== -->
 
         <p
             id="order-error"
@@ -709,43 +544,25 @@
         ></p>
 
 
-
-        <!-- =========================
-             SUBMIT
-        ========================== -->
-
         <button
             type="submit"
             class="complete-order"
         >
-
             Review Order
             <span>→</span>
-
         </button>
 
 
         <p class="payment-note">
-
-            Orders require confirmation from A Taste of Jade.
-
+            Your order details are saved before you continue to Square checkout.
         </p>
 
-
     </form>
-
 
 </main>
 
 
-
-<!-- IMPORTANT:
-     This loads the JavaScript file
-     you just fixed.
--->
-
 <script src="juices.js"></script>
-
 
 </body>
 
