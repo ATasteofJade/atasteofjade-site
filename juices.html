@@ -3,7 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Order Juices | A Taste of Jade</title>
 
@@ -14,9 +17,14 @@
 
 <main class="order-page">
 
+    <!-- HEADER -->
+
     <header class="page-intro">
 
-        <a href="index.html" class="back-link">
+        <a
+            href="index.html"
+            class="back-link"
+        >
             ← Back to A Taste of Jade
         </a>
 
@@ -42,6 +50,8 @@
     </header>
 
 
+    <!-- NOTICE -->
+
     <div class="notice">
 
         <strong>
@@ -56,6 +66,8 @@
     </div>
 
 
+    <!-- ORDER FORM -->
+
     <form id="juice-order">
 
 
@@ -64,13 +76,18 @@
         <section class="order-card">
 
             <h2>
-                <span class="section-icon">👤</span>
+                <span class="section-icon">
+                    👤
+                </span>
+
                 Your Information
             </h2>
+
 
             <div class="field-grid">
 
                 <label>
+
                     Full Name *
 
                     <input
@@ -80,10 +97,12 @@
                         placeholder="First and last name"
                         required
                     >
+
                 </label>
 
 
                 <label>
+
                     Phone Number *
 
                     <input
@@ -93,10 +112,12 @@
                         placeholder="(713) 555-0000"
                         required
                     >
+
                 </label>
 
 
                 <label>
+
                     Instagram
 
                     <input
@@ -109,6 +130,7 @@
                     <small>
                         Optional
                     </small>
+
                 </label>
 
             </div>
@@ -121,9 +143,13 @@
         <section class="order-card">
 
             <h2>
-                <span class="section-icon">🧃</span>
+                <span class="section-icon">
+                    🧃
+                </span>
+
                 Bottle Size
             </h2>
+
 
             <input
                 type="radio"
@@ -132,6 +158,7 @@
                 checked
                 hidden
             >
+
 
             <div class="choice-grid">
 
@@ -161,9 +188,13 @@
         <section class="order-card">
 
             <h2>
-                <span class="section-icon">🌱</span>
+                <span class="section-icon">
+                    🌱
+                </span>
+
                 Select Your Juices
             </h2>
+
 
             <p class="help-text">
                 Use the + and − buttons to choose as many bottles as you'd like.
@@ -315,6 +346,7 @@
                         Custom Flavor Quantity · $8 each
                     </strong>
 
+
                     <div class="stepper">
 
                         <button
@@ -324,9 +356,11 @@
                             −
                         </button>
 
+
                         <output id="custom-quantity">
                             0
                         </output>
+
 
                         <button
                             type="button"
@@ -358,7 +392,10 @@
         <section class="order-card">
 
             <h2>
-                <span class="section-icon">📍</span>
+                <span class="section-icon">
+                    📍
+                </span>
+
                 Pickup or Delivery
             </h2>
 
@@ -523,20 +560,29 @@
         <section class="order-card">
 
             <h2>
-                <span class="section-icon">💳</span>
+                <span class="section-icon">
+                    💳
+                </span>
+
                 Payment
             </h2>
+
 
             <p>
                 You'll review your order before continuing to secure payment.
             </p>
 
+
             <div class="payment-placeholder">
+
                 🔒 Secure checkout powered by Square.
+
             </div>
 
         </section>
 
+
+        <!-- ERROR -->
 
         <p
             id="order-error"
@@ -544,12 +590,16 @@
         ></p>
 
 
+        <!-- SUBMIT -->
+
         <button
             type="submit"
             class="complete-order"
         >
+
             Review Order
             <span>→</span>
+
         </button>
 
 
@@ -557,12 +607,15 @@
             Your order details are saved before you continue to Square checkout.
         </p>
 
+
     </form>
 
 </main>
 
 
-<script src="juices.js"></script>
+<!-- CACHE-BUSTED JAVASCRIPT -->
+<script src="juices.js?v=20260818"></script>
+
 
 </body>
 
