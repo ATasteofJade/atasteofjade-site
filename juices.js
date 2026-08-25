@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const form =
         document.getElementById("juice-order");
 
+
     if (!form) {
         console.error("Juice order form not found.");
         return;
@@ -10,83 +11,112 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ==========================================
-    // WEEKLY MENU + PRICING
+    // PACKAGE PRICING
     // ==========================================
 
-    const prices = {
-        "Jade's Greens Glow": 8,
-        "Yellow Watermelon Iced Tea": 7,
-        "Custom Flavor": 8
+    const packages = {
+
+        "4": {
+            label: "4-Pack",
+            count: 4,
+            price: 44
+        },
+
+        "6": {
+            label: "6-Pack",
+            count: 6,
+            price: 66
+        },
+
+        "8": {
+            label: "8-Pack",
+            count: 8,
+            price: 88
+        },
+
+        "64": {
+            label: "64 oz Half Gallon",
+            count: 1,
+            price: 35
+        }
+
     };
 
-    const quantities = {
-        "Jade's Greens Glow": 0,
-        "Yellow Watermelon Iced Tea": 0
-    };
 
     const deliveryFee = 8;
+
+
+    // ==========================================
+    // FLAVOR QUANTITIES
+    // ==========================================
+
+    const quantities = {
+
+        "Green Pastures": 0,
+
+        "Beet Blend": 0,
+
+        "Watermelon Mint": 0
+
+    };
+
 
     let customQuantity = 0;
 
 
     // ==========================================
-    // ELEMENTS
+    // PAGE ELEMENTS
     // ==========================================
 
     const flavorArticles =
-        document.querySelectorAll(
-            ".flavor[data-flavor]"
+        Array.from(
+            document.querySelectorAll(
+                ".flavor[data-flavor]"
+            )
         );
+
 
     const customFlavor =
         document.getElementById(
             "custom-flavor"
         );
 
+
     const customMinus =
         document.getElementById(
             "custom-minus"
         );
+
 
     const customPlus =
         document.getElementById(
             "custom-plus"
         );
 
+
     const customOutput =
         document.getElementById(
             "custom-quantity"
         );
+
 
     const orderDate =
         document.getElementById(
             "order-date"
         );
 
+
     const addressField =
         document.getElementById(
             "address-field"
         );
+
 
     const deliveryAddress =
         document.getElementById(
             "delivery-address"
         );
 
-    const summaryCount =
-        document.getElementById(
-            "summary-count"
-        );
-
-    const summaryFulfillment =
-        document.getElementById(
-            "summary-fulfillment"
-        );
-
-    const summaryTotal =
-        document.getElementById(
-            "summary-total"
-        );
 
     const errorBox =
         document.getElementById(
@@ -95,8 +125,57 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ==========================================
-    // FULFILLMENT
+    // MINIMUM ORDER DATE
     // ==========================================
+
+    if (orderDate) {
+
+        const fiveDaysAhead =
+            new Date();
+
+        fiveDaysAhead.setDate(
+            fiveDaysAhead.getDate() + 5
+        );
+
+        orderDate.min =
+            fiveDaysAhead
+                .toISOString()
+                .split("T")[0];
+
+    }
+
+
+    // ==========================================
+    // HELPERS
+    // ==========================================
+
+    function getSelectedPackageId() {
+
+        const selected =
+            document.querySelector(
+                'input[name="package"]:checked'
+            );
+
+        return selected
+            ? selected.value
+            : null;
+
+    }
+
+
+    function getPackageInfo() {
+
+        const packageId =
+            getSelectedPackageId();
+
+        if (!packageId) {
+            return null;
+        }
+
+        return packages[packageId];
+
+    }
+
 
     function getFulfillment() {
 
@@ -108,85 +187,61 @@ document.addEventListener("DOMContentLoaded", function () {
         return selected
             ? selected.value
             : "pickup";
+
     }
 
 
-    // ==========================================
-    // TOTAL BOTTLES
-    // ==========================================
-
-    function getTotalBottles() {
-
-        return (
-            quantities["Jade's Greens Glow"] +
-            quantities["Yellow Watermelon Iced Tea"] +
-            customQuantity
-        );
-    }
-
-
-    // ==========================================
-    // CALCULATE TOTAL
-    // ==========================================
-
-    function calculateTotal() {
+    function getSelectedCount() {
 
         let total = 0;
 
-        total +=
-            quantities["Jade's Greens Glow"] *
-            prices["Jade's Greens Glow"];
+        Object.values(
+            quantities
+        ).forEach(function (quantity) {
 
-        total +=
-            quantities["Yellow Watermelon Iced Tea"] *
-            prices["Yellow Watermelon Iced Tea"];
+            total += quantity;
 
-        total +=
-            customQuantity *
-            prices["Custom Flavor"];
+        });
 
-        if (
-            getFulfillment() === "delivery" &&
-            getTotalBottles() > 0
-        ) {
-            total += deliveryFee;
-        }
+
+        total += customQuantity;
+
 
         return total;
+
     }
 
 
-    // ==========================================
-    // SUMMARY
-    // ==========================================
+    function calculateTotal() {
 
-    function updateSummary() {
+        const packageInfo =
+            getPackageInfo();
 
-        if (summaryCount) {
-            summaryCount.textContent =
-                getTotalBottles();
+
+        if (!packageInfo) {
+            return 0;
         }
 
-        if (summaryFulfillment) {
 
-            summaryFulfillment.textContent =
-                getFulfillment() === "delivery"
-                    ? "Delivery · $8"
-                    : "Pickup · Free";
+        let total =
+            packageInfo.price;
+
+
+        if (
+            getFulfillment() ===
+            "delivery"
+        ) {
+
+            total +=
+                deliveryFee;
+
         }
 
-        if (summaryTotal) {
 
-            summaryTotal.textContent =
-                "$" +
-                calculateTotal().toFixed(2);
-        }
+        return total;
+
     }
 
-
-    // ==========================================
-    // ERRORS
-    // ==========================================
 
     function showError(message) {
 
@@ -195,28 +250,295 @@ document.addEventListener("DOMContentLoaded", function () {
             errorBox.textContent =
                 message;
 
+
             errorBox.scrollIntoView({
+
                 behavior: "smooth",
+
                 block: "center"
+
             });
 
         } else {
 
             alert(message);
+
         }
+
     }
 
 
     function clearError() {
 
         if (errorBox) {
-            errorBox.textContent = "";
+
+            errorBox.textContent =
+                "";
+
         }
+
     }
 
 
     // ==========================================
-    // REGULAR FLAVOR BUTTONS
+    // RESET FLAVOR QUANTITIES
+    // ==========================================
+
+    function resetQuantities() {
+
+        Object.keys(
+            quantities
+        ).forEach(function (flavor) {
+
+            quantities[flavor] = 0;
+
+        });
+
+
+        customQuantity = 0;
+
+
+        flavorArticles.forEach(
+            function (article) {
+
+                const output =
+                    article.querySelector(
+                        "output"
+                    );
+
+                if (output) {
+
+                    output.textContent =
+                        "0";
+
+                }
+
+            }
+        );
+
+
+        if (customOutput) {
+
+            customOutput.textContent =
+                "0";
+
+        }
+
+    }
+
+
+    // ==========================================
+    // UPDATE ORDER SUMMARY
+    // ==========================================
+
+    function updateSummary() {
+
+        const packageInfo =
+            getPackageInfo();
+
+
+        const count =
+            getSelectedCount();
+
+
+        const packageSummary =
+            document.getElementById(
+                "summary-package"
+            );
+
+
+        const countSummary =
+            document.getElementById(
+                "summary-count"
+            );
+
+
+        const fulfillmentSummary =
+            document.getElementById(
+                "summary-fulfillment"
+            );
+
+
+        const totalSummary =
+            document.getElementById(
+                "summary-total"
+            );
+
+
+        const flavorHelp =
+            document.getElementById(
+                "flavor-help"
+            );
+
+
+        if (packageSummary) {
+
+            packageSummary.textContent =
+                packageInfo
+                    ? packageInfo.label +
+                      " · $" +
+                      packageInfo.price
+                    : "None selected";
+
+        }
+
+
+        if (countSummary) {
+
+            countSummary.textContent =
+                packageInfo
+                    ? count +
+                      " of " +
+                      packageInfo.count
+                    : count;
+
+        }
+
+
+        if (fulfillmentSummary) {
+
+            fulfillmentSummary.textContent =
+                getFulfillment() ===
+                "delivery"
+                    ? "Delivery · $8"
+                    : "Pickup · Free";
+
+        }
+
+
+        if (totalSummary) {
+
+            totalSummary.textContent =
+                "$" +
+                calculateTotal()
+                    .toFixed(2);
+
+        }
+
+
+        if (flavorHelp) {
+
+            if (packageInfo) {
+
+                if (
+                    getSelectedPackageId() ===
+                    "64"
+                ) {
+
+                    flavorHelp.textContent =
+                        "Choose 1 flavor for your 64 oz half gallon.";
+
+                } else {
+
+                    flavorHelp.textContent =
+                        "Choose exactly " +
+                        packageInfo.count +
+                        " bottles for your " +
+                        packageInfo.label +
+                        ".";
+
+                }
+
+            } else {
+
+                flavorHelp.textContent =
+                    "Choose a package first.";
+
+            }
+
+        }
+
+
+        // Disable + buttons once package is full
+
+        flavorArticles.forEach(
+            function (article) {
+
+                const flavor =
+                    article.dataset.flavor;
+
+
+                const plus =
+                    article.querySelector(
+                        ".plus"
+                    );
+
+
+                const minus =
+                    article.querySelector(
+                        ".minus"
+                    );
+
+
+                if (plus) {
+
+                    plus.disabled =
+                        !packageInfo ||
+                        count >=
+                        packageInfo.count;
+
+                }
+
+
+                if (minus) {
+
+                    minus.disabled =
+                        quantities[flavor] <= 0;
+
+                }
+
+            }
+        );
+
+
+        if (customPlus) {
+
+            customPlus.disabled =
+                !packageInfo ||
+                count >=
+                packageInfo.count;
+
+        }
+
+
+        if (customMinus) {
+
+            customMinus.disabled =
+                customQuantity <= 0;
+
+        }
+
+    }
+
+
+    // ==========================================
+    // PACKAGE RADIO BUTTONS
+    // ==========================================
+
+    document
+        .querySelectorAll(
+            'input[name="package"]'
+        )
+        .forEach(function (input) {
+
+            input.addEventListener(
+                "change",
+                function () {
+
+                    resetQuantities();
+
+                    clearError();
+
+                    updateSummary();
+
+                }
+            );
+
+        });
+
+
+    // ==========================================
+    // FLAVOR + / -
     // ==========================================
 
     flavorArticles.forEach(
@@ -225,29 +547,23 @@ document.addEventListener("DOMContentLoaded", function () {
             const flavor =
                 article.dataset.flavor;
 
+
             const plus =
                 article.querySelector(
                     ".plus"
                 );
+
 
             const minus =
                 article.querySelector(
                     ".minus"
                 );
 
+
             const output =
                 article.querySelector(
                     "output"
                 );
-
-            if (
-                !Object.prototype.hasOwnProperty.call(
-                    quantities,
-                    flavor
-                )
-            ) {
-                return;
-            }
 
 
             if (plus) {
@@ -256,17 +572,49 @@ document.addEventListener("DOMContentLoaded", function () {
                     "click",
                     function () {
 
-                        quantities[flavor]++;
+                        const packageInfo =
+                            getPackageInfo();
 
-                        if (output) {
-                            output.textContent =
-                                quantities[flavor];
+
+                        if (!packageInfo) {
+
+                            showError(
+                                "Please choose a package first."
+                            );
+
+                            return;
+
                         }
 
+
+                        if (
+                            getSelectedCount() >=
+                            packageInfo.count
+                        ) {
+
+                            return;
+
+                        }
+
+
+                        quantities[flavor] += 1;
+
+
+                        if (output) {
+
+                            output.textContent =
+                                quantities[flavor];
+
+                        }
+
+
                         clearError();
+
                         updateSummary();
+
                     }
                 );
+
             }
 
 
@@ -277,27 +625,37 @@ document.addEventListener("DOMContentLoaded", function () {
                     function () {
 
                         if (
-                            quantities[flavor] > 0
+                            quantities[flavor] >
+                            0
                         ) {
 
-                            quantities[flavor]--;
+                            quantities[flavor] -=
+                                1;
 
-                            if (output) {
-                                output.textContent =
-                                    quantities[flavor];
-                            }
-
-                            updateSummary();
                         }
+
+
+                        if (output) {
+
+                            output.textContent =
+                                quantities[flavor];
+
+                        }
+
+
+                        updateSummary();
+
                     }
                 );
+
             }
+
         }
     );
 
 
     // ==========================================
-    // CUSTOM FLAVOR
+    // CUSTOM FLAVOR + / -
     // ==========================================
 
     if (customPlus) {
@@ -305,6 +663,21 @@ document.addEventListener("DOMContentLoaded", function () {
         customPlus.addEventListener(
             "click",
             function () {
+
+                const packageInfo =
+                    getPackageInfo();
+
+
+                if (!packageInfo) {
+
+                    showError(
+                        "Please choose a package first."
+                    );
+
+                    return;
+
+                }
+
 
                 if (
                     !customFlavor ||
@@ -316,20 +689,38 @@ document.addEventListener("DOMContentLoaded", function () {
                     );
 
                     return;
+
                 }
 
-                customQuantity++;
+
+                if (
+                    getSelectedCount() >=
+                    packageInfo.count
+                ) {
+
+                    return;
+
+                }
+
+
+                customQuantity += 1;
+
 
                 if (customOutput) {
 
                     customOutput.textContent =
                         customQuantity;
+
                 }
 
+
                 clearError();
+
                 updateSummary();
+
             }
         );
+
     }
 
 
@@ -339,64 +730,82 @@ document.addEventListener("DOMContentLoaded", function () {
             "click",
             function () {
 
-                if (customQuantity > 0) {
+                if (
+                    customQuantity >
+                    0
+                ) {
 
-                    customQuantity--;
+                    customQuantity -=
+                        1;
 
-                    if (customOutput) {
-
-                        customOutput.textContent =
-                            customQuantity;
-                    }
-
-                    updateSummary();
                 }
+
+
+                if (customOutput) {
+
+                    customOutput.textContent =
+                        customQuantity;
+
+                }
+
+
+                updateSummary();
+
             }
         );
+
     }
 
 
     // ==========================================
-    // DELIVERY
+    // PICKUP / DELIVERY
     // ==========================================
 
     document
         .querySelectorAll(
             'input[name="fulfillment"]'
         )
-        .forEach(
-            function (input) {
+        .forEach(function (input) {
 
-                input.addEventListener(
-                    "change",
-                    function () {
+            input.addEventListener(
+                "change",
+                function () {
 
-                        const delivery =
-                            getFulfillment() === "delivery";
+                    const isDelivery =
+                        getFulfillment() ===
+                        "delivery";
 
-                        if (addressField) {
 
-                            addressField.hidden =
-                                !delivery;
-                        }
+                    if (addressField) {
 
-                        if (deliveryAddress) {
+                        addressField.hidden =
+                            !isDelivery;
 
-                            deliveryAddress.required =
-                                delivery;
-
-                            if (!delivery) {
-
-                                deliveryAddress.value =
-                                    "";
-                            }
-                        }
-
-                        updateSummary();
                     }
-                );
-            }
-        );
+
+
+                    if (deliveryAddress) {
+
+                        deliveryAddress.required =
+                            isDelivery;
+
+
+                        if (!isDelivery) {
+
+                            deliveryAddress.value =
+                                "";
+
+                        }
+
+                    }
+
+
+                    updateSummary();
+
+                }
+            );
+
+        });
 
 
     // ==========================================
@@ -407,48 +816,58 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const lines = [];
 
+
+        Object.keys(
+            quantities
+        ).forEach(function (flavor) {
+
+            if (
+                quantities[flavor] >
+                0
+            ) {
+
+                lines.push(
+                    flavor +
+                    ": " +
+                    quantities[flavor]
+                );
+
+            }
+
+        });
+
+
         if (
-            quantities["Jade's Greens Glow"] > 0
+            customQuantity >
+            0 &&
+            customFlavor
         ) {
-
-            lines.push(
-                "Jade's Greens Glow: " +
-                quantities["Jade's Greens Glow"]
-            );
-        }
-
-
-        if (
-            quantities["Yellow Watermelon Iced Tea"] > 0
-        ) {
-
-            lines.push(
-                "Yellow Watermelon Iced Tea: " +
-                quantities["Yellow Watermelon Iced Tea"]
-            );
-        }
-
-
-        if (customQuantity > 0) {
 
             lines.push(
                 "Custom Flavor: " +
-                customFlavor.value.trim()
+                customFlavor
+                    .value
+                    .trim()
             );
+
 
             lines.push(
                 "Custom Quantity: " +
                 customQuantity
             );
+
         }
 
 
-        return lines.join("\n");
+        return lines.join(
+            "\n"
+        );
+
     }
 
 
     // ==========================================
-    // SUBMIT
+    // SUBMIT ORDER
     // ==========================================
 
     form.addEventListener(
@@ -465,15 +884,26 @@ document.addEventListener("DOMContentLoaded", function () {
                     "name"
                 );
 
+
             const phone =
                 document.getElementById(
                     "phone"
                 );
 
+
             const instagram =
                 document.getElementById(
                     "instagram"
                 );
+
+
+            const packageId =
+                getSelectedPackageId();
+
+
+            const packageInfo =
+                getPackageInfo();
+
 
             const submitButton =
                 form.querySelector(
@@ -481,9 +911,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
 
 
-            // ==================================
             // VALIDATION
-            // ==================================
 
             if (
                 !name ||
@@ -495,6 +923,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
 
                 return;
+
             }
 
 
@@ -508,26 +937,50 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
 
                 return;
+
             }
 
 
-            if (
-                getTotalBottles() < 1
-            ) {
+            if (!packageInfo) {
 
                 showError(
-                    "Please add at least one juice."
+                    "Please choose a juice package."
                 );
 
                 return;
+
             }
 
 
             if (
-                customQuantity > 0 &&
+                getSelectedCount() !==
+                packageInfo.count
+            ) {
+
+                showError(
+                    "Please select exactly " +
+                    packageInfo.count +
+                    (
+                        packageInfo.count ===
+                        1
+                            ? " flavor."
+                            : " bottles."
+                    )
+                );
+
+                return;
+
+            }
+
+
+            if (
+                customQuantity >
+                0 &&
                 (
                     !customFlavor ||
-                    !customFlavor.value.trim()
+                    !customFlavor
+                        .value
+                        .trim()
                 )
             ) {
 
@@ -536,20 +989,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
 
                 return;
-            }
 
-
-            if (
-                customFlavor &&
-                customFlavor.value.trim() &&
-                customQuantity === 0
-            ) {
-
-                showError(
-                    "Please choose a quantity for your custom flavor."
-                );
-
-                return;
             }
 
 
@@ -563,14 +1003,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
 
                 return;
+
             }
 
 
             if (
-                getFulfillment() === "delivery" &&
+                getFulfillment() ===
+                "delivery" &&
                 (
                     !deliveryAddress ||
-                    !deliveryAddress.value.trim()
+                    !deliveryAddress
+                        .value
+                        .trim()
                 )
             ) {
 
@@ -579,53 +1023,59 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
 
                 return;
+
             }
 
 
             const total =
                 calculateTotal();
 
+
             const orderDetails =
                 buildOrderDetails();
 
 
             // ==================================
-            // REVIEW
+            // REVIEW POPUP
             // ==================================
 
             let review =
                 "ORDER REVIEW\n\n";
+
 
             review +=
                 "Customer: " +
                 name.value.trim() +
                 "\n";
 
+
             review +=
                 "Phone: " +
                 phone.value.trim() +
                 "\n\n";
 
+
             review +=
-                "Bottle Size: 12 oz\n\n";
+                "Package: " +
+                packageInfo.label +
+                "\n\n";
+
 
             review +=
                 orderDetails +
                 "\n\n";
 
-            review +=
-                "Total Bottles: " +
-                getTotalBottles() +
-                "\n";
 
             review +=
                 "Fulfillment: " +
                 (
-                    getFulfillment() === "delivery"
+                    getFulfillment() ===
+                    "delivery"
                         ? "Delivery"
                         : "Pickup"
                 ) +
                 "\n";
+
 
             review +=
                 "Requested Date: " +
@@ -634,14 +1084,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
             if (
-                getFulfillment() === "delivery" &&
-                deliveryAddress
+                getFulfillment() ===
+                "delivery"
             ) {
 
                 review +=
                     "Delivery Address: " +
-                    deliveryAddress.value.trim() +
+                    deliveryAddress
+                        .value
+                        .trim() +
                     "\n";
+
             }
 
 
@@ -649,14 +1102,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 "\nTOTAL: $" +
                 total.toFixed(2);
 
+
             review +=
                 "\n\nContinue to secure Square payment?";
 
 
-            if (
-                !window.confirm(review)
-            ) {
+            const confirmed =
+                window.confirm(
+                    review
+                );
 
+
+            if (!confirmed) {
                 return;
             }
 
@@ -666,15 +1123,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 submitButton.disabled =
                     true;
 
+
                 submitButton.textContent =
                     "Preparing Payment...";
+
             }
 
 
             try {
 
                 // ==================================
-                // FORMSPREE
+                // SAVE ORDER TO FORMSPREE
                 // ==================================
 
                 const formData =
@@ -703,20 +1162,32 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                 formData.append(
-                    "Bottle Size",
-                    "12 oz"
+                    "Package",
+                    packageInfo.label
                 );
 
 
                 formData.append(
-                    "Jade's Greens Glow",
-                    quantities["Jade's Greens Glow"]
+                    "Green Pastures",
+                    quantities[
+                        "Green Pastures"
+                    ]
                 );
 
 
                 formData.append(
-                    "Yellow Watermelon Iced Tea",
-                    quantities["Yellow Watermelon Iced Tea"]
+                    "Beet Blend",
+                    quantities[
+                        "Beet Blend"
+                    ]
+                );
+
+
+                formData.append(
+                    "Watermelon Mint",
+                    quantities[
+                        "Watermelon Mint"
+                    ]
                 );
 
 
@@ -736,12 +1207,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                 formData.append(
-                    "Total Bottles",
-                    getTotalBottles()
-                );
-
-
-                formData.append(
                     "Fulfillment",
                     getFulfillment()
                 );
@@ -755,9 +1220,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 formData.append(
                     "Delivery Address",
-                    getFulfillment() === "delivery" &&
-                    deliveryAddress
-                        ? deliveryAddress.value.trim()
+                    getFulfillment() ===
+                    "delivery"
+                        ? deliveryAddress
+                              .value
+                              .trim()
                         : "N/A"
                 );
 
@@ -791,8 +1258,10 @@ document.addEventListener("DOMContentLoaded", function () {
                                 formData,
 
                             headers: {
+
                                 "Accept":
                                     "application/json"
+
                             }
                         }
                     );
@@ -805,17 +1274,19 @@ document.addEventListener("DOMContentLoaded", function () {
                     throw new Error(
                         "Order could not be saved."
                     );
+
                 }
 
 
                 // ==================================
-                // SQUARE
+                // CREATE SQUARE CHECKOUT
                 // ==================================
 
                 if (submitButton) {
 
                     submitButton.textContent =
                         "Opening Square...";
+
                 }
 
 
@@ -823,12 +1294,18 @@ document.addEventListener("DOMContentLoaded", function () {
                     await fetch(
                         "https://atasteofjade-site.vercel.app/api/create-checkout",
                         {
-                            method: "POST",
+
+                            method:
+                                "POST",
+
 
                             headers: {
+
                                 "Content-Type":
                                     "application/json"
+
                             },
+
 
                             body:
                                 JSON.stringify({
@@ -836,11 +1313,11 @@ document.addEventListener("DOMContentLoaded", function () {
                                     customerName:
                                         name.value.trim(),
 
-                                    greensQuantity:
-                                        quantities["Jade's Greens Glow"],
+                                    packageId:
+                                        packageId,
 
-                                    teaQuantity:
-                                        quantities["Yellow Watermelon Iced Tea"],
+                                    quantities:
+                                        quantities,
 
                                     customQuantity:
                                         customQuantity,
@@ -853,13 +1330,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
                                     fulfillment:
                                         getFulfillment()
+
                                 })
+
                         }
                     );
 
 
                 const checkoutData =
-                    await checkoutResponse.json();
+                    await checkoutResponse
+                        .json();
 
 
                 if (
@@ -867,15 +1347,17 @@ document.addEventListener("DOMContentLoaded", function () {
                     !checkoutData.paymentUrl
                 ) {
 
-                    console.error(
-                        checkoutData
-                    );
-
                     throw new Error(
+                        checkoutData.error ||
                         "Square checkout could not be created."
                     );
+
                 }
 
+
+                // ==================================
+                // SEND CUSTOMER TO SQUARE
+                // ==================================
 
                 window.location.assign(
                     checkoutData.paymentUrl
@@ -884,7 +1366,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
             } catch (error) {
 
-                console.error(error);
+                console.error(
+                    error
+                );
+
 
                 showError(
                     "We couldn't open Square payment. Your card was not charged. Please try again."
@@ -896,10 +1381,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     submitButton.disabled =
                         false;
 
+
                     submitButton.innerHTML =
                         "Review Order <span>→</span>";
+
                 }
+
             }
+
         }
     );
 
@@ -915,7 +1404,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     if (
-        pageParams.get("payment") === "complete"
+        pageParams.get(
+            "payment"
+        ) ===
+        "complete"
     ) {
 
         alert(
@@ -928,6 +1420,7 @@ document.addEventListener("DOMContentLoaded", function () {
             document.title,
             window.location.pathname
         );
+
     }
 
 
