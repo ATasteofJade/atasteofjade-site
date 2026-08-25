@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ==========================================
-    // QUANTITIES
+    // FLAVOR QUANTITIES
     // ==========================================
 
     const quantities = {
@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ==========================================
-    // ELEMENTS
+    // PAGE ELEMENTS
     // ==========================================
 
     const flavorArticles =
@@ -130,35 +130,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ==========================================
-    // GUARANTEE FLAVOR STATE EXISTS
+    // GUARANTEE FLAVOR STATE
     // ==========================================
 
-    flavorArticles.forEach(
-        function (article) {
+    flavorArticles.forEach(function (article) {
 
-            const flavor =
-                article.dataset.flavor;
+        const flavor =
+            article.dataset.flavor;
 
 
-            if (
-                typeof quantities[flavor] !==
-                "number" ||
-                Number.isNaN(
-                    quantities[flavor]
-                )
-            ) {
+        if (
+            typeof quantities[flavor] !== "number" ||
+            Number.isNaN(
+                quantities[flavor]
+            )
+        ) {
 
-                quantities[flavor] =
-                    0;
-
-            }
+            quantities[flavor] = 0;
 
         }
-    );
+
+    });
 
 
     // ==========================================
-    // FIVE DAY MINIMUM
+    // MINIMUM ORDER DATE
     // ==========================================
 
     if (orderDate) {
@@ -233,15 +229,13 @@ document.addEventListener("DOMContentLoaded", function () {
     ) {
 
         if (
-            typeof quantities[flavor] !==
-            "number" ||
+            typeof quantities[flavor] !== "number" ||
             Number.isNaN(
                 quantities[flavor]
             )
         ) {
 
-            quantities[flavor] =
-                0;
+            quantities[flavor] = 0;
 
         }
 
@@ -253,39 +247,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function getSelectedCount() {
 
-        let total =
-            0;
+        let total = 0;
 
 
         Object.keys(
             quantities
-        ).forEach(
-            function (flavor) {
+        ).forEach(function (flavor) {
 
-                normalizeFlavor(
-                    flavor
-                );
-
-
-                total +=
-                    quantities[flavor];
-
-            }
-        );
+            normalizeFlavor(
+                flavor
+            );
 
 
-        if (
-            typeof customQuantity !==
-            "number" ||
-            Number.isNaN(
-                customQuantity
-            )
-        ) {
+            total +=
+                quantities[flavor];
 
-            customQuantity =
-                0;
+        });
 
-        }
+
+        customQuantity =
+            Number(customQuantity) || 0;
 
 
         total +=
@@ -374,25 +355,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ==========================================
-    // RESET
+    // RESET QUANTITIES
     // ==========================================
 
     function resetQuantities() {
 
         Object.keys(
             quantities
-        ).forEach(
-            function (flavor) {
+        ).forEach(function (flavor) {
 
-                quantities[flavor] =
-                    0;
+            quantities[flavor] = 0;
 
-            }
-        );
+        });
 
 
-        customQuantity =
-            0;
+        customQuantity = 0;
 
 
         flavorArticles.forEach(
@@ -433,6 +410,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const packageInfo =
             getPackageInfo();
+
+
+        const packageId =
+            getSelectedPackageId();
 
 
         const count =
@@ -516,30 +497,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (flavorHelp) {
 
-            const packageId =
-                getSelectedPackageId();
-
-
             if (!packageInfo) {
 
                 flavorHelp.textContent =
                     "Choose a package first.";
 
             } else if (
-                packageId ===
-                "64"
-            ) {
-
-                flavorHelp.textContent =
-                    "Choose 1 flavor for your 64 oz half gallon.";
-
-            } else if (
-                packageId ===
-                "1"
+                packageId === "1"
             ) {
 
                 flavorHelp.textContent =
                     "Choose 1 flavor for your 16 oz bottle.";
+
+            } else if (
+                packageId === "64"
+            ) {
+
+                flavorHelp.textContent =
+                    "Choose 1 flavor for your 64 oz half gallon.";
 
             } else {
 
@@ -554,10 +529,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         }
 
-
-        // ======================================
-        // FLAVOR BUTTON STATES
-        // ======================================
 
         flavorArticles.forEach(
             function (article) {
@@ -656,28 +627,26 @@ document.addEventListener("DOMContentLoaded", function () {
         .querySelectorAll(
             'input[name="package"]'
         )
-        .forEach(
-            function (input) {
+        .forEach(function (input) {
 
-                input.addEventListener(
-                    "change",
-                    function () {
+            input.addEventListener(
+                "change",
+                function () {
 
-                        resetQuantities();
+                    resetQuantities();
 
-                        clearError();
+                    clearError();
 
-                        updateSummary();
+                    updateSummary();
 
-                    }
-                );
+                }
+            );
 
-            }
-        );
+        });
 
 
     // ==========================================
-    // FLAVOR BUTTONS
+    // FLAVOR + / -
     // ==========================================
 
     flavorArticles.forEach(
@@ -812,7 +781,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ==========================================
-    // CUSTOM
+    // CUSTOM FLAVOR
     // ==========================================
 
     if (customPlus) {
@@ -838,9 +807,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 if (
                     !customFlavor ||
-                    !customFlavor
-                        .value
-                        .trim()
+                    !customFlavor.value.trim()
                 ) {
 
                     showError(
@@ -863,9 +830,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                 customQuantity =
-                    Number(
-                        customQuantity
-                    ) || 0;
+                    Number(customQuantity) || 0;
 
 
                 customQuantity +=
@@ -897,9 +862,7 @@ document.addEventListener("DOMContentLoaded", function () {
             function () {
 
                 customQuantity =
-                    Number(
-                        customQuantity
-                    ) || 0;
+                    Number(customQuantity) || 0;
 
 
                 if (
@@ -937,53 +900,51 @@ document.addEventListener("DOMContentLoaded", function () {
         .querySelectorAll(
             'input[name="fulfillment"]'
         )
-        .forEach(
-            function (input) {
+        .forEach(function (input) {
 
-                input.addEventListener(
-                    "change",
-                    function () {
+            input.addEventListener(
+                "change",
+                function () {
 
-                        const isDelivery =
-                            getFulfillment() ===
-                            "delivery";
-
-
-                        if (addressField) {
-
-                            addressField.hidden =
-                                !isDelivery;
-
-                        }
+                    const isDelivery =
+                        getFulfillment() ===
+                        "delivery";
 
 
-                        if (deliveryAddress) {
+                    if (addressField) {
 
-                            deliveryAddress.required =
-                                isDelivery;
-
-
-                            if (!isDelivery) {
-
-                                deliveryAddress.value =
-                                    "";
-
-                            }
-
-                        }
-
-
-                        updateSummary();
+                        addressField.hidden =
+                            !isDelivery;
 
                     }
-                );
 
-            }
-        );
+
+                    if (deliveryAddress) {
+
+                        deliveryAddress.required =
+                            isDelivery;
+
+
+                        if (!isDelivery) {
+
+                            deliveryAddress.value =
+                                "";
+
+                        }
+
+                    }
+
+
+                    updateSummary();
+
+                }
+            );
+
+        });
 
 
     // ==========================================
-    // BUILD DETAILS
+    // ORDER DETAILS
     // ==========================================
 
     function buildOrderDetails() {
@@ -994,38 +955,34 @@ document.addEventListener("DOMContentLoaded", function () {
 
         Object.keys(
             quantities
-        ).forEach(
-            function (flavor) {
+        ).forEach(function (flavor) {
 
-                normalizeFlavor(
-                    flavor
+            normalizeFlavor(
+                flavor
+            );
+
+
+            if (
+                quantities[flavor] >
+                0
+            ) {
+
+                lines.push(
+                    flavor +
+                    ": " +
+                    quantities[flavor]
                 );
 
-
-                if (
-                    quantities[flavor] >
-                    0
-                ) {
-
-                    lines.push(
-                        flavor +
-                        ": " +
-                        quantities[flavor]
-                    );
-
-                }
-
             }
-        );
+
+        });
 
 
         if (
             customQuantity >
             0 &&
             customFlavor &&
-            customFlavor
-                .value
-                .trim()
+            customFlavor.value.trim()
         ) {
 
             lines.push(
@@ -1052,7 +1009,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ==========================================
-    // SUBMIT
+    // SUBMIT ORDER
     // ==========================================
 
     form.addEventListener(
@@ -1157,26 +1114,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
             if (
-                customQuantity >
-                0 &&
-                (
-                    !customFlavor ||
-                    !customFlavor
-                        .value
-                        .trim()
-                )
-            ) {
-
-                showError(
-                    "Please enter your custom flavor."
-                );
-
-                return;
-
-            }
-
-
-            if (
                 !orderDate ||
                 !orderDate.value
             ) {
@@ -1195,9 +1132,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 "delivery" &&
                 (
                     !deliveryAddress ||
-                    !deliveryAddress
-                        .value
-                        .trim()
+                    !deliveryAddress.value.trim()
                 )
             ) {
 
@@ -1217,10 +1152,6 @@ document.addEventListener("DOMContentLoaded", function () {
             const orderDetails =
                 buildOrderDetails();
 
-
-            // ==================================
-            // REVIEW
-            // ==================================
 
             let review =
                 "ORDER REVIEW\n\n";
@@ -1266,21 +1197,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 "\n";
 
 
-            if (
-                getFulfillment() ===
-                "delivery"
-            ) {
-
-                review +=
-                    "Delivery Address: " +
-                    deliveryAddress
-                        .value
-                        .trim() +
-                    "\n";
-
-            }
-
-
             review +=
                 "\nTOTAL: $" +
                 total.toFixed(2);
@@ -1319,7 +1235,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                 // ==================================
-                // FORMSPREE
+                // SAVE ORDER TO FORMSPREE
                 // ==================================
 
                 const formData =
@@ -1423,12 +1339,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                 formData.append(
-                    "Payment Status",
-                    "Awaiting Square payment"
-                );
-
-
-                formData.append(
                     "_subject",
                     "NEW A TASTE OF JADE JUICE ORDER"
                 );
@@ -1471,7 +1381,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                 // ==================================
-                // SQUARE
+                // CREATE SQUARE CHECKOUT
                 // ==================================
 
                 if (submitButton) {
@@ -1600,45 +1510,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     );
 
-
-    // ==========================================
-    // RETURN FROM SQUARE
-    // ==========================================
-
-    const pageParams =
-        new URLSearchParams(
-            window.location.search
-        );
-
-
-    if (
-        pageParams.get(
-            "payment"
-        ) ===
-        "complete"
-    ) {
-
-        alert(
-            "Thank you! 💚 Your Square checkout is complete. A Taste of Jade will confirm your order details."
-        );
-
-
-        window.history.replaceState(
-
-            {},
-
-            document.title,
-
-            window.location.pathname
-
-        );
-
-    }
-
-
-    updateSummary();
-
-});
 
     updateSummary();
 
