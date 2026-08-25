@@ -69,6 +69,21 @@ export default {
 
             const packages = {
 
+
+                "1": {
+
+                    label:
+                        "1 Bottle - 16 oz",
+
+                    count:
+                        1,
+
+                    price:
+                        1100
+
+                },
+
+
                 "4": {
 
                     label:
@@ -145,7 +160,7 @@ export default {
 
 
             // ==========================================
-            // FLAVOR QUANTITIES
+            // QUANTITIES
             // ==========================================
 
             const quantities =
@@ -227,6 +242,7 @@ export default {
 
             const quantitiesValid =
                 quantityValues.every(
+
                     function (quantity) {
 
                         return (
@@ -235,13 +251,16 @@ export default {
                                 quantity
                             ) &&
 
-                            quantity >= 0 &&
+                            quantity >=
+                                0 &&
 
-                            quantity <= 50
+                            quantity <=
+                                50
 
                         );
 
                     }
+
                 );
 
 
@@ -312,7 +331,7 @@ export default {
 
 
             // ==========================================
-            // VALIDATE FULFILLMENT
+            // FULFILLMENT
             // ==========================================
 
             if (
@@ -337,7 +356,7 @@ export default {
 
 
             // ==========================================
-            // SECURE TOTAL
+            // TOTAL
             // ==========================================
 
             const deliveryFeeInCents =
@@ -353,7 +372,7 @@ export default {
 
 
             // ==========================================
-            // SQUARE CREDENTIALS
+            // SQUARE
             // ==========================================
 
             const accessToken =
@@ -391,10 +410,11 @@ export default {
 
 
             // ==========================================
-            // DESCRIPTION
+            // ORDER DESCRIPTION
             // ==========================================
 
-            const flavorParts = [];
+            const flavorParts =
+                [];
 
 
             if (
@@ -470,7 +490,7 @@ export default {
 
 
             // ==========================================
-            // CREATE SQUARE PAYMENT LINK
+            // CREATE PAYMENT LINK
             // ==========================================
 
             const squareResponse =
@@ -591,10 +611,6 @@ export default {
 
             }
 
-
-            // ==========================================
-            // SUCCESS
-            // ==========================================
 
             return Response.json(
                 {
