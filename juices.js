@@ -3,9 +3,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const form =
         document.getElementById("juice-order");
 
+
     if (!form) {
-        console.error("Juice order form not found.");
+
+        console.error(
+            "Juice order form not found."
+        );
+
         return;
+
     }
 
 
@@ -14,6 +20,12 @@ document.addEventListener("DOMContentLoaded", function () {
     // ==========================================
 
     const packages = {
+
+        "1": {
+            label: "1 Bottle",
+            count: 1,
+            price: 11
+        },
 
         "4": {
             label: "4-Pack",
@@ -40,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ==========================================
-    // FLAVOR QUANTITIES
+    // QUANTITIES
     // ==========================================
 
     const quantities = {
@@ -58,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ==========================================
-    // PAGE ELEMENTS
+    // ELEMENTS
     // ==========================================
 
     const flavorArticles =
@@ -118,7 +130,35 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ==========================================
-    // MINIMUM ORDER DATE
+    // GUARANTEE FLAVOR STATE EXISTS
+    // ==========================================
+
+    flavorArticles.forEach(
+        function (article) {
+
+            const flavor =
+                article.dataset.flavor;
+
+
+            if (
+                typeof quantities[flavor] !==
+                "number" ||
+                Number.isNaN(
+                    quantities[flavor]
+                )
+            ) {
+
+                quantities[flavor] =
+                    0;
+
+            }
+
+        }
+    );
+
+
+    // ==========================================
+    // FIVE DAY MINIMUM
     // ==========================================
 
     if (orderDate) {
@@ -126,9 +166,12 @@ document.addEventListener("DOMContentLoaded", function () {
         const fiveDaysAhead =
             new Date();
 
+
         fiveDaysAhead.setDate(
-            fiveDaysAhead.getDate() + 5
+            fiveDaysAhead.getDate() +
+            5
         );
+
 
         orderDate.min =
             fiveDaysAhead
@@ -149,6 +192,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 'input[name="package"]:checked'
             );
 
+
         return selected
             ? selected.value
             : null;
@@ -161,11 +205,10 @@ document.addEventListener("DOMContentLoaded", function () {
         const packageId =
             getSelectedPackageId();
 
-        if (!packageId) {
-            return null;
-        }
 
-        return packages[packageId];
+        return packageId
+            ? packages[packageId] || null
+            : null;
 
     }
 
@@ -177,6 +220,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 'input[name="fulfillment"]:checked'
             );
 
+
         return selected
             ? selected.value
             : "pickup";
@@ -184,20 +228,69 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
+    function normalizeFlavor(
+        flavor
+    ) {
+
+        if (
+            typeof quantities[flavor] !==
+            "number" ||
+            Number.isNaN(
+                quantities[flavor]
+            )
+        ) {
+
+            quantities[flavor] =
+                0;
+
+        }
+
+
+        return quantities[flavor];
+
+    }
+
+
     function getSelectedCount() {
 
-        let total = 0;
+        let total =
+            0;
 
-        Object.values(
+
+        Object.keys(
             quantities
-        ).forEach(function (quantity) {
+        ).forEach(
+            function (flavor) {
 
-            total += quantity;
+                normalizeFlavor(
+                    flavor
+                );
 
-        });
+
+                total +=
+                    quantities[flavor];
+
+            }
+        );
+
+
+        if (
+            typeof customQuantity !==
+            "number" ||
+            Number.isNaN(
+                customQuantity
+            )
+        ) {
+
+            customQuantity =
+                0;
+
+        }
+
 
         total +=
             customQuantity;
+
 
         return total;
 
@@ -209,12 +302,17 @@ document.addEventListener("DOMContentLoaded", function () {
         const packageInfo =
             getPackageInfo();
 
+
         if (!packageInfo) {
+
             return 0;
+
         }
+
 
         let total =
             packageInfo.price;
+
 
         if (
             getFulfillment() ===
@@ -226,26 +324,37 @@ document.addEventListener("DOMContentLoaded", function () {
 
         }
 
+
         return total;
 
     }
 
 
-    function showError(message) {
+    function showError(
+        message
+    ) {
 
         if (errorBox) {
 
             errorBox.textContent =
                 message;
 
+
             errorBox.scrollIntoView({
-                behavior: "smooth",
-                block: "center"
+
+                behavior:
+                    "smooth",
+
+                block:
+                    "center"
+
             });
 
         } else {
 
-            alert(message);
+            alert(
+                message
+            );
 
         }
 
@@ -265,19 +374,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ==========================================
-    // RESET QUANTITIES
+    // RESET
     // ==========================================
 
     function resetQuantities() {
 
         Object.keys(
             quantities
-        ).forEach(function (flavor) {
+        ).forEach(
+            function (flavor) {
 
-            quantities[flavor] =
-                0;
+                quantities[flavor] =
+                    0;
 
-        });
+            }
+        );
 
 
         customQuantity =
@@ -291,6 +402,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     article.querySelector(
                         "output"
                     );
+
 
                 if (output) {
 
@@ -404,42 +516,65 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (flavorHelp) {
 
-            if (packageInfo) {
+            const packageId =
+                getSelectedPackageId();
 
-                if (
-                    getSelectedPackageId() ===
-                    "64"
-                ) {
 
-                    flavorHelp.textContent =
-                        "Choose 1 flavor for your 64 oz half gallon.";
+            if (!packageInfo) {
 
-                } else {
+                flavorHelp.textContent =
+                    "Choose a package first.";
 
-                    flavorHelp.textContent =
-                        "Choose exactly " +
-                        packageInfo.count +
-                        " bottles for your " +
-                        packageInfo.label +
-                        ".";
+            } else if (
+                packageId ===
+                "64"
+            ) {
 
-                }
+                flavorHelp.textContent =
+                    "Choose 1 flavor for your 64 oz half gallon.";
+
+            } else if (
+                packageId ===
+                "1"
+            ) {
+
+                flavorHelp.textContent =
+                    "Choose 1 flavor for your 16 oz bottle.";
 
             } else {
 
                 flavorHelp.textContent =
-                    "Choose a package first.";
+                    "Choose exactly " +
+                    packageInfo.count +
+                    " bottles for your " +
+                    packageInfo.label +
+                    ".";
 
             }
 
         }
 
 
+        // ======================================
+        // FLAVOR BUTTON STATES
+        // ======================================
+
         flavorArticles.forEach(
             function (article) {
 
                 const flavor =
                     article.dataset.flavor;
+
+
+                normalizeFlavor(
+                    flavor
+                );
+
+
+                const output =
+                    article.querySelector(
+                        "output"
+                    );
 
 
                 const plus =
@@ -452,6 +587,14 @@ document.addEventListener("DOMContentLoaded", function () {
                     article.querySelector(
                         ".minus"
                     );
+
+
+                if (output) {
+
+                    output.textContent =
+                        quantities[flavor];
+
+                }
 
 
                 if (plus) {
@@ -474,6 +617,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
             }
         );
+
+
+        if (customOutput) {
+
+            customOutput.textContent =
+                customQuantity;
+
+        }
 
 
         if (customPlus) {
@@ -505,22 +656,24 @@ document.addEventListener("DOMContentLoaded", function () {
         .querySelectorAll(
             'input[name="package"]'
         )
-        .forEach(function (input) {
+        .forEach(
+            function (input) {
 
-            input.addEventListener(
-                "change",
-                function () {
+                input.addEventListener(
+                    "change",
+                    function () {
 
-                    resetQuantities();
+                        resetQuantities();
 
-                    clearError();
+                        clearError();
 
-                    updateSummary();
+                        updateSummary();
 
-                }
-            );
+                    }
+                );
 
-        });
+            }
+        );
 
 
     // ==========================================
@@ -532,6 +685,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const flavor =
                 article.dataset.flavor;
+
+
+            normalizeFlavor(
+                flavor
+            );
 
 
             const plus =
@@ -573,6 +731,11 @@ document.addEventListener("DOMContentLoaded", function () {
                         }
 
 
+                        normalizeFlavor(
+                            flavor
+                        );
+
+
                         if (
                             getSelectedCount() >=
                             packageInfo.count
@@ -583,16 +746,15 @@ document.addEventListener("DOMContentLoaded", function () {
                         }
 
 
-                        quantities[flavor] +=
+                        quantities[flavor] =
+                            quantities[flavor] +
                             1;
 
 
                         if (output) {
 
                             output.textContent =
-                                quantities[
-                                    flavor
-                                ];
+                                quantities[flavor];
 
                         }
 
@@ -613,12 +775,18 @@ document.addEventListener("DOMContentLoaded", function () {
                     "click",
                     function () {
 
+                        normalizeFlavor(
+                            flavor
+                        );
+
+
                         if (
                             quantities[flavor] >
                             0
                         ) {
 
-                            quantities[flavor] -=
+                            quantities[flavor] =
+                                quantities[flavor] -
                                 1;
 
                         }
@@ -627,9 +795,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         if (output) {
 
                             output.textContent =
-                                quantities[
-                                    flavor
-                                ];
+                                quantities[flavor];
 
                         }
 
@@ -646,7 +812,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ==========================================
-    // CUSTOM FLAVOR
+    // CUSTOM
     // ==========================================
 
     if (customPlus) {
@@ -672,7 +838,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 if (
                     !customFlavor ||
-                    !customFlavor.value.trim()
+                    !customFlavor
+                        .value
+                        .trim()
                 ) {
 
                     showError(
@@ -692,6 +860,12 @@ document.addEventListener("DOMContentLoaded", function () {
                     return;
 
                 }
+
+
+                customQuantity =
+                    Number(
+                        customQuantity
+                    ) || 0;
 
 
                 customQuantity +=
@@ -721,6 +895,12 @@ document.addEventListener("DOMContentLoaded", function () {
         customMinus.addEventListener(
             "click",
             function () {
+
+                customQuantity =
+                    Number(
+                        customQuantity
+                    ) || 0;
+
 
                 if (
                     customQuantity >
@@ -757,82 +937,95 @@ document.addEventListener("DOMContentLoaded", function () {
         .querySelectorAll(
             'input[name="fulfillment"]'
         )
-        .forEach(function (input) {
+        .forEach(
+            function (input) {
 
-            input.addEventListener(
-                "change",
-                function () {
+                input.addEventListener(
+                    "change",
+                    function () {
 
-                    const isDelivery =
-                        getFulfillment() ===
-                        "delivery";
-
-
-                    if (addressField) {
-
-                        addressField.hidden =
-                            !isDelivery;
-
-                    }
+                        const isDelivery =
+                            getFulfillment() ===
+                            "delivery";
 
 
-                    if (deliveryAddress) {
+                        if (addressField) {
 
-                        deliveryAddress.required =
-                            isDelivery;
-
-
-                        if (!isDelivery) {
-
-                            deliveryAddress.value =
-                                "";
+                            addressField.hidden =
+                                !isDelivery;
 
                         }
 
+
+                        if (deliveryAddress) {
+
+                            deliveryAddress.required =
+                                isDelivery;
+
+
+                            if (!isDelivery) {
+
+                                deliveryAddress.value =
+                                    "";
+
+                            }
+
+                        }
+
+
+                        updateSummary();
+
                     }
+                );
 
-
-                    updateSummary();
-
-                }
-            );
-
-        });
+            }
+        );
 
 
     // ==========================================
-    // BUILD ORDER DETAILS
+    // BUILD DETAILS
     // ==========================================
 
     function buildOrderDetails() {
 
-        const lines = [];
+        const lines =
+            [];
 
 
         Object.keys(
             quantities
-        ).forEach(function (flavor) {
+        ).forEach(
+            function (flavor) {
 
-            if (
-                quantities[flavor] >
-                0
-            ) {
-
-                lines.push(
-                    flavor +
-                    ": " +
-                    quantities[flavor]
+                normalizeFlavor(
+                    flavor
                 );
 
-            }
 
-        });
+                if (
+                    quantities[flavor] >
+                    0
+                ) {
+
+                    lines.push(
+                        flavor +
+                        ": " +
+                        quantities[flavor]
+                    );
+
+                }
+
+            }
+        );
 
 
         if (
             customQuantity >
             0 &&
+            customFlavor &&
             customFlavor
+                .value
+                .trim()
         ) {
 
             lines.push(
@@ -859,7 +1052,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ==========================================
-    // SUBMIT ORDER
+    // SUBMIT
     // ==========================================
 
     form.addEventListener(
@@ -1026,7 +1219,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
             // ==================================
-            // ORDER REVIEW
+            // REVIEW
             // ==================================
 
             let review =
@@ -1126,7 +1319,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                 // ==================================
-                // SAVE ORDER TO FORMSPREE
+                // FORMSPREE
                 // ==================================
 
                 const formData =
@@ -1164,7 +1357,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     "Green Pastures",
                     quantities[
                         "Green Pastures"
-                    ]
+                    ] || 0
                 );
 
 
@@ -1172,7 +1365,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     "Rooted",
                     quantities[
                         "Rooted"
-                    ]
+                    ] || 0
                 );
 
 
@@ -1180,7 +1373,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     "Restore",
                     quantities[
                         "Restore"
-                    ]
+                    ] || 0
                 );
 
 
@@ -1243,7 +1436,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 const formspreeResponse =
                     await fetch(
+
                         "https://formspree.io/f/mvzewrnk",
+
                         {
 
                             method:
@@ -1260,6 +1455,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             }
 
                         }
+
                     );
 
 
@@ -1275,7 +1471,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                 // ==================================
-                // CREATE SQUARE CHECKOUT
+                // SQUARE
                 // ==================================
 
                 if (submitButton) {
@@ -1314,8 +1510,24 @@ document.addEventListener("DOMContentLoaded", function () {
                                     packageId:
                                         packageId,
 
-                                    quantities:
-                                        quantities,
+                                    quantities: {
+
+                                        "Green Pastures":
+                                            quantities[
+                                                "Green Pastures"
+                                            ] || 0,
+
+                                        "Rooted":
+                                            quantities[
+                                                "Rooted"
+                                            ] || 0,
+
+                                        "Restore":
+                                            quantities[
+                                                "Restore"
+                                            ] || 0
+
+                                    },
 
                                     customQuantity:
                                         customQuantity,
@@ -1412,13 +1624,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         window.history.replaceState(
+
             {},
+
             document.title,
+
             window.location.pathname
+
         );
 
     }
 
+
+    updateSummary();
+
+});
 
     updateSummary();
 
