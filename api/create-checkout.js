@@ -162,19 +162,19 @@ export default {
                 );
 
 
-            const beetQuantity =
+            const rootedQuantity =
                 Number(
                     quantities[
-                        "Beet Blend"
+                        "Rooted"
                     ] ||
                     0
                 );
 
 
-            const watermelonQuantity =
+            const restoreQuantity =
                 Number(
                     quantities[
-                        "Watermelon Mint"
+                        "Restore"
                     ] ||
                     0
                 );
@@ -216,9 +216,9 @@ export default {
 
                 greenQuantity,
 
-                beetQuantity,
+                rootedQuantity,
 
-                watermelonQuantity,
+                restoreQuantity,
 
                 customQuantity
 
@@ -227,9 +227,7 @@ export default {
 
             const quantitiesValid =
                 quantityValues.every(
-                    function (
-                        quantity
-                    ) {
+                    function (quantity) {
 
                         return (
 
@@ -267,8 +265,8 @@ export default {
 
             const totalSelected =
                 greenQuantity +
-                beetQuantity +
-                watermelonQuantity +
+                rootedQuantity +
+                restoreQuantity +
                 customQuantity;
 
 
@@ -393,12 +391,82 @@ export default {
 
 
             // ==========================================
-            // SQUARE DESCRIPTION
+            // DESCRIPTION
             // ==========================================
 
-            const description =
+            const flavorParts = [];
+
+
+            if (
+                greenQuantity >
+                0
+            ) {
+
+                flavorParts.push(
+                    "Green Pastures x" +
+                    greenQuantity
+                );
+
+            }
+
+
+            if (
+                rootedQuantity >
+                0
+            ) {
+
+                flavorParts.push(
+                    "Rooted x" +
+                    rootedQuantity
+                );
+
+            }
+
+
+            if (
+                restoreQuantity >
+                0
+            ) {
+
+                flavorParts.push(
+                    "Restore x" +
+                    restoreQuantity
+                );
+
+            }
+
+
+            if (
+                customQuantity >
+                0
+            ) {
+
+                flavorParts.push(
+                    customFlavor +
+                    " x" +
+                    customQuantity
+                );
+
+            }
+
+
+            let description =
                 "A Taste of Jade - " +
                 selectedPackage.label;
+
+
+            if (
+                flavorParts.length >
+                0
+            ) {
+
+                description +=
+                    " - " +
+                    flavorParts.join(
+                        ", "
+                    );
+
+            }
 
 
             // ==========================================
