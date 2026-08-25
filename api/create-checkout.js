@@ -17,10 +17,6 @@ export default {
         };
 
 
-        // ==========================================
-        // CORS
-        // ==========================================
-
         if (
             request.method ===
             "OPTIONS"
@@ -63,12 +59,7 @@ export default {
                 await request.json();
 
 
-            // ==========================================
-            // SECURE PACKAGE PRICING
-            // ==========================================
-
             const packages = {
-
 
                 "1": {
 
@@ -159,10 +150,6 @@ export default {
             }
 
 
-            // ==========================================
-            // QUANTITIES
-            // ==========================================
-
             const quantities =
                 body.quantities ||
                 {};
@@ -223,10 +210,6 @@ export default {
                 ).trim();
 
 
-            // ==========================================
-            // VALIDATE QUANTITIES
-            // ==========================================
-
             const quantityValues = [
 
                 greenQuantity,
@@ -242,7 +225,6 @@ export default {
 
             const quantitiesValid =
                 quantityValues.every(
-
                     function (quantity) {
 
                         return (
@@ -260,7 +242,6 @@ export default {
                         );
 
                     }
-
                 );
 
 
@@ -330,10 +311,6 @@ export default {
             }
 
 
-            // ==========================================
-            // FULFILLMENT
-            // ==========================================
-
             if (
                 fulfillment !==
                 "pickup" &&
@@ -355,10 +332,6 @@ export default {
             }
 
 
-            // ==========================================
-            // TOTAL
-            // ==========================================
-
             const deliveryFeeInCents =
                 fulfillment ===
                 "delivery"
@@ -370,10 +343,6 @@ export default {
                 selectedPackage.price +
                 deliveryFeeInCents;
 
-
-            // ==========================================
-            // SQUARE
-            // ==========================================
 
             const accessToken =
                 process.env
@@ -390,11 +359,6 @@ export default {
                 !locationId
             ) {
 
-                console.error(
-                    "Missing Square credentials."
-                );
-
-
                 return Response.json(
                     {
                         error:
@@ -408,10 +372,6 @@ export default {
 
             }
 
-
-            // ==========================================
-            // ORDER DESCRIPTION
-            // ==========================================
 
             const flavorParts =
                 [];
@@ -488,10 +448,6 @@ export default {
 
             }
 
-
-            // ==========================================
-            // CREATE PAYMENT LINK
-            // ==========================================
 
             const squareResponse =
                 await fetch(
