@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0"
@@ -10,7 +11,10 @@
 
     <title>Order Juices | A Taste of Jade</title>
 
-    <link rel="stylesheet" href="juices.css">
+    <link
+        rel="stylesheet"
+        href="juices.css"
+    >
 </head>
 
 <body>
@@ -19,7 +23,10 @@
 
     <header class="page-intro">
 
-        <a href="index.html" class="back-link">
+        <a
+            href="index.html"
+            class="back-link"
+        >
             ← Back to A Taste of Jade
         </a>
 
@@ -33,7 +40,9 @@
             COLD-PRESSED JUICES · MADE WITH LOVE
         </p>
 
-        <h1>Order Fresh Juices</h1>
+        <h1>
+            Order Fresh Juices
+        </h1>
 
         <p class="intro-copy">
             Choose your package, then fill it with this week's fresh flavors.
@@ -115,7 +124,7 @@
         </section>
 
 
-        <!-- JUICE PACKAGE -->
+        <!-- PACKAGE -->
 
         <section class="order-card">
 
@@ -123,6 +132,13 @@
                 <span class="section-icon">📦</span>
                 Choose Your Juice Package
             </h2>
+
+            <p
+                class="help-text"
+                id="package-help"
+            >
+                Select a package, then choose your flavors below.
+            </p>
 
             <div class="choice-grid two-columns">
 
@@ -143,29 +159,6 @@
 
                         <em>
                             4 × 16 oz bottles · $44
-                        </em>
-
-                    </span>
-
-                </label>
-
-
-                <label class="choice-card">
-
-                    <input
-                        type="radio"
-                        name="package"
-                        value="6"
-                    >
-
-                    <span>
-
-                        <strong>
-                            6-Pack
-                        </strong>
-
-                        <em>
-                            6 × 16 oz bottles · $66
                         </em>
 
                     </span>
@@ -218,15 +211,8 @@
 
                 </label>
 
+
             </div>
-
-
-            <p
-                class="help-text"
-                id="package-help"
-            >
-                Select a package, then choose your flavors below.
-            </p>
 
         </section>
 
@@ -266,10 +252,11 @@
                     </p>
 
                     <small>
-                        Psalm 23:2 — “He makes me lie down in green pastures.”
+                        <strong>Psalm 23:2</strong> —
+                        “He makes me lie down in green pastures.”
                     </small>
 
-                    <br>
+                    <br><br>
 
                     <small>
                         Cucumber · Celery · Apple · Lemon · Spinach
@@ -277,12 +264,12 @@
 
                 </div>
 
-
                 <div class="stepper">
 
                     <button
                         type="button"
                         class="minus"
+                        aria-label="Remove Green Pastures"
                     >
                         −
                     </button>
@@ -294,6 +281,7 @@
                     <button
                         type="button"
                         class="plus"
+                        aria-label="Add Green Pastures"
                     >
                         +
                     </button>
@@ -303,22 +291,29 @@
             </article>
 
 
-            <!-- BEET BLEND -->
+            <!-- ROOTED -->
 
             <article
                 class="flavor"
-                data-flavor="Beet Blend"
+                data-flavor="Rooted"
             >
 
                 <div>
 
                     <h3>
-                        ❤️ Beet Blend
+                        ❤️ Rooted
                     </h3>
 
                     <p>
-                        Earthy · Bright · Warming
+                        Strength · Grounding · Renewal
                     </p>
+
+                    <small>
+                        <strong>Colossians 2:7</strong> —
+                        “Rooted and built up in him, strengthened in the faith.”
+                    </small>
+
+                    <br><br>
 
                     <small>
                         Beet · Orange · Turmeric · Ginger
@@ -326,12 +321,12 @@
 
                 </div>
 
-
                 <div class="stepper">
 
                     <button
                         type="button"
                         class="minus"
+                        aria-label="Remove Rooted"
                     >
                         −
                     </button>
@@ -343,6 +338,7 @@
                     <button
                         type="button"
                         class="plus"
+                        aria-label="Add Rooted"
                     >
                         +
                     </button>
@@ -352,22 +348,29 @@
             </article>
 
 
-            <!-- WATERMELON MINT -->
+            <!-- RESTORE -->
 
             <article
                 class="flavor"
-                data-flavor="Watermelon Mint"
+                data-flavor="Restore"
             >
 
                 <div>
 
                     <h3>
-                        🍉 Watermelon Mint
+                        🍉 Restore
                     </h3>
 
                     <p>
-                        Refreshing · Hydrating · Bright
+                        Refreshing · Healing · Renewal
                     </p>
+
+                    <small>
+                        <strong>Psalm 23:3</strong> —
+                        “He restores my soul.”
+                    </small>
+
+                    <br><br>
 
                     <small>
                         Watermelon · Mint · Lime · Pineapple
@@ -375,12 +378,12 @@
 
                 </div>
 
-
                 <div class="stepper">
 
                     <button
                         type="button"
                         class="minus"
+                        aria-label="Remove Restore"
                     >
                         −
                     </button>
@@ -392,6 +395,7 @@
                     <button
                         type="button"
                         class="plus"
+                        aria-label="Add Restore"
                     >
                         +
                     </button>
@@ -414,7 +418,6 @@
                     Tell me what you're craving.
                 </p>
 
-
                 <label>
 
                     Custom Flavor Request
@@ -427,7 +430,6 @@
 
                 </label>
 
-
                 <div class="custom-quantity-row">
 
                     <strong>
@@ -439,6 +441,7 @@
                         <button
                             type="button"
                             id="custom-minus"
+                            aria-label="Remove custom flavor"
                         >
                             −
                         </button>
@@ -450,6 +453,7 @@
                         <button
                             type="button"
                             id="custom-plus"
+                            aria-label="Add custom flavor"
                         >
                             +
                         </button>
@@ -458,10 +462,9 @@
 
                 </div>
 
-
                 <small class="custom-note">
-                    Custom flavors are subject to ingredient availability
-                    and must be confirmed by A Taste of Jade.
+                    Custom flavor requests are subject to ingredient
+                    availability and must be confirmed by A Taste of Jade.
                 </small>
 
             </div>
@@ -497,7 +500,7 @@
                         </strong>
 
                         <em>
-                            Free
+                            Free · address sent after confirmation
                         </em>
 
                     </span>
@@ -526,6 +529,7 @@
                     </span>
 
                 </label>
+
 
             </div>
 
@@ -634,6 +638,26 @@
         </section>
 
 
+        <!-- PAYMENT -->
+
+        <section class="order-card">
+
+            <h2>
+                <span class="section-icon">💳</span>
+                Payment
+            </h2>
+
+            <p>
+                You'll review your order before continuing to secure payment.
+            </p>
+
+            <div class="payment-placeholder">
+                🔒 Secure payment through Square
+            </div>
+
+        </section>
+
+
         <p
             id="order-error"
             class="order-error"
@@ -646,15 +670,27 @@
         >
 
             Review Order
-            <span>→</span>
+
+            <span>
+                →
+            </span>
 
         </button>
 
+
+        <p class="payment-note">
+            Orders require confirmation from A Taste of Jade.
+        </p>
+
+
     </form>
+
 
 </main>
 
+
 <script src="juices.js"></script>
+
 
 </body>
 
