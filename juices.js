@@ -22,12 +22,6 @@ document.addEventListener("DOMContentLoaded", function () {
             price: 44
         },
 
-        "6": {
-            label: "6-Pack",
-            count: 6,
-            price: 66
-        },
-
         "8": {
             label: "8-Pack",
             count: 8,
@@ -281,7 +275,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ==========================================
-    // RESET FLAVOR QUANTITIES
+    // RESET QUANTITIES
     // ==========================================
 
     function resetQuantities() {
@@ -328,7 +322,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ==========================================
-    // UPDATE ORDER SUMMARY
+    // UPDATE SUMMARY
     // ==========================================
 
     function updateSummary() {
@@ -449,8 +443,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-        // Disable + buttons once package is full
-
         flavorArticles.forEach(
             function (article) {
 
@@ -538,7 +530,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ==========================================
-    // FLAVOR + / -
+    // FLAVOR BUTTONS
     // ==========================================
 
     flavorArticles.forEach(
@@ -597,7 +589,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         }
 
 
-                        quantities[flavor] += 1;
+                        quantities[flavor] +=
+                            1;
 
 
                         if (output) {
@@ -655,7 +648,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ==========================================
-    // CUSTOM FLAVOR + / -
+    // CUSTOM FLAVOR
     // ==========================================
 
     if (customPlus) {
@@ -703,7 +696,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
 
-                customQuantity += 1;
+                customQuantity +=
+                    1;
 
 
                 if (customOutput) {
@@ -809,7 +803,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ==========================================
-    // ORDER DETAILS
+    // BUILD ORDER DETAILS
     // ==========================================
 
     function buildOrderDetails() {
@@ -910,8 +904,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     'button[type="submit"]'
                 );
 
-
-            // VALIDATION
 
             if (
                 !name ||
@@ -1036,7 +1028,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
             // ==================================
-            // REVIEW POPUP
+            // ORDER REVIEW
             // ==================================
 
             let review =
@@ -1114,7 +1106,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
             if (!confirmed) {
+
                 return;
+
             }
 
 
@@ -1131,6 +1125,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
             try {
+
 
                 // ==================================
                 // SAVE ORDER TO FORMSPREE
@@ -1252,7 +1247,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     await fetch(
                         "https://formspree.io/f/mvzewrnk",
                         {
-                            method: "POST",
+
+                            method:
+                                "POST",
 
                             body:
                                 formData,
@@ -1263,6 +1260,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                     "application/json"
 
                             }
+
                         }
                     );
 
@@ -1292,7 +1290,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 const checkoutResponse =
                     await fetch(
+
                         "https://atasteofjade-site.vercel.app/api/create-checkout",
+
                         {
 
                             method:
@@ -1334,6 +1334,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 })
 
                         }
+
                     );
 
 
@@ -1356,7 +1357,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                 // ==================================
-                // SEND CUSTOMER TO SQUARE
+                // FORWARD TO SQUARE
                 // ==================================
 
                 window.location.assign(
@@ -1365,6 +1366,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
             } catch (error) {
+
 
                 console.error(
                     error
