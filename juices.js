@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const form =
         document.getElementById("juice-order");
 
-
     if (!form) {
         console.error("Juice order form not found.");
         return;
@@ -48,9 +47,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         "Green Pastures": 0,
 
-        "Beet Blend": 0,
+        "Rooted": 0,
 
-        "Watermelon Mint": 0
+        "Restore": 0
 
     };
 
@@ -197,9 +196,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         });
 
-
-        total += customQuantity;
-
+        total +=
+            customQuantity;
 
         return total;
 
@@ -211,15 +209,12 @@ document.addEventListener("DOMContentLoaded", function () {
         const packageInfo =
             getPackageInfo();
 
-
         if (!packageInfo) {
             return 0;
         }
 
-
         let total =
             packageInfo.price;
-
 
         if (
             getFulfillment() ===
@@ -230,7 +225,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 deliveryFee;
 
         }
-
 
         return total;
 
@@ -244,13 +238,9 @@ document.addEventListener("DOMContentLoaded", function () {
             errorBox.textContent =
                 message;
 
-
             errorBox.scrollIntoView({
-
                 behavior: "smooth",
-
                 block: "center"
-
             });
 
         } else {
@@ -284,12 +274,14 @@ document.addEventListener("DOMContentLoaded", function () {
             quantities
         ).forEach(function (flavor) {
 
-            quantities[flavor] = 0;
+            quantities[flavor] =
+                0;
 
         });
 
 
-        customQuantity = 0;
+        customQuantity =
+            0;
 
 
         flavorArticles.forEach(
@@ -475,7 +467,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (minus) {
 
                     minus.disabled =
-                        quantities[flavor] <= 0;
+                        quantities[flavor] <=
+                        0;
 
                 }
 
@@ -496,7 +489,8 @@ document.addEventListener("DOMContentLoaded", function () {
         if (customMinus) {
 
             customMinus.disabled =
-                customQuantity <= 0;
+                customQuantity <=
+                0;
 
         }
 
@@ -596,7 +590,9 @@ document.addEventListener("DOMContentLoaded", function () {
                         if (output) {
 
                             output.textContent =
-                                quantities[flavor];
+                                quantities[
+                                    flavor
+                                ];
 
                         }
 
@@ -631,7 +627,9 @@ document.addEventListener("DOMContentLoaded", function () {
                         if (output) {
 
                             output.textContent =
-                                quantities[flavor];
+                                quantities[
+                                    flavor
+                                ];
 
                         }
 
@@ -1171,17 +1169,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                 formData.append(
-                    "Beet Blend",
+                    "Rooted",
                     quantities[
-                        "Beet Blend"
+                        "Rooted"
                     ]
                 );
 
 
                 formData.append(
-                    "Watermelon Mint",
+                    "Restore",
                     quantities[
-                        "Watermelon Mint"
+                        "Restore"
                     ]
                 );
 
@@ -1356,10 +1354,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
 
-                // ==================================
-                // FORWARD TO SQUARE
-                // ==================================
-
                 window.location.assign(
                     checkoutData.paymentUrl
                 );
@@ -1424,6 +1418,11 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
     }
+
+
+    updateSummary();
+
+});
 
 
     updateSummary();
