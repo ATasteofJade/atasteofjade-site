@@ -1423,8 +1423,3 @@ document.addEventListener("DOMContentLoaded", function () {
     updateSummary();
 
 });
-
-
-    updateSummary();
-
-});
