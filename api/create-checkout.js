@@ -1,628 +1,480 @@
-export default {
+export default async function handler(req, res) {
 
-    async fetch(request) {
+    res.setHeader(
+        "Access-Control-Allow-Origin",
+        "https://atasteofjade.github.io"
+    );
+
+    res.setHeader(
+        "Access-Control-Allow-Methods",
+        "POST, OPTIONS"
+    );
+
+    res.setHeader(
+        "Access-Control-Allow-Headers",
+        "Content-Type"
+    );
 
 
-        const corsHeaders = {
+    // Browser preflight
+    if (req.method === "OPTIONS") {
+        return res.status(200).end();
+    }
 
-            "Access-Control-Allow-Origin":
-                "https://atasteofjade.github.io",
 
-            "Access-Control-Allow-Methods":
-                "POST, OPTIONS",
+    // Only allow POST
+    if (req.method !== "POST") {
 
-            "Access-Control-Allow-Headers":
-                "Content-Type"
+        return res.status(405).json({
+            error: "Method not allowed."
+        });
+
+    }
+
+
+    try {
+
+        const body = req.body || {};
+
+
+        // ======================================
+        // PACKAGES
+        // ======================================
+
+        const packages = {
+
+            "1": {
+                label: "1 Bottle - 16 oz",
+                count: 1,
+                price: 1100
+            },
+
+            "4": {
+                label: "4-Pack",
+                count: 4,
+                price: 4400
+            },
+
+            "8": {
+                label: "8-Pack",
+                count: 8,
+                price: 8800
+            },
+
+            "64": {
+                label: "64 oz Half Gallon",
+                count: 1,
+                price: 3500
+            }
 
         };
 
 
-        if (
-            request.method ===
-            "OPTIONS"
-        ) {
+        const packageId =
+            String(body.packageId || "");
 
-            return new Response(
-                null,
-                {
-                    status: 204,
-                    headers: corsHeaders
+
+        const selectedPackage =
+            packages[packageId];
+
+
+        if (!selectedPackage) {
+
+            return res.status(400).json({
+                error: "Invalid juice package."
+            });
+
+        }
+
+
+        // ======================================
+        // FLAVOR QUANTITIES
+        // ======================================
+
+        const quantities =
+            body.quantities || {};
+
+
+        const greenPasturesQty =
+            Number(
+                quantities["Green Pastures"] || 0
+            );
+
+
+        const rootedQty =
+            Number(
+                quantities["Rooted"] || 0
+            );
+
+
+        const restoreQty =
+            Number(
+                quantities["Restore"] || 0
+            );
+
+
+        const customQty =
+            Number(
+                body.customQuantity || 0
+            );
+
+
+        const customFlavor =
+            String(
+                body.customFlavor || ""
+            ).trim();
+
+
+        const fulfillment =
+            String(
+                body.fulfillment || "pickup"
+            );
+
+
+        const customerName =
+            String(
+                body.customerName || ""
+            ).trim();
+
+
+        // ======================================
+        // VALIDATION
+        // ======================================
+
+        const quantityValues = [
+            greenPasturesQty,
+            rootedQty,
+            restoreQty,
+            customQty
+        ];
+
+
+        const quantitiesValid =
+            quantityValues.every(
+                function (qty) {
+
+                    return (
+                        Number.isInteger(qty) &&
+                        qty >= 0 &&
+                        qty <= 50
+                    );
+
                 }
             );
+
+
+        if (!quantitiesValid) {
+
+            return res.status(400).json({
+                error: "Invalid juice quantity."
+            });
+
+        }
+
+
+        const totalSelected =
+            greenPasturesQty +
+            rootedQty +
+            restoreQty +
+            customQty;
+
+
+        if (
+            totalSelected !==
+            selectedPackage.count
+        ) {
+
+            return res.status(400).json({
+                error:
+                    "Please select exactly " +
+                    selectedPackage.count +
+                    " item(s)."
+            });
 
         }
 
 
         if (
-            request.method !==
-            "POST"
+            customQty > 0 &&
+            !customFlavor
         ) {
 
-            return Response.json(
-                {
-                    error:
-                        "Method not allowed."
-                },
-                {
-                    status: 405,
-                    headers: corsHeaders
-                }
+            return res.status(400).json({
+                error:
+                    "Custom flavor description is required."
+            });
+
+        }
+
+
+        if (
+            fulfillment !== "pickup" &&
+            fulfillment !== "delivery"
+        ) {
+
+            return res.status(400).json({
+                error:
+                    "Invalid fulfillment option."
+            });
+
+        }
+
+
+        // ======================================
+        // TOTAL
+        // ======================================
+
+        const deliveryFee =
+            fulfillment === "delivery"
+                ? 800
+                : 0;
+
+
+        const totalInCents =
+            selectedPackage.price +
+            deliveryFee;
+
+
+        // ======================================
+        // SQUARE CREDENTIALS
+        // ======================================
+
+        const accessToken =
+            process.env.SQUARE_ACCESS_TOKEN;
+
+
+        const locationId =
+            process.env.SQUARE_LOCATION_ID;
+
+
+        if (
+            !accessToken ||
+            !locationId
+        ) {
+
+            console.error(
+                "Missing Square credentials."
+            );
+
+
+            return res.status(500).json({
+                error:
+                    "Square payment configuration is incomplete."
+            });
+
+        }
+
+
+        // ======================================
+        // ORDER DESCRIPTION
+        // ======================================
+
+        const flavorParts = [];
+
+
+        if (greenPasturesQty > 0) {
+
+            flavorParts.push(
+                "Green Pastures x" +
+                greenPasturesQty
             );
 
         }
 
 
-        try {
+        if (rootedQty > 0) {
 
+            flavorParts.push(
+                "Rooted x" +
+                rootedQty
+            );
 
-            const body =
-                await request.json();
+        }
 
 
-            const packages = {
+        if (restoreQty > 0) {
 
-                "1": {
+            flavorParts.push(
+                "Restore x" +
+                restoreQty
+            );
 
-                    label:
-                        "1 Bottle - 16 oz",
+        }
 
-                    count:
-                        1,
 
-                    price:
-                        1100
+        if (customQty > 0) {
 
-                },
+            flavorParts.push(
+                customFlavor +
+                " x" +
+                customQty
+            );
 
+        }
 
-                "4": {
 
-                    label:
-                        "4-Pack",
+        let orderName =
+            "A Taste of Jade - " +
+            selectedPackage.label;
 
-                    count:
-                        4,
 
-                    price:
-                        4400
+        if (flavorParts.length > 0) {
 
-                },
+            orderName +=
+                " - " +
+                flavorParts.join(", ");
 
+        }
 
-                "8": {
 
-                    label:
-                        "8-Pack",
+        if (orderName.length > 120) {
 
-                    count:
-                        8,
-
-                    price:
-                        8800
-
-                },
-
-
-                "64": {
-
-                    label:
-                        "64 oz Half Gallon",
-
-                    count:
-                        1,
-
-                    price:
-                        3500
-
-                }
-
-            };
-
-
-            const packageId =
-                String(
-                    body.packageId ||
-                    ""
-                );
-
-
-            const selectedPackage =
-                packages[
-                    packageId
-                ];
-
-
-            if (
-                !selectedPackage
-            ) {
-
-                return Response.json(
-                    {
-                        error:
-                            "Invalid juice package."
-                    },
-                    {
-                        status: 400,
-                        headers: corsHeaders
-                    }
-                );
-
-            }
-
-
-            const quantities =
-                body.quantities ||
-                {};
-
-
-            const greenQuantity =
-                Number(
-                    quantities[
-                        "Green Pastures"
-                    ] ||
-                    0
-                );
-
-
-            const rootedQuantity =
-                Number(
-                    quantities[
-                        "Rooted"
-                    ] ||
-                    0
-                );
-
-
-            const restoreQuantity =
-                Number(
-                    quantities[
-                        "Restore"
-                    ] ||
-                    0
-                );
-
-
-            const customQuantity =
-                Number(
-                    body.customQuantity ||
-                    0
-                );
-
-
-            const customFlavor =
-                String(
-                    body.customFlavor ||
-                    ""
-                ).trim();
-
-
-            const fulfillment =
-                String(
-                    body.fulfillment ||
-                    "pickup"
-                );
-
-
-            const customerName =
-                String(
-                    body.customerName ||
-                    ""
-                ).trim();
-
-
-            const quantityValues = [
-
-                greenQuantity,
-
-                rootedQuantity,
-
-                restoreQuantity,
-
-                customQuantity
-
-            ];
-
-
-            const quantitiesValid =
-                quantityValues.every(
-                    function (quantity) {
-
-                        return (
-
-                            Number.isInteger(
-                                quantity
-                            ) &&
-
-                            quantity >=
-                                0 &&
-
-                            quantity <=
-                                50
-
-                        );
-
-                    }
-                );
-
-
-            if (
-                !quantitiesValid
-            ) {
-
-                return Response.json(
-                    {
-                        error:
-                            "Invalid juice quantity."
-                    },
-                    {
-                        status: 400,
-                        headers: corsHeaders
-                    }
-                );
-
-            }
-
-
-            const totalSelected =
-                greenQuantity +
-                rootedQuantity +
-                restoreQuantity +
-                customQuantity;
-
-
-            if (
-                totalSelected !==
-                selectedPackage.count
-            ) {
-
-                return Response.json(
-                    {
-                        error:
-                            "Please select exactly " +
-                            selectedPackage.count +
-                            " item(s)."
-                    },
-                    {
-                        status: 400,
-                        headers: corsHeaders
-                    }
-                );
-
-            }
-
-
-            if (
-                customQuantity >
-                0 &&
-                !customFlavor
-            ) {
-
-                return Response.json(
-                    {
-                        error:
-                            "Custom flavor description is required."
-                    },
-                    {
-                        status: 400,
-                        headers: corsHeaders
-                    }
-                );
-
-            }
-
-
-            if (
-                fulfillment !==
-                "pickup" &&
-                fulfillment !==
-                "delivery"
-            ) {
-
-                return Response.json(
-                    {
-                        error:
-                            "Invalid fulfillment option."
-                    },
-                    {
-                        status: 400,
-                        headers: corsHeaders
-                    }
-                );
-
-            }
-
-
-            const deliveryFeeInCents =
-                fulfillment ===
-                "delivery"
-                    ? 800
-                    : 0;
-
-
-            const totalInCents =
-                selectedPackage.price +
-                deliveryFeeInCents;
-
-
-            const accessToken =
-                process.env
-                    .SQUARE_ACCESS_TOKEN;
-
-
-            const locationId =
-                process.env
-                    .SQUARE_LOCATION_ID;
-
-
-            if (
-                !accessToken ||
-                !locationId
-            ) {
-
-                return Response.json(
-                    {
-                        error:
-                            "Square payment configuration is incomplete."
-                    },
-                    {
-                        status: 500,
-                        headers: corsHeaders
-                    }
-                );
-
-            }
-
-
-            const flavorParts =
-                [];
-
-
-            if (
-                greenQuantity >
-                0
-            ) {
-
-                flavorParts.push(
-                    "Green Pastures x" +
-                    greenQuantity
-                );
-
-            }
-
-
-            if (
-                rootedQuantity >
-                0
-            ) {
-
-                flavorParts.push(
-                    "Rooted x" +
-                    rootedQuantity
-                );
-
-            }
-
-
-            if (
-                restoreQuantity >
-                0
-            ) {
-
-                flavorParts.push(
-                    "Restore x" +
-                    restoreQuantity
-                );
-
-            }
-
-
-            if (
-                customQuantity >
-                0
-            ) {
-
-                flavorParts.push(
-                    customFlavor +
-                    " x" +
-                    customQuantity
-                );
-
-            }
-
-
-            let description =
+            orderName =
                 "A Taste of Jade - " +
                 selectedPackage.label;
 
-
-            if (
-                flavorParts.length >
-                0
-            ) {
-
-                description +=
-                    " - " +
-                    flavorParts.join(
-                        ", "
-                    );
-
-            }
+        }
 
 
-            const squareResponse =
-                await fetch(
+        // ======================================
+        // CREATE SQUARE PAYMENT LINK
+        // ======================================
 
-                    "https://connect.squareup.com/v2/online-checkout/payment-links",
+        const squareResponse =
+            await fetch(
+                "https://connect.squareup.com/v2/online-checkout/payment-links",
+                {
+                    method: "POST",
 
-                    {
+                    headers: {
 
-                        method:
-                            "POST",
+                        "Authorization":
+                            `Bearer ${accessToken}`,
 
+                        "Content-Type":
+                            "application/json"
 
-                        headers: {
+                    },
 
-                            "Authorization":
-                                `Bearer ${accessToken}`,
+                    body: JSON.stringify({
 
-                            "Content-Type":
-                                "application/json"
+                        idempotency_key:
+                            crypto.randomUUID(),
+
+                        quick_pay: {
+
+                            name:
+                                orderName,
+
+                            price_money: {
+
+                                amount:
+                                    totalInCents,
+
+                                currency:
+                                    "USD"
+
+                            },
+
+                            location_id:
+                                locationId
 
                         },
 
+                        checkout_options: {
 
-                        body:
-                            JSON.stringify({
+                            redirect_url:
+                                "https://atasteofjade.github.io/atasteofjade-site/juices.html?payment=complete"
 
-                                idempotency_key:
-                                    crypto.randomUUID(),
+                        }
 
+                    })
 
-                                quick_pay: {
-
-                                    name:
-                                        description,
-
-
-                                    price_money: {
-
-                                        amount:
-                                            totalInCents,
-
-                                        currency:
-                                            "USD"
-
-                                    },
-
-
-                                    location_id:
-                                        locationId
-
-                                },
-
-
-                                checkout_options: {
-
-                                    redirect_url:
-                                        "https://atasteofjade.github.io/atasteofjade-site/juices.html?payment=complete"
-
-                                }
-
-                            })
-
-                    }
-
-                );
-
-
-            const squareData =
-                await squareResponse
-                    .json();
-
-
-            if (
-                !squareResponse.ok
-            ) {
-
-                console.error(
-                    "Square API error:",
-                    squareData
-                );
-
-
-                return Response.json(
-                    {
-                        error:
-                            "Square could not create the payment page."
-                    },
-                    {
-                        status: 500,
-                        headers: corsHeaders
-                    }
-                );
-
-            }
-
-
-            const paymentUrl =
-                squareData
-                    ?.payment_link
-                    ?.url;
-
-
-            if (
-                !paymentUrl
-            ) {
-
-                return Response.json(
-                    {
-                        error:
-                            "Square did not return a payment URL."
-                    },
-                    {
-                        status: 500,
-                        headers: corsHeaders
-                    }
-                );
-
-            }
-
-
-            return Response.json(
-                {
-
-                    success:
-                        true,
-
-
-                    paymentUrl:
-                        paymentUrl,
-
-
-                    customerName:
-                        customerName,
-
-
-                    package:
-                        selectedPackage.label,
-
-
-                    total:
-                        (
-                            totalInCents /
-                            100
-                        ).toFixed(2)
-
-                },
-                {
-                    status: 200,
-                    headers: corsHeaders
                 }
             );
 
 
-        } catch (error) {
+        const squareData =
+            await squareResponse.json();
 
+
+        // ======================================
+        // SQUARE ERROR
+        // ======================================
+
+        if (!squareResponse.ok) {
 
             console.error(
-                "Checkout error:",
-                error
+                "Square API error:",
+                JSON.stringify(squareData)
             );
 
 
-            return Response.json(
-                {
-                    error:
-                        "Checkout could not be created."
-                },
-                {
-                    status: 500,
-                    headers: corsHeaders
-                }
-            );
+            return res.status(500).json({
+
+                error:
+                    "Square could not create the payment page.",
+
+                details:
+                    squareData?.errors || null
+
+            });
 
         }
 
+
+        const paymentUrl =
+            squareData?.payment_link?.url;
+
+
+        if (!paymentUrl) {
+
+            return res.status(500).json({
+                error:
+                    "Square did not return a payment URL."
+            });
+
+        }
+
+
+        // ======================================
+        // SUCCESS
+        // ======================================
+
+        return res.status(200).json({
+
+            success: true,
+
+            paymentUrl:
+                paymentUrl,
+
+            customerName:
+                customerName,
+
+            package:
+                selectedPackage.label,
+
+            total:
+                (
+                    totalInCents / 100
+                ).toFixed(2)
+
+        });
+
+
+    } catch (error) {
+
+        console.error(
+            "Checkout error:",
+            error
+        );
+
+
+        return res.status(500).json({
+            error:
+                "Checkout could not be created."
+        });
+
     }
 
-};
+}
